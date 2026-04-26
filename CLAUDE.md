@@ -72,25 +72,54 @@ Vezi `package.json` pentru lista completă.
 
 - **Faza 5** — bugete (target-based + envelope mode YNAB-style cu Ready to Assign + Move Money + Auto-assign + rollover via 0012 RPC), goals (5 bucket types, progress ring SVG, ETA, debt snowball/avalanche cu recomandare). **Status: complet.** (Lipsește invite mamă, CSV importer, pipeline FX — împinse în Faza 6.)
 
-- **Faza 6** — invite mamă (household_members + email link), CSV importer (BT24, BCR George, ING Home'Bank, CEC, Raiffeisen, Revolut), pipeline FX (BNR + Frankfurter). Apoi originalul auto-detect, splits, comments, ownership labeling, swipe gestures.
+- **Faza 6** — invite mamă, CSV importer (6 bănci), pipeline FX
+  (BNR + Frankfurter cu cron). **Status: complet.**
 
-- **Faza 4** — categorisare 3-tier (rules → embeddings KNN → LLM), rule extraction din corecții, merchant matcher românesc.
+  > FX: migrare 0006 + Edge Function `fx-update` + `/api/fx/historical`
+  > pentru backfill, pagina `/insights/fx` cu chart 12 luni.
+  > Invite: migrare 0007 + RPC `accept_invite` + UI în `/settings`.
+  > CSV: 6 parsere (BT24/BCR/ING/Revolut/CEC/Raiffeisen) +
+  > merchant-matcher 4-tier + UI wizard în `/import`.
 
-- **Faza 5** — bugete target-based + envelope mode, "Move money".
+- **Faza 7** — dashboard streaming (RSC + Suspense), hero number, KPI
+  cards, mini-Sankey, calendar heatmap, recent transactions.
+  **Status: complet** (livrat în Faza 5/6 vizuale).
 
-- **Faza 6** — goals (5 bucket types) + debt snowball/avalanche.
+- **Faza 8** — AI 3-tier categorize (rules → KNN → LLM), chat cu
+  tool-calling (Vercel AI SDK 6), weekly recap, anomaly detection,
+  subscription detector. **Status: complet.**
 
-- **Faza 7** — dashboard streaming (RSC + Suspense), hero number, KPI cards, mini-Sankey, calendar heatmap, recent transactions.
+  > Migrare 0008 (embedding_queue + chat_threads + chat_messages +
+  > recaps + detected_subscriptions) + 0009 (cron-uri).
+  > Edge functions: `process-embeddings`, `weekly-recap`.
+  > Pagini: `/ai`, `/subscriptions`. Tool-uri: query_transactions,
+  > get_budget, get_net_worth, get_goal_progress, simulate_scenario,
+  > semantic_search, update_transaction_category.
 
-- **Faza 8** — quick-add (custom keypad, presets, voice, OCR).
+- **Faza 9** — PWA push + offline queue + Enable Banking integration.
+  **Status: complet.**
 
-- **Faza 9** — Enable Banking integration (RS256 JWT, SCA flow, 180-day session refresh, daily pg_cron sync).
+  > web-push + idb. SW extins cu push event handler. Component
+  > `PushPrompt` (după 5 acțiuni, gating iOS la PWA install) +
+  > `OfflineDrainer` (drain pe `online`).
+  > Enable Banking: client JWT RS256 cu jose, routes `start-auth` /
+  > `callback`, pagina `/connections`, Edge Function `bank-sync`,
+  > cron 6h (migrare 0020).
 
-- **Faza 10** — AI chat cu tool-calling (Vercel AI SDK 6), weekly Monday recap, anomaly detection, subscription detector.
+- **Faza 10** — features românești.
+  **Status: parțial complet.**
 
-- **Faza 11** — features românești (tichete de masă, Pilon III, salary-day intelligence, Crăciun/Paște/Black Friday/Mărțișor budgets).
+  > Livrat: `lib/text/diacritics`, `lib/holidays/ro` (Computus),
+  > `lib/forecast/cashflow` (30/60/90 zile cu confidence band ±15%),
+  > `lib/intelligence/{rage-spending,lifestyle-inflation,anniversaries}`,
+  > `lib/meal-vouchers/providers`, `lib/seasonal/budgets`.
+  > Rămase pentru V2: pagini dedicate Pilon III tracker, salary
+  > intelligence (income_streams + algoritm detection), tichete masă
+  > UI cu lots & expiry warnings, seasonal budgets auto-prompt UI.
 
-- **Faza 12** — PWA polish (Serwist offline queue, web-push VAPID, install prompts, iOS 16.4+ pași).
+- **Faza 12** — PWA polish (icons, install prompt, connection status,
+  push, offline queue). **Status: complet** (Faza 12 anterioară din
+  BLUEPRINT a fost realizată în Stage B + G).
 
 ## 6. Comanda standard de lucru
 

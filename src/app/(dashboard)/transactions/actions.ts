@@ -3,50 +3,19 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { SUPPORTED_CURRENCIES } from "@/lib/money";
 import { createClient } from "@/lib/supabase/server";
+import {
+  bulkPatchSchema,
+  splitItemSchema,
+  transactionInputSchema,
+  type BulkPatch,
+  type SplitItem,
+  type TransactionInput,
+} from "@/lib/validation/transactions";
 import { firstZodMessage } from "@/lib/zod-utils";
 import type { Database, TxStatus, Ownership, TxSource } from "@/types/database";
 
-const TX_STATUS = ["cleared", "pending", "scheduled", "void"] as const;
-const TX_SOURCE = [
-  "manual",
-  "import",
-  "bank_sync",
-  "recurring",
-  "transfer",
-] as const;
-const OWNERSHIP = ["mine", "yours", "shared"] as const;
-
-const dateString = z
-  .string()
-  .regex(/^\d{4}-\d{2}-\d{2}$/, "Data trebuie să fie YYYY-MM-DD");
-
-export const transactionInputSchema = z.object({
-  account_id: z.string().uuid(),
-  occurred_on: dateString,
-  /** Suma în unități MINORE (semnată). Negativ = expense, pozitiv = income. */
-  amount: z.number().int(),
-  currency: z.enum(SUPPORTED_CURRENCIES as readonly [string, ...string[]]),
-  payee: z.string().trim().max(120).optional().nullable(),
-  merchant_id: z.string().uuid().nullable().optional(),
-  category_id: z.string().uuid().nullable().optional(),
-  notes: z.string().trim().max(500).optional().nullable(),
-  tags: z.array(z.string().trim().min(1).max(40)).max(20).optional(),
-  status: z.enum(TX_STATUS).optional(),
-  ownership: z.enum(OWNERSHIP).optional(),
-  // Multi-currency: dacă merchant-ul a încasat în altă monedă decât contul.
-  original_amount: z.number().int().nullable().optional(),
-  original_currency: z
-    .enum(SUPPORTED_CURRENCIES as readonly [string, ...string[]])
-    .nullable()
-    .optional(),
-  source: z.enum(TX_SOURCE).optional(),
-  is_transfer: z.boolean().optional(),
-  transfer_pair_id: z.string().uuid().nullable().optional(),
-});
-
-export type TransactionInput = z.infer<typeof transactionInputSchema>;
+export type { TransactionInput, SplitItem, BulkPatch };
 
 export type ActionResult<T = void> =
   | { ok: true; data: T }
@@ -193,15 +162,6 @@ export async function deleteTransaction(id: string): Promise<ActionResult> {
 }
 
 // ---------- split --------------------------------------------------------
-export const splitItemSchema = z.object({
-  amount: z.number().int(),
-  category_id: z.string().uuid().nullable().optional(),
-  notes: z.string().trim().max(200).optional().nullable(),
-  payee: z.string().trim().max(120).optional().nullable(),
-  tags: z.array(z.string().trim().min(1).max(40)).max(10).optional(),
-});
-
-export type SplitItem = z.infer<typeof splitItemSchema>;
 
 export async function splitTransaction(
   id: string,
@@ -325,25 +285,6 @@ export async function linkTransfer(
 }
 
 // ---------- bulkUpdate ---------------------------------------------------
-export const bulkPatchSchema = z
-  .object({
-    category_id: z.string().uuid().nullable().optional(),
-    add_tags: z.array(z.string().trim().min(1).max(40)).max(10).optional(),
-    status: z.enum(TX_STATUS).optional(),
-    ownership: z.enum(OWNERSHIP).optional(),
-    delete: z.literal(true).optional(),
-  })
-  .refine(
-    (p) =>
-      p.category_id !== undefined ||
-      (p.add_tags && p.add_tags.length > 0) ||
-      p.status !== undefined ||
-      p.ownership !== undefined ||
-      p.delete === true,
-    { message: "Nu ai specificat ce să modifici" },
-  );
-
-export type BulkPatch = z.infer<typeof bulkPatchSchema>;
 
 export async function bulkUpdate(
   ids: string[],

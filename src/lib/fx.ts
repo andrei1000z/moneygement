@@ -1,6 +1,7 @@
-import "server-only";
-
 // Foreign exchange utilities — BNR primary, Frankfurter fallback.
+// Constants și formatRate sunt isomorphic; functions de fetch (`fetchBnr*`,
+// `fetchFrankfurter*`) folosesc fetch global și nu țin chei secrete, dar
+// ar trebui apelate doar din server (route handlers, edge functions).
 //
 // Format BNR (`nbrfxrates.xml`):
 //   <Body>
