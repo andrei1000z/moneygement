@@ -697,6 +697,147 @@ export interface Database {
         Relationships: [];
       };
 
+      embedding_queue: {
+        Row: {
+          id: number;
+          transaction_id: string;
+          enqueued_at: Timestamp;
+          processed_at: Timestamp | null;
+          attempts: number;
+          error: string | null;
+        };
+        Insert: {
+          id?: number;
+          transaction_id: string;
+          enqueued_at?: Timestamp;
+          processed_at?: Timestamp | null;
+          attempts?: number;
+          error?: string | null;
+        };
+        Update: {
+          processed_at?: Timestamp | null;
+          attempts?: number;
+          error?: string | null;
+        };
+        Relationships: [];
+      };
+
+      chat_threads: {
+        Row: {
+          id: string;
+          household_id: string;
+          user_id: string;
+          title: string;
+          last_message_at: Timestamp | null;
+          created_at: Timestamp;
+          updated_at: Timestamp;
+        };
+        Insert: {
+          id?: string;
+          household_id: string;
+          user_id: string;
+          title?: string;
+          last_message_at?: Timestamp | null;
+        };
+        Update: {
+          title?: string;
+          last_message_at?: Timestamp | null;
+        };
+        Relationships: [];
+      };
+
+      chat_messages: {
+        Row: {
+          id: string;
+          thread_id: string;
+          role: "user" | "assistant" | "system" | "tool";
+          content: string;
+          embedding: string | null;
+          tool_calls: unknown | null;
+          created_at: Timestamp;
+        };
+        Insert: {
+          id?: string;
+          thread_id: string;
+          role: "user" | "assistant" | "system" | "tool";
+          content: string;
+          embedding?: string | null;
+          tool_calls?: unknown | null;
+        };
+        Update: {
+          content?: string;
+          embedding?: string | null;
+          tool_calls?: unknown | null;
+        };
+        Relationships: [];
+      };
+
+      recaps: {
+        Row: {
+          id: string;
+          household_id: string;
+          period_start: DateString;
+          period_end: DateString;
+          bullets: unknown;
+          highlight: string | null;
+          generated_at: Timestamp;
+        };
+        Insert: {
+          id?: string;
+          household_id: string;
+          period_start: DateString;
+          period_end: DateString;
+          bullets: unknown;
+          highlight?: string | null;
+        };
+        Update: {
+          bullets?: unknown;
+          highlight?: string | null;
+        };
+        Relationships: [];
+      };
+
+      detected_subscriptions: {
+        Row: {
+          id: string;
+          household_id: string;
+          merchant_id: string | null;
+          payee: string;
+          cadence: "monthly" | "yearly" | "weekly" | "biweekly" | "quarterly";
+          median_amount: number;
+          currency: Currency;
+          occurrences_count: number;
+          first_seen: DateString;
+          last_seen: DateString;
+          status: "active" | "paused" | "cancelled";
+          price_hike_alert: number | null;
+          created_at: Timestamp;
+          updated_at: Timestamp;
+        };
+        Insert: {
+          id?: string;
+          household_id: string;
+          merchant_id?: string | null;
+          payee: string;
+          cadence: "monthly" | "yearly" | "weekly" | "biweekly" | "quarterly";
+          median_amount: number;
+          currency: Currency;
+          occurrences_count: number;
+          first_seen: DateString;
+          last_seen: DateString;
+          status?: "active" | "paused" | "cancelled";
+          price_hike_alert?: number | null;
+        };
+        Update: {
+          status?: "active" | "paused" | "cancelled";
+          price_hike_alert?: number | null;
+          last_seen?: DateString;
+          occurrences_count?: number;
+          median_amount?: number;
+        };
+        Relationships: [];
+      };
+
       household_invites: {
         Row: {
           id: string;

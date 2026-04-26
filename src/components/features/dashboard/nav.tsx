@@ -11,6 +11,7 @@ import {
   PieChart,
   Plus,
   Settings,
+  Sparkles,
   Store,
   Tags,
   Target,
@@ -84,6 +85,12 @@ const MORE: readonly NavItem[] = [
     label: "Merchanți",
     Icon: Store,
     match: (p) => p.startsWith("/merchants"),
+  },
+  {
+    href: "/ai",
+    label: "Asistent",
+    Icon: Sparkles,
+    match: (p) => p.startsWith("/ai"),
   },
   {
     href: "/import",
