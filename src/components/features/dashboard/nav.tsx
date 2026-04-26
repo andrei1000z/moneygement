@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  BarChart3,
   Home,
   ListChecks,
   MoreHorizontal,
@@ -12,6 +13,7 @@ import {
   Store,
   Tags,
   Target,
+  Upload,
   Wallet,
   Wallet2,
 } from "lucide-react";
@@ -81,6 +83,18 @@ const MORE: readonly NavItem[] = [
     label: "Merchanți",
     Icon: Store,
     match: (p) => p.startsWith("/merchants"),
+  },
+  {
+    href: "/import",
+    label: "Importă CSV",
+    Icon: Upload,
+    match: (p) => p.startsWith("/import"),
+  },
+  {
+    href: "/insights/fx",
+    label: "Curs valutar",
+    Icon: BarChart3,
+    match: (p) => p.startsWith("/insights/fx"),
   },
 ];
 
