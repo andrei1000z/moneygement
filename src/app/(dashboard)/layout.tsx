@@ -1,6 +1,8 @@
 import { redirect } from "next/navigation";
 
 import { BottomTabBar, Sidebar } from "@/components/features/dashboard/nav";
+import { ConnectionStatus } from "@/components/features/pwa/connection-status";
+import { InstallPrompt } from "@/components/features/pwa/install-prompt";
 import { QuickAddSheet } from "@/components/features/quick-add/quick-add-sheet";
 import { createClient } from "@/lib/supabase/server";
 
@@ -25,18 +27,22 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="bg-background flex min-h-svh">
-      <Sidebar />
-      <div className="flex min-w-0 flex-1 flex-col">
-        <main
-          className="flex-1 overflow-y-auto pb-20 md:pb-0"
-          style={{ paddingBottom: "calc(5rem + env(safe-area-inset-bottom))" }}
-        >
-          {children}
-        </main>
+    <div className="bg-background flex min-h-svh flex-col">
+      <ConnectionStatus />
+      <div className="flex min-h-0 flex-1">
+        <Sidebar />
+        <div className="flex min-w-0 flex-1 flex-col">
+          <main
+            className="flex-1 overflow-y-auto pb-20 md:pb-0"
+            style={{ paddingBottom: "calc(5rem + env(safe-area-inset-bottom))" }}
+          >
+            {children}
+          </main>
+        </div>
       </div>
       <BottomTabBar />
       <QuickAddSheet />
+      <InstallPrompt />
     </div>
   );
 }
