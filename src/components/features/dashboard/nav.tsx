@@ -10,6 +10,7 @@ import {
   MoreHorizontal,
   PieChart,
   Plus,
+  Repeat,
   Settings,
   Sparkles,
   Store,
@@ -91,6 +92,12 @@ const MORE: readonly NavItem[] = [
     label: "Asistent",
     Icon: Sparkles,
     match: (p) => p.startsWith("/ai"),
+  },
+  {
+    href: "/subscriptions",
+    label: "Abonamente",
+    Icon: Repeat,
+    match: (p) => p.startsWith("/subscriptions"),
   },
   {
     href: "/import",
