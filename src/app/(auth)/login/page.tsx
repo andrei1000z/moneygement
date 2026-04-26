@@ -1,0 +1,157 @@
+"use client";
+
+import { useState } from "react";
+import { Loader2, Mail } from "lucide-react";
+import { toast } from "sonner";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
+import { createClient } from "@/lib/supabase/client";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+
+const loginSchema = z.object({
+  email: z
+    .string()
+    .min(1, "Introdu adresa de email")
+    .email("Adresă de email invalidă"),
+});
+
+type LoginValues = z.infer<typeof loginSchema>;
+
+export default function LoginPage() {
+  const [sent, setSent] = useState<string | null>(null);
+  const form = useForm<LoginValues>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: { email: "" },
+  });
+
+  async function onSubmit({ email }: LoginValues) {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    if (!url || !anon) {
+      toast.error("Supabase nu este configurat încă", {
+        description: "Completează NEXT_PUBLIC_SUPABASE_URL în .env.local",
+      });
+      return;
+    }
+
+    const supabase = createClient();
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: `${window.location.origin}/callback?next=/`,
+        shouldCreateUser: true,
+      },
+    });
+
+    if (error) {
+      toast.error("Nu am putut trimite link-ul", {
+        description: error.message,
+      });
+      return;
+    }
+
+    setSent(email);
+    toast.success("Link trimis", {
+      description: `Verifică inbox-ul ${email} și deschide link-ul de pe acest dispozitiv.`,
+    });
+  }
+
+  return (
+    <Card className="border-border/60 backdrop-blur">
+      <CardHeader className="space-y-2 text-center">
+        <CardTitle className="text-2xl tracking-tight">
+          Bun venit la Banii
+        </CardTitle>
+        <CardDescription>
+          Introdu emailul și îți trimitem un link magic. Fără parolă, fără
+          social.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        {sent ? (
+          <div className="space-y-4 text-center">
+            <div className="bg-muted mx-auto flex size-12 items-center justify-center rounded-full">
+              <Mail className="size-5" aria-hidden />
+            </div>
+            <p className="text-sm">
+              Am trimis un link la
+              <br />
+              <span className="font-medium">{sent}</span>
+            </p>
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => {
+                setSent(null);
+                form.reset();
+              }}
+            >
+              Trimite alt link
+            </Button>
+          </div>
+        ) : (
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-4"
+              noValidate
+            >
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        autoComplete="email"
+                        inputMode="email"
+                        placeholder="tu@example.ro"
+                        autoFocus
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={form.formState.isSubmitting}
+              >
+                {form.formState.isSubmitting ? (
+                  <>
+                    <Loader2 className="size-4 animate-spin" aria-hidden />
+                    Se trimite…
+                  </>
+                ) : (
+                  "Trimite link"
+                )}
+              </Button>
+            </form>
+          </Form>
+        )}
+      </CardContent>
+    </Card>
+  );
+}

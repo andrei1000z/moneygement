@@ -1,0 +1,33 @@
+/* Stilurile pentru react-calendar-heatmap, theme-aware via CSS vars. */
+.banii-heatmap .react-calendar-heatmap {
+  width: 100%;
+}
+.banii-heatmap .react-calendar-heatmap text {
+  font-size: 8px;
+  fill: var(--muted-foreground);
+}
+.banii-heatmap .react-calendar-heatmap rect {
+  rx: 2;
+  ry: 2;
+  cursor: pointer;
+  transition: opacity 120ms ease;
+}
+.banii-heatmap .react-calendar-heatmap rect:hover {
+  stroke: var(--foreground);
+  stroke-width: 1;
+}
+.banii-heatmap .color-empty {
+  fill: var(--muted);
+}
+.banii-heatmap .color-scale-1 {
+  fill: rgba(16, 185, 129, 0.25);
+}
+.banii-heatmap .color-scale-2 {
+  fill: rgba(16, 185, 129, 0.5);
+}
+.banii-heatmap .color-scale-3 {
+  fill: rgba(16, 185, 129, 0.75);
+}
+.banii-heatmap .color-scale-4 {
+  fill: rgba(16, 185, 129, 1);
+}

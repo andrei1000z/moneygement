@@ -1,0 +1,105 @@
+@AGENTS.md
+
+# Banii — instrucțiuni pentru Claude Code
+
+## 1. Despre proiect
+
+**Banii** este un PWA de finanțe personale Romania-first, construit pentru o singură gospodărie cu doi useri (Andrei, 14 ani, dezvoltator + mama lui). Fără monetizare, fără tier-uri, fără pagini de marketing. Specificația completă (motivația, feature matrix, schema DB, decizii UX) trăiește în [BLUEPRINT.md](./BLUEPRINT.md) — citește-l înainte de orice fază nouă.
+
+Linii directoare ale produsului:
+
+- **Romania-first**: locale `ro-RO`, BNR ca sursă canonică pentru FX, diacritice complete, categorii și merchanți românești pre-seed.
+- **Two-users-one-household**: gospodăria este unitatea de bază; transferurile între conturi sunt entități first-class, necategorisite și excluse din analize de spending.
+- **Calm collaboration**: nicio gamificare cu presiune, recap-uri saptămânale cu ton de prieten, fără leaderboards.
+- **Hero number pe fiecare ecran**: dashboard-ul răspunde "ce se întâmplă cu banii noștri?" în &lt;5 secunde.
+
+## 2. Stack lock (versiuni la final de Faza 0)
+
+Schimbări de versiuni majore se fac doar cu motivație explicită.
+
+- **Next.js** `16.2.4` (App Router, React Server Components, Turbopack default)
+- **React** / **react-dom** `19.2.4`
+- **TypeScript** `^5` (strict mode)
+- **Tailwind CSS** `^4` cu `@tailwindcss/postcss` (CSS-first `@theme`)
+- **shadcn/ui** preset `radix-nova` (echivalentul New York), `slate` base, CSS variables, dark mode default. Iconițe: `lucide-react`.
+- **Supabase**: `@supabase/ssr ^0.10.2`, `@supabase/supabase-js ^2.104.1`(Postgres 16 + Auth + Storage + Edge Functions + pg_cron + pgvector).
+- **State / data**: `@tanstack/react-query ^5.100`, `zustand ^5.0`, `react-hook-form ^7.74` + `zod ^4.3` + `@hookform/resolvers ^5.2`.
+- **PWA**: `@serwist/next ^9.5.7` + `serwist ^9.5.7` (NU `next-pwa`).
+- **Money & FX**: `dinero.js@2.0.0-alpha.14` + `fast-xml-parser ^5.7`.
+- **AI**: `ai ^6.0` (Vercel AI SDK 6) + `@ai-sdk/anthropic`, `@ai-sdk/openai`, `@ai-sdk/groq`.
+- **UX utilities**: `sonner`, `date-fns`, `class-variance-authority`, `clsx`, `tailwind-merge`, `cmdk` (via shadcn).
+
+Vezi `package.json` pentru lista completă.
+
+## 3. Convenții de cod (obligatorii)
+
+- **Bani**: stocăm `BIGINT` în unități minore (bani pentru RON, cents pentru EUR). NU folosim float / Number cu zecimale, NU `numeric` / `decimal` în frontend. Operațiile pleacă din `dinero.js` v2 prin helper-ele din [src/lib/money.ts](./src/lib/money.ts).
+- **FX**: rate zilnice de la BNR, fallback Frankfurter; `base_amount` se calculează prin trigger SQL la `INSERT/UPDATE`, nu re-calculate ulterior.
+- **Format**: `Intl.NumberFormat('ro-RO', { style: 'currency', currency: 'RON' })` cu post-procesare pentru sufixul `lei`. Date `DD.MM.YYYY`, prima zi a săptămânii luni.
+- **Server-only**: orice import de `service_role`, chei AI, sau `next/headers` trăiește într-un fișier care începe cu `import "server-only";`. Niciun secret în bundle-ul client.
+- **RLS** activat pe **toate** tabelele din schema `public`. Helper-ul `app.user_household_ids()` (security-definer) este sursa de adevăr pentru membership.
+- **Path aliases**: imports prin `@/*` (vezi `tsconfig.json`).
+- **shadcn/ui**: componentele de bază trăiesc în [src/components/ui/](./src/components/ui/); feature components în [src/components/features/](./src/components/features/).
+- **Dark mode** este implicit (clasa `dark` pe `<html>`); light mode rămâne opțional și folosește `#FAFAF7` ca background warm-white.
+
+## 4. Reguli ferme — NU
+
+- ❌ NU folosi `Number` / floats pentru bani. Niciodată.
+- ❌ NU stoca chei sau IBAN-uri în plaintext în Postgres — IBAN se criptează cu `pgcrypto`, cheia trăiește în Supabase Vault.
+- ❌ NU expune `SUPABASE_SERVICE_ROLE_KEY` clientului. Verifică prefixul `NEXT_PUBLIC_` înainte de orice import.
+- ❌ NU bypass-a RLS cu service role în route handlers care servesc useri autentificați. Service role doar pentru cron jobs și migrări.
+- ❌ NU adăuga pagini de marketing, banner-e de cookies, prompt-uri de consimțământ analytics. Excepție GDPR Art. 2(2)(c) (household).
+- ❌ NU folosi `next-pwa`. Migrarea la Serwist este o decizie luată.
+- ❌ NU folosi `--webpack` în development. Dev rulează cu Turbopack (Serwist e dezactivat în dev). Build-ul de producție folosește `next build --webpack` pentru ca Serwist să injecteze SW manifest-ul.
+
+## 5. Faze (din [BLUEPRINT.md](http://BLUEPRINT.md) §11)
+
+- **Faza 0** — setup (Next.js, Tailwind, shadcn, Supabase clients, Serwist, proxy/middleware, env). **Status: complet.**
+
+  > Notă Next.js 16: convenția `middleware.ts` a fost redenumită `proxy.ts` — fișierul rădăcină este [src/proxy.ts](./src/proxy.ts), exportă funcția `proxy(request)`. Helper-ul Supabase [src/lib/supabase/middleware.ts](./src/lib/supabase/middleware.ts)rămâne cu numele istoric (e doar un modul intern).
+
+- **Faza 1** — schema Supabase + RLS + magic-link auth + household auto-creation. **Status: complet.** (Lipsește invite mamă — în Faza 2.)
+
+  > Migrațiile trăiesc în [src/db/migrations/](./src/db/migrations/)(vezi `README.md` din folder pentru pașii de aplicare cu Supabase CLI). Toate cele 5 fișiere parsează clean cu libpg_query.
+
+- **Faza 2** — conturi / categorii / merchanți (CRUD), wrapper money (Dinero v2), IBAN encryption (pgcrypto + Vault, vezi 0005_iban_crypto.sql), TanStack Query provider, count-up animation cu `motion`, dashboard nav extins. **Status: complet.** (Lipsește invite mamă, CSV importer, pipeline FX — împinse în Faza 3.)
+
+  > Notă build: `next build --webpack` rulează cu `typescript.ignoreBuildErrors: true` pentru că validatorul de tip al Next 16 crash-uia cu ACCESS_VIOLATION pe Windows pe instantieri adânci (Zod 4 + RHF + tipurile Database). `npm run typecheck` (tsc strict) rămâne sursa de adevăr.
+
+- **Faza 3** — tranzacții (CRUD, listă virtualizată, filtre cu URL state, bulk actions, splits, transfer auto-detect via 0010 trigger, detail drawer cu comentarii, swipe gestures cu motion). **Status: complet.**(Lipsește invite mamă, CSV importer, pipeline FX — împinse în Faza 4.)
+
+- **Faza 4** — quick-add sheet (custom keypad cu calculator, presets pinned, voice via Web Speech + Groq, receipt OCR via GPT-4o vision), draft persistence în localStorage. **Status: complet.** (Lipsește invite mamă, CSV importer, pipeline FX — împinse în Faza 5.)
+
+- **Faza 5** — bugete (target-based + envelope mode YNAB-style cu Ready to Assign + Move Money + Auto-assign + rollover via 0012 RPC), goals (5 bucket types, progress ring SVG, ETA, debt snowball/avalanche cu recomandare). **Status: complet.** (Lipsește invite mamă, CSV importer, pipeline FX — împinse în Faza 6.)
+
+- **Faza 6** — invite mamă (household_members + email link), CSV importer (BT24, BCR George, ING Home'Bank, CEC, Raiffeisen, Revolut), pipeline FX (BNR + Frankfurter). Apoi originalul auto-detect, splits, comments, ownership labeling, swipe gestures.
+
+- **Faza 4** — categorisare 3-tier (rules → embeddings KNN → LLM), rule extraction din corecții, merchant matcher românesc.
+
+- **Faza 5** — bugete target-based + envelope mode, "Move money".
+
+- **Faza 6** — goals (5 bucket types) + debt snowball/avalanche.
+
+- **Faza 7** — dashboard streaming (RSC + Suspense), hero number, KPI cards, mini-Sankey, calendar heatmap, recent transactions.
+
+- **Faza 8** — quick-add (custom keypad, presets, voice, OCR).
+
+- **Faza 9** — Enable Banking integration (RS256 JWT, SCA flow, 180-day session refresh, daily pg_cron sync).
+
+- **Faza 10** — AI chat cu tool-calling (Vercel AI SDK 6), weekly Monday recap, anomaly detection, subscription detector.
+
+- **Faza 11** — features românești (tichete de masă, Pilon III, salary-day intelligence, Crăciun/Paște/Black Friday/Mărțișor budgets).
+
+- **Faza 12** — PWA polish (Serwist offline queue, web-push VAPID, install prompts, iOS 16.4+ pași).
+
+## 6. Comanda standard de lucru
+
+Pentru fiecare fază nouă:
+
+1. Citește `BLUEPRINT.md` (secțiunile relevante) **și** descrierea fazei din §5.
+2. Confirmă stack-ul versiunilor curente cu `package.json`.
+3. Propune un **plan scurt** (componente, fișiere, migrări) și așteaptă confirmarea utilizatorului înainte să modifici cod.
+4. Implementează pe pași mici — un commit logic per pas.
+5. La final: rulează `npm run typecheck` și `npm run lint`, apoi confirmă vizual cu `npm run dev` (Turbopack).
+
+> Pentru orice update peste Next.js / React / Supabase / shadcn: citește mai întâi nota din [AGENTS.md](./AGENTS.md) și apoi ghidul corespunzător din `node_modules/next/dist/docs/`.
