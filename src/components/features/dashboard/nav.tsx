@@ -10,6 +10,7 @@ import {
   MoreHorizontal,
   PieChart,
   Plus,
+  Settings,
   Store,
   Tags,
   Target,
@@ -95,6 +96,12 @@ const MORE: readonly NavItem[] = [
     label: "Curs valutar",
     Icon: BarChart3,
     match: (p) => p.startsWith("/insights/fx"),
+  },
+  {
+    href: "/settings",
+    label: "Setări",
+    Icon: Settings,
+    match: (p) => p.startsWith("/settings"),
   },
 ];
 

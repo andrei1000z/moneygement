@@ -697,6 +697,36 @@ export interface Database {
         Relationships: [];
       };
 
+      household_invites: {
+        Row: {
+          id: string;
+          household_id: string;
+          invited_email: string;
+          role: "admin" | "member" | "viewer";
+          token: string;
+          expires_at: Timestamp;
+          accepted_at: Timestamp | null;
+          created_by: string;
+          created_at: Timestamp;
+        };
+        Insert: {
+          id?: string;
+          household_id: string;
+          invited_email: string;
+          role: "admin" | "member" | "viewer";
+          token: string;
+          expires_at?: Timestamp;
+          accepted_at?: Timestamp | null;
+          created_by: string;
+        };
+        Update: {
+          accepted_at?: Timestamp | null;
+          expires_at?: Timestamp;
+          role?: "admin" | "member" | "viewer";
+        };
+        Relationships: [];
+      };
+
       fx_sync_log: {
         Row: {
           id: number;
@@ -799,6 +829,13 @@ export interface Database {
           _month: string;
         };
         Returns: number;
+      };
+      accept_invite: {
+        Args: { _token: string };
+        Returns: {
+          household_id: string;
+          role: "admin" | "member" | "viewer";
+        }[];
       };
     };
 

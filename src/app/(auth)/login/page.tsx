@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { Loader2, Mail } from "lucide-react";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
@@ -36,11 +37,18 @@ const loginSchema = z.object({
 type LoginValues = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
+  const searchParams = useSearchParams();
+  const nextParam = searchParams.get("next");
+  const hintParam = searchParams.get("hint");
   const [sent, setSent] = useState<string | null>(null);
   const form = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: "" },
   });
+
+  useEffect(() => {
+    if (hintParam) form.setValue("email", hintParam);
+  }, [hintParam, form]);
 
   async function onSubmit({ email }: LoginValues) {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -52,11 +60,17 @@ export default function LoginPage() {
       return;
     }
 
+    // Validăm `next` să fie path intern (nu URL extern, evită open-redirect).
+    const safeNext =
+      nextParam && /^\/[^\/].*$/.test(nextParam) && !nextParam.startsWith("//")
+        ? nextParam
+        : "/";
+
     const supabase = createClient();
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: `${window.location.origin}/callback?next=/`,
+        emailRedirectTo: `${window.location.origin}/callback?next=${encodeURIComponent(safeNext)}`,
         shouldCreateUser: true,
       },
     });
