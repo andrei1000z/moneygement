@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import { BottomTabBar, Sidebar } from "@/components/features/dashboard/nav";
 import { ConnectionStatus } from "@/components/features/pwa/connection-status";
 import { InstallPrompt } from "@/components/features/pwa/install-prompt";
+import { OfflineDrainer } from "@/components/features/pwa/offline-drainer";
+import { PushPrompt } from "@/components/features/pwa/push-prompt";
 import { QuickAddSheet } from "@/components/features/quick-add/quick-add-sheet";
 import { createClient } from "@/lib/supabase/server";
 
@@ -43,6 +45,8 @@ export default async function DashboardLayout({
       <BottomTabBar />
       <QuickAddSheet />
       <InstallPrompt />
+      <PushPrompt />
+      <OfflineDrainer />
     </div>
   );
 }
