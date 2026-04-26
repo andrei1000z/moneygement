@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   BarChart3,
+  Building2,
   Home,
   ListChecks,
   MoreHorizontal,
@@ -98,6 +99,12 @@ const MORE: readonly NavItem[] = [
     label: "Abonamente",
     Icon: Repeat,
     match: (p) => p.startsWith("/subscriptions"),
+  },
+  {
+    href: "/connections",
+    label: "Conexiuni bancare",
+    Icon: Building2,
+    match: (p) => p.startsWith("/connections"),
   },
   {
     href: "/import",
