@@ -16,6 +16,10 @@ const eslintConfig = defineConfig([
     "public/sw.js",
     "public/sw.js.map",
     "public/swe-worker-*.js",
+    // Edge Functions Deno — nu sunt cod Node/Next.
+    "supabase/functions/**",
+    // Script-uri build-time stand-alone.
+    "scripts/**",
   ]),
 ]);
 

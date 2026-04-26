@@ -696,6 +696,35 @@ export interface Database {
         };
         Relationships: [];
       };
+
+      fx_sync_log: {
+        Row: {
+          id: number;
+          run_at: Timestamp;
+          status: "ok" | "partial" | "error";
+          source: "BNR" | "Frankfurter" | "manual" | "historical";
+          currencies_updated: number;
+          rate_date: DateString | null;
+          error: string | null;
+        };
+        Insert: {
+          id?: number;
+          run_at?: Timestamp;
+          status: "ok" | "partial" | "error";
+          source: "BNR" | "Frankfurter" | "manual" | "historical";
+          currencies_updated?: number;
+          rate_date?: DateString | null;
+          error?: string | null;
+        };
+        Update: {
+          status?: "ok" | "partial" | "error";
+          source?: "BNR" | "Frankfurter" | "manual" | "historical";
+          currencies_updated?: number;
+          rate_date?: DateString | null;
+          error?: string | null;
+        };
+        Relationships: [];
+      };
     };
 
     Views: Record<string, never>;
