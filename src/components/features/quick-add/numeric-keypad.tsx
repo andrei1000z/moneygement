@@ -222,15 +222,23 @@ export function NumericKeypad({
 
   const opLabel = state.op === "*" ? "×" : state.op === "/" ? "÷" : state.op ?? "";
 
+  const displayValue = parseDisplay(state.display);
+  const isZero = displayValue === 0;
+
   return (
     <div className={cn("flex flex-col gap-3", className)}>
       <div className="text-center">
         {state.stored !== null && state.op !== null ? (
-          <div className="text-muted-foreground text-xs tabular-nums">
+          <div className="text-[--accent-violet] mb-1 text-xs tabular-nums font-medium">
             {formatNumber(state.stored)} {opLabel}
           </div>
         ) : null}
-        <div className="text-5xl font-semibold tabular-nums slashed-zero">
+        <div
+          className={cn(
+            "num-hero text-[3.75rem] leading-none",
+            isZero ? "text-muted-foreground" : "text-gradient-aurora",
+          )}
+        >
           {state.display}
         </div>
       </div>
@@ -279,7 +287,7 @@ export function NumericKeypad({
 }
 
 const baseKeyClass =
-  "flex h-14 min-h-14 items-center justify-center rounded-xl text-xl font-medium tabular-nums transition active:scale-[0.96] select-none touch-manipulation";
+  "flex h-14 min-h-14 items-center justify-center rounded-2xl text-xl font-medium tabular-nums select-none touch-manipulation transition-[transform,background-color,box-shadow] duration-150 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.92]";
 
 function Key({
   label,
@@ -296,7 +304,7 @@ function Key({
       onClick={onPress}
       className={cn(
         baseKeyClass,
-        "bg-card hover:bg-accent border-border/60 border",
+        "glass-thin hover:bg-[oklch(from_var(--foreground)_l_c_h/0.08)]",
         className,
       )}
     >
@@ -321,10 +329,10 @@ function KeyOp({
       aria-pressed={active}
       className={cn(
         baseKeyClass,
-        "border-border/60 border text-base",
+        "border text-lg",
         active
-          ? "bg-primary text-primary-foreground"
-          : "bg-muted/50 hover:bg-accent",
+          ? "bg-[oklch(from_var(--accent-violet)_l_c_h/0.2)] text-[--accent-violet] border-[oklch(from_var(--accent-violet)_l_c_h/0.35)] glow-violet"
+          : "glass-thin text-[--accent-violet] hover:bg-[oklch(from_var(--accent-violet)_l_c_h/0.1)]",
       )}
     >
       {label}
@@ -344,7 +352,7 @@ function KeyAccent({
       {...rest}
       className={cn(
         baseKeyClass,
-        "bg-muted/50 hover:bg-accent border-border/60 border",
+        "glass-thin hover:bg-[oklch(from_var(--foreground)_l_c_h/0.08)]",
       )}
     >
       {children}
@@ -364,7 +372,8 @@ function KeyConfirm({
       {...rest}
       className={cn(
         baseKeyClass,
-        "bg-emerald-500 hover:bg-emerald-600 text-white",
+        "bg-gradient-to-br from-[--accent-emerald] to-[--accent-cyan] text-[--bg-base]",
+        "shadow-[inset_0_1px_0_oklch(1_0_0/0.15),0_0_0_1px_oklch(from_var(--accent-emerald)_l_c_h/0.3),0_0_24px_-4px_oklch(from_var(--accent-emerald)_l_c_h/0.5)]",
       )}
     >
       {children}

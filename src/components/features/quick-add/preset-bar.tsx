@@ -83,7 +83,8 @@ export function PresetBar({ presets, onApply }: Props) {
             onPointerLeave={cancelLongPress}
             onPointerCancel={cancelLongPress}
             className={cn(
-              "border-border/60 bg-card hover:bg-accent flex shrink-0 flex-col items-center gap-0.5 rounded-xl border px-3 py-2 text-center transition active:scale-95",
+              "glass-thin flex shrink-0 flex-col items-center gap-0.5 rounded-2xl px-3 py-2 text-center transition-[transform,background-color] duration-150 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.92]",
+              "hover:bg-[oklch(from_var(--accent-emerald)_l_c_h/0.1)]",
             )}
           >
             <span className="text-xl leading-none" aria-hidden>
@@ -98,9 +99,12 @@ export function PresetBar({ presets, onApply }: Props) {
         <button
           type="button"
           onClick={() => setEditorOpen(true)}
-          className="border-border/60 bg-card hover:bg-accent flex shrink-0 flex-col items-center justify-center gap-1 rounded-xl border border-dashed px-4 py-2 text-xs"
+          className={cn(
+            "flex shrink-0 flex-col items-center justify-center gap-1 rounded-2xl border border-dashed px-4 py-2 text-xs text-muted-foreground transition-colors",
+            "border-[--glass-border] hover:border-[oklch(from_var(--accent-emerald)_l_c_h/0.4)] hover:text-[--accent-emerald]",
+          )}
         >
-          <Plus className="size-4" aria-hidden />
+          <Plus className="size-4" aria-hidden strokeWidth={1.75} />
           Preset
         </button>
       </div>

@@ -143,11 +143,19 @@ function Grid({
               onSelect(c.id);
             }}
             className={cn(
-              "border-border/60 bg-card hover:bg-accent flex aspect-square flex-col items-center justify-center gap-1 rounded-xl border p-1.5 text-center transition active:scale-95",
-              active && "border-foreground bg-accent",
+              "glass-thin flex aspect-square flex-col items-center justify-center gap-1 rounded-2xl p-1.5 text-center",
+              "transition-[transform,background-color,box-shadow] duration-200 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.92]",
+              active
+                ? "scale-[1.05] glow-emerald"
+                : "hover:bg-[oklch(from_var(--foreground)_l_c_h/0.06)]",
             )}
             style={
-              c.color && active ? { boxShadow: `inset 0 0 0 2px ${c.color}` } : undefined
+              c.color && active
+                ? {
+                    background: `oklch(from ${c.color} l c h / 0.2)`,
+                    boxShadow: `inset 0 1px 0 oklch(1 0 0 / 0.08), 0 0 0 1.5px oklch(from ${c.color} l c h / 0.5), 0 0 24px -4px oklch(from ${c.color} l c h / 0.4)`,
+                  }
+                : undefined
             }
           >
             <span className="text-xl leading-none" aria-hidden>
