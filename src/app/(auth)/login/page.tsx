@@ -89,9 +89,9 @@ export default function LoginPage() {
   }
 
   return (
-    <Card variant="glass" className="glow-blue">
+    <Card variant="glass">
       <CardHeader className="space-y-2 text-center">
-        <CardTitle className="text-gradient-eu text-3xl font-semibold tracking-tight">
+        <CardTitle className="text-3xl font-semibold tracking-tight text-[--accent-blue]">
           Bun venit la Banii
         </CardTitle>
         <CardDescription>
@@ -157,7 +157,7 @@ export default function LoginPage() {
               />
               <Button
                 type="submit"
-                variant="glow"
+                variant="eu"
                 size="lg"
                 className="w-full"
                 disabled={form.formState.isSubmitting}

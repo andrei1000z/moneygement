@@ -273,7 +273,7 @@ export function Sidebar() {
             strokeWidth={1.75}
           />
         </div>
-        <span className="text-gradient-eu text-xl font-semibold tracking-tight">
+        <span className="text-xl font-semibold tracking-tight text-[--accent-blue]">
           Banii
         </span>
       </div>

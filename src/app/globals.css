@@ -55,10 +55,10 @@
    ============================================================ */
 :root {
   --bg-base: oklch(1 0 0);
-  --bg-elevated: oklch(0.99 0.002 250);
-  --bg-overlay: oklch(0.97 0.004 250);
-  --foreground: oklch(0.16 0.04 263);
-  --muted-foreground: oklch(0.46 0.03 260);
+  --bg-elevated: oklch(1 0 0);
+  --bg-overlay: oklch(0.985 0 0);
+  --foreground: oklch(0.12 0 0);
+  --muted-foreground: oklch(0.42 0.005 260);
 
   /* ---- EU palette ---- */
   /* Reflex Blue (#003399) — primar EU flag */
@@ -80,12 +80,12 @@
   --accent-pink:    oklch(0.62 0.22 25);   /* coral ca destructive secundar */
   --accent-amber:   var(--accent-yellow);
 
-  --glass-base:     oklch(1 0 0 / 0.55);
-  --glass-elevated: oklch(1 0 0 / 0.78);
-  --glass-strong:   oklch(1 0 0 / 0.92);
-  --glass-border:   oklch(0.36 0.22 263 / 0.12);
-  --glass-border-hi: oklch(1 0 0 / 0.7);
-  --glass-shadow:   oklch(0.36 0.22 263 / 0.10);
+  --glass-base:     oklch(1 0 0 / 0.7);
+  --glass-elevated: oklch(1 0 0 / 0.88);
+  --glass-strong:   oklch(1 0 0 / 0.96);
+  --glass-border:   oklch(0.12 0 0 / 0.08);
+  --glass-border-hi: oklch(1 0 0 / 0.5);
+  --glass-shadow:   oklch(0.12 0 0 / 0.06);
 
   --background: var(--bg-base);
   --card: var(--glass-base);
@@ -271,16 +271,7 @@
   }
   body {
     @apply text-foreground;
-    background: var(--bg-base);
-    background-image:
-      radial-gradient(at 18% 8%,
-        color-mix(in oklch, var(--accent-blue), transparent 86%) 0px, transparent 55%),
-      radial-gradient(at 82% 6%,
-        color-mix(in oklch, var(--accent-blue-bright), transparent 90%) 0px, transparent 50%),
-      radial-gradient(at 92% 88%,
-        color-mix(in oklch, var(--accent-yellow), transparent 92%) 0px, transparent 45%),
-      radial-gradient(at 4% 96%,
-        color-mix(in oklch, var(--accent-blue), transparent 92%) 0px, transparent 45%);
+    background: #ffffff;
     min-height: 100vh;
     overflow-x: hidden;
     font-feature-settings: "tnum" 1, "ss01" 1;
@@ -309,28 +300,26 @@
      20-32px (vizual aproape identic, ~3x mai rapid). */
   .glass {
     background: var(--glass-base);
-    backdrop-filter: blur(28px) saturate(190%) brightness(1.06);
-    -webkit-backdrop-filter: blur(28px) saturate(190%) brightness(1.06);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
     border: 1px solid var(--glass-border);
     box-shadow:
-      inset 0 1px 0 var(--glass-border-hi),
       0 1px 2px var(--glass-shadow),
-      0 12px 32px -10px var(--glass-shadow);
+      0 8px 24px -10px var(--glass-shadow);
   }
   .glass-strong {
     background: var(--glass-strong);
-    backdrop-filter: blur(40px) saturate(210%) brightness(1.08);
-    -webkit-backdrop-filter: blur(40px) saturate(210%) brightness(1.08);
+    backdrop-filter: blur(28px) saturate(150%);
+    -webkit-backdrop-filter: blur(28px) saturate(150%);
     border: 1px solid var(--glass-border);
     box-shadow:
-      inset 0 1px 0 var(--glass-border-hi),
-      0 6px 16px var(--glass-shadow),
-      0 24px 64px -20px var(--glass-shadow);
+      0 4px 12px var(--glass-shadow),
+      0 16px 48px -16px var(--glass-shadow);
   }
   .glass-thin {
-    background: color-mix(in oklch, var(--glass-base), transparent 50%);
-    backdrop-filter: blur(18px) saturate(170%);
-    -webkit-backdrop-filter: blur(18px) saturate(170%);
+    background: color-mix(in oklch, var(--glass-base), transparent 30%);
+    backdrop-filter: blur(12px) saturate(130%);
+    -webkit-backdrop-filter: blur(12px) saturate(130%);
     border: 1px solid var(--glass-border);
   }
   /* Hero block — solid EU blue cu text alb (ca eyou.social) */
