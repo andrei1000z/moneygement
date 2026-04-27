@@ -104,7 +104,7 @@ export function PushPrompt() {
 
   return (
     <div
-      className="border-border/60 bg-card fixed inset-x-3 bottom-24 z-40 rounded-xl border p-3 shadow-lg md:bottom-6 md:left-auto md:right-6 md:max-w-sm"
+      className="glass-strong fixed inset-x-3 bottom-24 z-40 rounded-xl border p-3 shadow-lg md:bottom-6 md:left-auto md:right-6 md:max-w-sm"
       role="dialog"
       aria-label="Activează notificările"
     >

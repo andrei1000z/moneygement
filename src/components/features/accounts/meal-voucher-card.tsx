@@ -51,7 +51,7 @@ export function MealVoucherCard({ account, lots }: Props) {
   const earliest = expiringSoon[0];
 
   return (
-    <div className="border-border/60 bg-card rounded-xl border p-4">
+    <div className="glass-thin rounded-[--radius-card] p-4">
       <div className="flex items-start justify-between">
         <div className="flex items-start gap-3">
           <div className="bg-primary/10 text-primary flex size-10 shrink-0 items-center justify-center rounded-lg">

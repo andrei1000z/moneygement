@@ -178,7 +178,7 @@ export function GoalDetail({ goal, open, onOpenChange }: Props) {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="border-border/60 bg-card rounded-lg border p-3">
+    <div className="glass-thin rounded-xl p-3">
       <dt className="text-muted-foreground text-[10px] uppercase tracking-wider">
         {label}
       </dt>

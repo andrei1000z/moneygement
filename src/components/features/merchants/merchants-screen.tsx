@@ -103,7 +103,7 @@ export function MerchantsScreen() {
                 type="button"
                 onClick={() => setDrawerMerchant(m)}
                 className={cn(
-                  "border-border/60 bg-card hover:bg-accent/40 flex w-full items-center gap-3 rounded-lg border p-3 text-left transition",
+                  "glass-thin hover:bg-[oklch(from_var(--foreground)_l_c_h/0.04)] flex w-full items-center gap-3 rounded-lg border p-3 text-left transition",
                 )}
               >
                 <div
@@ -224,7 +224,7 @@ function EmptyState({
   onCreate: () => void;
 }) {
   return (
-    <div className="border-border/60 bg-card/40 flex flex-col items-center justify-center rounded-xl border border-dashed p-10 text-center">
+    <div className="glass-thin flex flex-col items-center justify-center rounded-[--radius-card] border-dashed p-10 text-center">
       <div className="bg-accent text-accent-foreground mb-4 flex size-12 items-center justify-center rounded-full">
         <Store className="size-5" aria-hidden />
       </div>

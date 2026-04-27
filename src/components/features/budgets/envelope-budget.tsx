@@ -119,7 +119,7 @@ export function EnvelopeBudget({
             ? "border-emerald-500/40 bg-emerald-500/5 text-emerald-700 dark:text-emerald-300"
             : readyToAssign < 0
             ? "border-destructive/40 bg-destructive/5 text-destructive"
-            : "border-border/60 bg-card",
+            : "glass-thin",
         )}
       >
         <p className="text-xs uppercase tracking-wider">Ready to Assign</p>
@@ -148,7 +148,7 @@ export function EnvelopeBudget({
         ) : null}
       </div>
 
-      <div className="border-border/60 bg-card overflow-hidden rounded-xl border">
+      <div className="glass-thin overflow-hidden rounded-[--radius-card]">
         <div className="bg-muted/40 grid grid-cols-[1fr_120px_120px_120px] items-center gap-2 px-3 py-2 text-xs font-medium uppercase tracking-wider">
           <span>Categorie</span>
           <span className="text-right">Alocat</span>

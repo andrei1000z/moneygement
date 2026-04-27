@@ -74,7 +74,7 @@ export function TargetBudget({ month, categories, progress, currency = "RON" }: 
         </Button>
       </div>
 
-      <ul className="border-border/60 bg-card divide-y rounded-xl border">
+      <ul className="glass-thin divide-y divide-[--glass-border] rounded-[--radius-card]">
         {expenseCategories.length === 0 ? (
           <li className="text-muted-foreground p-6 text-center text-sm">
             Nicio categorie de cheltuieli.
@@ -240,7 +240,7 @@ function BudgetEditSheet({
                 allowNegative={false}
               />
             </div>
-            <label className="border-border/60 bg-card flex items-center justify-between rounded-lg border p-3 text-sm">
+            <label className="glass-thin flex items-center justify-between rounded-xl p-3 text-sm">
               <div>
                 <p className="font-medium">Rollover</p>
                 <p className="text-muted-foreground text-xs">

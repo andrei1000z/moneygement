@@ -37,7 +37,7 @@ export function ExportPanel() {
 
   return (
     <div className="space-y-4">
-      <section className="border-border/60 bg-card rounded-xl border p-4">
+      <section className="glass-thin rounded-[--radius-card] p-4">
         <h3 className="mb-2 text-sm font-semibold">Export date</h3>
         <p className="text-muted-foreground text-xs">
           Toate datele gospodăriei. CSV doar tranzacții; JSON include
@@ -71,7 +71,7 @@ export function ExportPanel() {
         </div>
       </section>
 
-      <section className="border-border/60 bg-card rounded-xl border p-4">
+      <section className="glass-thin rounded-[--radius-card] p-4">
         <h3 className="mb-2 text-sm font-semibold">PDF (în curând)</h3>
         <p className="text-muted-foreground text-xs">
           Generare PDF cu rezumat anual va veni în V2. Pentru moment

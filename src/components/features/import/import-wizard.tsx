@@ -174,7 +174,7 @@ export function ImportWizard({ accounts }: Props) {
 
   if (stage === "done" && result) {
     return (
-      <div className="border-border/60 bg-card flex flex-col items-center gap-4 rounded-xl border p-8 text-center">
+      <div className="glass-thin flex flex-col items-center gap-4 rounded-[--radius-card] p-8 text-center">
         <CheckCircle2
           className="size-12 text-emerald-500 dark:text-emerald-400"
           aria-hidden
@@ -214,7 +214,7 @@ export function ImportWizard({ accounts }: Props) {
     const preview = parsed.slice(0, 10);
     return (
       <div className="space-y-4">
-        <div className="border-border/60 bg-card flex flex-col gap-3 rounded-xl border p-4">
+        <div className="glass-thin flex flex-col gap-3 rounded-[--radius-card] p-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <p className="text-muted-foreground text-xs uppercase tracking-wider">
@@ -288,7 +288,7 @@ export function ImportWizard({ accounts }: Props) {
           ) : null}
         </div>
 
-        <div className="border-border/60 bg-card overflow-hidden rounded-xl border">
+        <div className="glass-thin overflow-hidden rounded-[--radius-card]">
           <div className="text-muted-foreground border-b px-3 py-2 text-xs uppercase tracking-wider">
             Primele 10 din {summary.count}
           </div>
@@ -356,7 +356,7 @@ export function ImportWizard({ accounts }: Props) {
       onDrop={handleDrop}
       onClick={() => fileInput.current?.click()}
       className={cn(
-        "border-border/60 bg-card hover:bg-accent/40 flex cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed p-12 text-center transition",
+        "glass-thin hover:bg-[oklch(from_var(--foreground)_l_c_h/0.04)] flex cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed p-12 text-center transition",
       )}
     >
       <FileUp className="text-muted-foreground size-10" aria-hidden />

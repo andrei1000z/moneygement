@@ -32,7 +32,7 @@ const PALETTE = [
 export function MiniSankey({ data, currency }: Props) {
   if (data.nodes.length === 0) {
     return (
-      <div className="border-border/60 bg-card text-muted-foreground flex h-72 items-center justify-center rounded-xl border text-sm">
+      <div className="glass-thin text-muted-foreground flex h-72 items-center justify-center rounded-[--radius-card] text-sm">
         Niciun flow de tranzacții luna asta.
       </div>
     );
@@ -45,7 +45,7 @@ export function MiniSankey({ data, currency }: Props) {
   }));
 
   return (
-    <div className="border-border/60 bg-card rounded-xl border p-2">
+    <div className="glass-thin rounded-[--radius-card] p-2">
       <h3 className="text-muted-foreground px-2 pt-1 text-xs uppercase tracking-wider">
         Bani luna asta
       </h3>

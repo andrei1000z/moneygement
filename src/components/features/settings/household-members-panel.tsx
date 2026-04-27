@@ -101,7 +101,7 @@ export function HouseholdMembersPanel({
   return (
     <div className="space-y-6">
       {/* Membri actuali */}
-      <section className="border-border/60 bg-card rounded-xl border">
+      <section className="glass-thin rounded-[--radius-card]">
         <h2 className="border-b px-4 py-3 text-sm font-semibold">
           Membri ({members.length})
         </h2>
@@ -134,7 +134,7 @@ export function HouseholdMembersPanel({
 
       {/* Form invitație */}
       {canInvite ? (
-        <section className="border-border/60 bg-card rounded-xl border">
+        <section className="glass-thin rounded-[--radius-card]">
           <h2 className="border-b px-4 py-3 text-sm font-semibold">
             Invită un membru
           </h2>
@@ -226,7 +226,7 @@ export function HouseholdMembersPanel({
 
       {/* Invitații pending */}
       {invites.length > 0 ? (
-        <section className="border-border/60 bg-card rounded-xl border">
+        <section className="glass-thin rounded-[--radius-card]">
           <h2 className="border-b px-4 py-3 text-sm font-semibold">
             Invitații în așteptare ({invites.length})
           </h2>

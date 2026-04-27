@@ -66,7 +66,7 @@ export function AppearancePanel() {
 
   return (
     <div className="space-y-6">
-      <section className="border-border/60 bg-card rounded-xl border p-4">
+      <section className="glass-thin rounded-[--radius-card] p-4">
         <h3 className="mb-3 text-sm font-semibold">Temă</h3>
         <div className="flex gap-2">
           <Button
@@ -96,7 +96,7 @@ export function AppearancePanel() {
         </div>
       </section>
 
-      <section className="border-border/60 bg-card rounded-xl border p-4">
+      <section className="glass-thin rounded-[--radius-card] p-4">
         <h3 className="mb-3 text-sm font-semibold">Accesibilitate</h3>
         <ul className="divide-y">
           <ToggleRow

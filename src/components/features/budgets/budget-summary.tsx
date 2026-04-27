@@ -45,7 +45,7 @@ export function BudgetSummary({ month, progress, currency = "RON" }: Props) {
       : 0;
 
   return (
-    <section className="border-border/60 bg-card space-y-3 rounded-xl border p-4">
+    <section className="glass-thin space-y-3 rounded-[--radius-card] p-4">
       <div className="grid grid-cols-3 gap-3 text-center">
         <Stat label="Bugetat" value={formatMoney(totals.planned, currency)} />
         <Stat label="Cheltuit" value={formatMoney(totals.spent, currency)} />

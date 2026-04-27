@@ -73,7 +73,7 @@ export function FxDashboard({ base, yearSeries, recent }: Props) {
       </div>
 
       {/* Hero number */}
-      <div className="border-border/60 bg-card rounded-xl border p-5">
+      <div className="glass-thin rounded-[--radius-card] p-5">
         <p className="text-muted-foreground text-xs uppercase tracking-wider">
           Curs azi
         </p>
@@ -107,7 +107,7 @@ export function FxDashboard({ base, yearSeries, recent }: Props) {
       </div>
 
       {/* Chart 1Y */}
-      <div className="border-border/60 bg-card rounded-xl border p-4">
+      <div className="glass-thin rounded-[--radius-card] p-4">
         <h3 className="text-muted-foreground mb-3 text-xs uppercase tracking-wider">
           Evoluție 12 luni
         </h3>
@@ -172,7 +172,7 @@ export function FxDashboard({ base, yearSeries, recent }: Props) {
       </div>
 
       {/* Tabel 30 zile */}
-      <div className="border-border/60 bg-card rounded-xl border">
+      <div className="glass-thin rounded-[--radius-card]">
         <h3 className="text-muted-foreground border-b px-4 py-3 text-xs uppercase tracking-wider">
           Ultimele 30 zile
         </h3>

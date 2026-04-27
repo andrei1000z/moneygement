@@ -68,7 +68,7 @@ export function AccountsScreen() {
             {totals.map((t) => (
               <div
                 key={t.currency}
-                className="border-border/60 bg-card/50 rounded-lg border px-3 py-1.5 text-xs"
+                className="glass-thin rounded-xl px-3 py-1.5 text-xs"
               >
                 <span className="text-muted-foreground mr-1.5">
                   Total {t.currency === "RON" ? "lei" : t.currency}:
@@ -159,7 +159,7 @@ function EmptyState({
   onCreate: () => void;
 }) {
   return (
-    <div className="border-border/60 bg-card/40 flex flex-col items-center justify-center rounded-xl border border-dashed p-10 text-center">
+    <div className="glass-thin flex flex-col items-center justify-center rounded-[--radius-card] border-dashed p-10 text-center">
       <div className="bg-accent text-accent-foreground mb-4 flex size-12 items-center justify-center rounded-full">
         <Wallet className="size-5" aria-hidden />
       </div>

@@ -82,7 +82,7 @@ function Shell({
 }) {
   return (
     <div className="flex min-h-svh items-center justify-center px-4">
-      <div className="border-border/60 bg-card w-full max-w-md rounded-xl border p-6 text-center">
+      <div className="glass-strong w-full max-w-md rounded-[--radius-card] p-6 text-center">
         <h1 className="text-xl font-semibold">{title}</h1>
         <div className="mt-3">{children}</div>
       </div>

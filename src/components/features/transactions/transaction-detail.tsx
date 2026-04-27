@@ -247,7 +247,7 @@ export function TransactionDetail({ txId, open, onOpenChange }: Props) {
                 </div>
 
                 {/* Metadata */}
-                <dl className="border-border/60 bg-card divide-y rounded-xl border text-sm">
+                <dl className="glass-thin divide-y divide-[--glass-border] rounded-[--radius-card] text-sm">
                   <Meta label="Cont" value={account?.name ?? "—"} />
                   <Meta
                     label="Data"
@@ -304,7 +304,7 @@ export function TransactionDetail({ txId, open, onOpenChange }: Props) {
                     href={tx.receipt_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="border-border/60 bg-card hover:bg-accent/40 flex items-center justify-between rounded-xl border p-3 text-sm"
+                    className="glass-thin hover:bg-[oklch(from_var(--foreground)_l_c_h/0.04)] flex items-center justify-between rounded-xl border p-3 text-sm"
                   >
                     📷 Vezi bon
                     <ExternalLink className="size-4" aria-hidden />
@@ -318,7 +318,7 @@ export function TransactionDetail({ txId, open, onOpenChange }: Props) {
                     {(comments ?? []).map((c) => (
                       <li
                         key={c.id}
-                        className="border-border/60 bg-card rounded-lg border p-3 text-sm"
+                        className="glass-thin rounded-xl p-3 text-sm"
                       >
                         <p>{c.body}</p>
                         <p className="text-muted-foreground mt-1 text-xs">

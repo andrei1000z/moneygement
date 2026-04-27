@@ -34,7 +34,7 @@ export function DebtPayoff({ debts }: Props) {
 
   return (
     <div className="space-y-5">
-      <div className="border-border/60 bg-card rounded-xl border p-4">
+      <div className="glass-thin rounded-[--radius-card] p-4">
         <p className="text-xs font-medium uppercase tracking-wider">
           Plată extra lunară
         </p>
@@ -111,7 +111,7 @@ function StrategyCard({
   return (
     <div
       className={cn(
-        "border-border/60 bg-card relative space-y-3 rounded-xl border p-4",
+        "glass-thin relative space-y-3 rounded-[--radius-card] p-4",
         recommended && "border-emerald-500 ring-emerald-500/30 ring-2",
       )}
     >
@@ -191,7 +191,7 @@ export function DebtInputRow({
   onRemove?: () => void;
 }) {
   return (
-    <div className="border-border/60 bg-card grid grid-cols-[1fr_120px_80px_120px] items-end gap-2 rounded-lg border p-3">
+    <div className="glass-thin grid grid-cols-[1fr_120px_80px_120px] items-end gap-2 rounded-xl p-3">
       <div>
         <label className="mb-0.5 block text-[10px] font-medium uppercase tracking-wider">
           Datorie

@@ -146,7 +146,7 @@ export function SplitModal({ open, onOpenChange, transaction, onDone }: Props) {
           {rows.map((r, idx) => (
             <div
               key={r.id}
-              className="border-border/60 bg-card space-y-2 rounded-lg border p-3"
+              className="glass-thin space-y-2 rounded-xl p-3"
             >
               <div className="flex items-center justify-between">
                 <span className="text-muted-foreground text-xs">

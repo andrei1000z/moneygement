@@ -257,7 +257,7 @@ function TotalCard({
       ? "text-destructive"
       : "text-foreground";
   return (
-    <div className="border-border/60 bg-card/50 rounded-lg border px-3 py-2">
+    <div className="glass-thin rounded-xl px-3 py-2">
       <p className="text-muted-foreground text-[10px] uppercase tracking-wider">
         {label}
       </p>

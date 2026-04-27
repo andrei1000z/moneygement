@@ -24,7 +24,7 @@ type Props = {
 export function IncomeVsExpenseChart({ data, currency }: Props) {
   if (data.every((d) => d.income === 0 && d.expense === 0)) {
     return (
-      <div className="border-border/60 bg-card text-muted-foreground flex h-72 items-center justify-center rounded-xl border text-sm">
+      <div className="glass-thin text-muted-foreground flex h-72 items-center justify-center rounded-[--radius-card] text-sm">
         Nicio tranzacție în perioada selectată.
       </div>
     );
@@ -37,7 +37,7 @@ export function IncomeVsExpenseChart({ data, currency }: Props) {
   }));
 
   return (
-    <div className="border-border/60 bg-card rounded-xl border p-4">
+    <div className="glass-thin rounded-[--radius-card] p-4">
       <h3 className="text-muted-foreground mb-3 text-xs uppercase tracking-wider">
         Venit vs cheltuit
       </h3>

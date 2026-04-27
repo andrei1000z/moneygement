@@ -94,10 +94,12 @@ export function TransactionRow({
         dragElastic={0.1}
         onDragEnd={handleDragEnd}
         className={cn(
-          "relative flex items-center gap-3 px-4 py-3 transition",
-          isIncome ? "bg-emerald-50 dark:bg-emerald-950/30" : "bg-card",
+          "relative flex items-center gap-3 px-4 py-3 transition-colors",
+          isIncome
+            ? "bg-[oklch(from_var(--accent-emerald)_l_c_h/0.06)]"
+            : "bg-[oklch(from_var(--bg-base)_l_c_h/0.4)] backdrop-blur-md",
           isVoid && "opacity-50",
-          selected && "bg-accent",
+          selected && "bg-[oklch(from_var(--accent-emerald)_l_c_h/0.12)]",
         )}
         onClick={(e) => {
           if (selectMode) {
@@ -130,9 +132,12 @@ export function TransactionRow({
           <div
             className="flex size-10 shrink-0 items-center justify-center rounded-full text-base"
             style={{
-              backgroundColor: category?.color
-                ? `${category.color}20`
-                : "var(--muted)",
+              background: category?.color
+                ? `oklch(from ${category.color} l c h / 0.2)`
+                : "oklch(from var(--foreground) l c h / 0.06)",
+              boxShadow: category?.color
+                ? `inset 0 1px 0 oklch(1 0 0 / 0.06), 0 0 0 1px oklch(from ${category.color} l c h / 0.2)`
+                : "inset 0 1px 0 oklch(1 0 0 / 0.04)",
             }}
             aria-hidden
           >
@@ -184,9 +189,7 @@ export function TransactionRow({
         <div
           className={cn(
             "shrink-0 text-right tabular-nums slashed-zero font-semibold",
-            isIncome
-              ? "text-emerald-600 dark:text-emerald-400"
-              : "text-foreground",
+            isIncome ? "text-[--accent-emerald]" : "text-foreground",
           )}
           aria-label={`${isIncome ? "+" : ""}${parts.integer}${
             parts.separator

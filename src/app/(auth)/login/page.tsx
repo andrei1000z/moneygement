@@ -89,9 +89,9 @@ export default function LoginPage() {
   }
 
   return (
-    <Card className="border-border/60 backdrop-blur">
+    <Card variant="glass" className="glow-emerald">
       <CardHeader className="space-y-2 text-center">
-        <CardTitle className="text-2xl tracking-tight">
+        <CardTitle className="text-gradient-aurora text-2xl tracking-tight">
           Bun venit la Banii
         </CardTitle>
         <CardDescription>
@@ -102,8 +102,15 @@ export default function LoginPage() {
       <CardContent>
         {sent ? (
           <div className="space-y-4 text-center">
-            <div className="bg-muted mx-auto flex size-12 items-center justify-center rounded-full">
-              <Mail className="size-5" aria-hidden />
+            <div
+              className="mx-auto flex size-14 items-center justify-center rounded-full text-[--accent-emerald]"
+              style={{
+                background: "oklch(from var(--accent-emerald) l c h / 0.15)",
+                boxShadow:
+                  "inset 0 1px 0 oklch(1 0 0 / 0.1), 0 0 0 1px oklch(from var(--accent-emerald) l c h / 0.25), 0 0 32px -4px oklch(from var(--accent-emerald) l c h / 0.4)",
+              }}
+            >
+              <Mail className="size-5" aria-hidden strokeWidth={1.75} />
             </div>
             <p className="text-sm">
               Am trimis un link la
@@ -150,6 +157,8 @@ export default function LoginPage() {
               />
               <Button
                 type="submit"
+                variant="glow"
+                size="lg"
                 className="w-full"
                 disabled={form.formState.isSubmitting}
               >
