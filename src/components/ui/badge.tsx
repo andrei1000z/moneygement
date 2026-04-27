@@ -5,26 +5,36 @@ import { Slot } from "radix-ui"
 import { cn } from "@/lib/utils"
 
 const badgeVariants = cva(
-  "group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border border-transparent px-2 py-0.5 text-xs font-medium whitespace-nowrap transition-all focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none [&>svg]:size-3!",
+  "group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-full border border-transparent px-2 py-0.5 text-[11px] font-medium whitespace-nowrap transition-all focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 aria-invalid:border-destructive aria-invalid:ring-destructive/20 [&>svg]:pointer-events-none [&>svg]:size-3!",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground [a]:hover:bg-primary/80",
-        secondary:
-          "bg-secondary text-secondary-foreground [a]:hover:bg-secondary/80",
+        default:
+          "bg-[oklch(from_var(--accent-emerald)_l_c_h/0.18)] text-[--accent-emerald] border-[oklch(from_var(--accent-emerald)_l_c_h/0.25)]",
+        secondary: "glass-thin text-foreground",
         destructive:
-          "bg-destructive/10 text-destructive focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:focus-visible:ring-destructive/40 [a]:hover:bg-destructive/20",
+          "bg-destructive/15 text-destructive border-destructive/25 [a]:hover:bg-destructive/25",
         outline:
-          "border-border text-foreground [a]:hover:bg-muted [a]:hover:text-muted-foreground",
+          "border-border text-foreground [a]:hover:bg-[oklch(from_var(--foreground)_l_c_h/0.05)]",
         ghost:
-          "hover:bg-muted hover:text-muted-foreground dark:hover:bg-muted/50",
+          "hover:bg-[oklch(from_var(--foreground)_l_c_h/0.06)] hover:text-foreground",
+        emerald:
+          "bg-[oklch(from_var(--accent-emerald)_l_c_h/0.18)] text-[--accent-emerald] border-[oklch(from_var(--accent-emerald)_l_c_h/0.3)]",
+        violet:
+          "bg-[oklch(from_var(--accent-violet)_l_c_h/0.18)] text-[--accent-violet] border-[oklch(from_var(--accent-violet)_l_c_h/0.3)]",
+        cyan:
+          "bg-[oklch(from_var(--accent-cyan)_l_c_h/0.18)] text-[--accent-cyan] border-[oklch(from_var(--accent-cyan)_l_c_h/0.3)]",
+        amber:
+          "bg-[oklch(from_var(--accent-amber)_l_c_h/0.18)] text-[--accent-amber] border-[oklch(from_var(--accent-amber)_l_c_h/0.3)]",
+        pink:
+          "bg-[oklch(from_var(--accent-pink)_l_c_h/0.18)] text-[--accent-pink] border-[oklch(from_var(--accent-pink)_l_c_h/0.3)]",
         link: "text-primary underline-offset-4 hover:underline",
       },
     },
     defaultVariants: {
       variant: "default",
     },
-  }
+  },
 )
 
 function Badge({

@@ -10,35 +10,33 @@ const Toaster = ({ ...props }: ToasterProps) => {
   return (
     <Sonner
       theme={theme as ToasterProps["theme"]}
+      position="top-center"
+      duration={4000}
+      expand
+      visibleToasts={3}
       className="toaster group"
       icons={{
-        success: (
-          <CircleCheckIcon className="size-4" />
-        ),
-        info: (
-          <InfoIcon className="size-4" />
-        ),
-        warning: (
-          <TriangleAlertIcon className="size-4" />
-        ),
-        error: (
-          <OctagonXIcon className="size-4" />
-        ),
-        loading: (
-          <Loader2Icon className="size-4 animate-spin" />
-        ),
+        success: <CircleCheckIcon className="size-4" />,
+        info: <InfoIcon className="size-4" />,
+        warning: <TriangleAlertIcon className="size-4" />,
+        error: <OctagonXIcon className="size-4" />,
+        loading: <Loader2Icon className="size-4 animate-spin" />,
       }}
       style={
         {
-          "--normal-bg": "var(--popover)",
+          "--normal-bg": "var(--glass-strong)",
           "--normal-text": "var(--popover-foreground)",
-          "--normal-border": "var(--border)",
-          "--border-radius": "var(--radius)",
+          "--normal-border": "var(--glass-border)",
+          "--border-radius": "var(--radius-card)",
         } as React.CSSProperties
       }
       toastOptions={{
         classNames: {
-          toast: "cn-toast",
+          toast:
+            "cn-toast glass-strong !rounded-[--radius-card] !border-[--glass-border] !text-foreground shadow-[0_8px_24px_-8px_oklch(0_0_0/0.4)]",
+        },
+        style: {
+          maxWidth: "420px",
         },
       }}
       {...props}
