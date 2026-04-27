@@ -5,9 +5,11 @@ import { useRouter } from "next/navigation";
 import {
   BarChart3,
   Building2,
+  CalendarClock,
   CreditCard,
   Home,
   ListChecks,
+  PiggyBank,
   PieChart,
   Plus,
   Repeat,
@@ -16,6 +18,7 @@ import {
   Store,
   Tags,
   Target,
+  Ticket,
   Upload,
   Wallet,
 } from "lucide-react";
@@ -124,6 +127,24 @@ export function CommandPalette() {
       label: "Conexiuni bancare",
       Icon: Building2,
       onSelect: () => go("/connections"),
+    },
+    {
+      id: "income",
+      label: "Surse de venit",
+      Icon: CalendarClock,
+      onSelect: () => go("/income"),
+    },
+    {
+      id: "pension",
+      label: "Pilon III",
+      Icon: PiggyBank,
+      onSelect: () => go("/pension"),
+    },
+    {
+      id: "meal-vouchers",
+      label: "Tichete masă",
+      Icon: Ticket,
+      onSelect: () => go("/accounts/meal-vouchers"),
     },
     {
       id: "settings",

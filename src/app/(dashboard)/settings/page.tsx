@@ -1,6 +1,9 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
+import { Building2, Tags } from "lucide-react";
 
 import { AppearancePanel } from "@/components/features/settings/appearance-panel";
+import { ExportPanel } from "@/components/features/settings/export-panel";
 import { HouseholdMembersPanel } from "@/components/features/settings/household-members-panel";
 import { NotificationsPanel } from "@/components/features/settings/notifications-panel";
 import {
@@ -84,11 +87,13 @@ export default async function SettingsPage() {
       </header>
 
       <Tabs defaultValue="household">
-        <TabsList className="mb-4">
+        <TabsList className="mb-4 flex-wrap">
           <TabsTrigger value="household">Membri</TabsTrigger>
           <TabsTrigger value="notifications">Notificări</TabsTrigger>
           <TabsTrigger value="appearance">Aspect</TabsTrigger>
           <TabsTrigger value="profile">Profil</TabsTrigger>
+          <TabsTrigger value="links">Linkuri</TabsTrigger>
+          <TabsTrigger value="export">Export</TabsTrigger>
         </TabsList>
 
         <TabsContent value="household">
@@ -137,6 +142,45 @@ export default async function SettingsPage() {
             </p>
           </div>
         </TabsContent>
+
+        <TabsContent value="links">
+          <div className="border-border/60 bg-card divide-y rounded-xl border">
+            <LinkRow
+              href="/categories"
+              label="Categorii"
+              description="Adaugă, redenumește sau arhivează categorii."
+              Icon={Tags}
+            />
+            <LinkRow
+              href="/connections"
+              label="Conexiuni bancare"
+              description="Conturi conectate prin Enable Banking + status SCA."
+              Icon={Building2}
+            />
+            <LinkRow
+              href="/income"
+              label="Surse de venit"
+              description="Salarii, pensii și alte plăți recurente detectate."
+              Icon={Building2}
+            />
+            <LinkRow
+              href="/pension"
+              label="Pilon III"
+              description="Tracker pentru contribuții deductibile (400 EUR/an)."
+              Icon={Building2}
+            />
+            <LinkRow
+              href="/accounts/meal-vouchers"
+              label="Tichete masă"
+              description="Loturi cu expiry tracking pe 12 luni."
+              Icon={Building2}
+            />
+          </div>
+        </TabsContent>
+
+        <TabsContent value="export">
+          <ExportPanel />
+        </TabsContent>
       </Tabs>
     </div>
   );
@@ -150,5 +194,35 @@ function Field({ label, value }: { label: string; value: string }) {
       </span>
       <span className="text-sm">{value}</span>
     </div>
+  );
+}
+
+function LinkRow({
+  href,
+  label,
+  description,
+  Icon,
+}: {
+  href: string;
+  label: string;
+  description: string;
+  Icon: typeof Tags;
+}) {
+  return (
+    <Link
+      href={href}
+      className="hover:bg-accent/40 flex items-center gap-3 px-4 py-3 transition"
+    >
+      <div className="bg-muted text-muted-foreground flex size-8 shrink-0 items-center justify-center rounded-lg">
+        <Icon className="size-4" aria-hidden />
+      </div>
+      <div className="min-w-0 flex-1">
+        <p className="text-sm font-medium">{label}</p>
+        <p className="text-muted-foreground text-xs">{description}</p>
+      </div>
+      <span aria-hidden className="text-muted-foreground">
+        →
+      </span>
+    </Link>
   );
 }
