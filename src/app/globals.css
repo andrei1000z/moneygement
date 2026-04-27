@@ -110,9 +110,9 @@
   --chart-4: var(--accent-pink);
   --chart-5: var(--accent-amber);
 
-  --radius: 1rem;
-  --radius-card: 1.25rem;
-  --radius-sheet: 2rem;
+  --radius: 1.25rem;
+  --radius-card: 1.5rem;
+  --radius-sheet: 2.5rem;
   --radius-pill: 999px;
 
   /* Surface tokens — folosite în loc de oklch(from ...) arbitrary classes,
@@ -213,9 +213,9 @@
   --chart-4: var(--accent-pink);
   --chart-5: var(--accent-amber);
 
-  --radius: 1rem;
-  --radius-card: 1.25rem;
-  --radius-sheet: 2rem;
+  --radius: 1.25rem;
+  --radius-card: 1.5rem;
+  --radius-sheet: 2.5rem;
   --radius-pill: 999px;
 
   /* Surface tokens (dark) */
@@ -268,13 +268,25 @@
   html {
     @apply font-sans;
     -webkit-tap-highlight-color: transparent;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   body {
     @apply text-foreground;
     background: #ffffff;
     min-height: 100vh;
     overflow-x: hidden;
-    font-feature-settings: "tnum" 1, "ss01" 1;
+    font-feature-settings: "ss01" 1, "ss02" 1, "cv11" 1, "kern" 1;
+    letter-spacing: -0.005em;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    letter-spacing: -0.02em;
+    font-weight: 600;
+  }
+  .num-tabular {
+    font-feature-settings: "tnum" 1, "zero" 1;
+    font-variant-numeric: tabular-nums slashed-zero;
   }
   ::selection {
     background: color-mix(in oklch, var(--accent-emerald), transparent 70%);
