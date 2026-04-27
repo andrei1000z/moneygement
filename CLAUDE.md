@@ -121,6 +121,50 @@ Vezi `package.json` pentru lista completă.
   push, offline queue). **Status: complet** (Faza 12 anterioară din
   BLUEPRINT a fost realizată în Stage B + G).
 
+- **Faza 13** — Liquid Glass design system (iOS premium). **Status: complet.**
+
+  > Tokens Aurora în `globals.css`: paletă oklch (emerald/violet/cyan/
+  > pink/amber) + variabile glass (base/elevated/strong/border/border-hi/
+  > shadow) + radius scale (--radius / --radius-card / --radius-sheet /
+  > --radius-pill).
+  > Utilities: `.glass`, `.glass-strong`, `.glass-thin` (backdrop-blur
+  > 24-60px + saturate + brightness + inset highlight), 5x `.glow-*`,
+  > 3x `.text-gradient-*` (cu animație `gradient-flow` pentru aurora),
+  > `.specular` (radial follow on hover), `.num-hero` (tabular slashed-zero
+  > letter-spacing tight), `.shimmer`, `.noise`.
+  > Body cu radial-gradient mesh ambient 4 colțuri.
+  > `AuroraBackground`: 4 blob-uri soft-glow drift 20-35s în (dashboard) +
+  > (auth) layouts.
+  > UI primitives glass: `Card` cu variant glass/solid, `Button` cu variant
+  > nou `glow` (gradient + glow-emerald), `Switch` iOS-style cu gradient
+  > checked + spring, `Skeleton` shimmer, `Tabs` glass-thin pill, `Sheet`
+  > / `Drawer` glass-strong cu rounded-sheet 32px și handle bar capsule,
+  > `Dialog` overlay backdrop-blur, `Sonner` top-center glass-strong,
+  > `Input` / `Textarea` glass-thin h-11, `Badge` 6 variante colored.
+  > Floating bottom tab bar (inset-x-2, max-w-md, glass-strong) cu pill
+  > emerald active + glow FAB cu gradient + 3-stops shadow (ring/close/
+  > ambient). Sidebar glass m-3 mr-0 cu logo `text-gradient-aurora` +
+  > SidebarLink active cu bg emerald/12 + ring.
+  > Dashboard widgets: NetWorthHeadline glass + text-gradient-emerald,
+  > KpiCard glass-thin + specular + accent icons, BudgetPulseBar progress
+  > 3-stop gradient (emerald→amber→destructive) cu glow box-shadow,
+  > GreetingCard glass-thin + noise + hour-aware emoji, GoalsProgress ring
+  > SVG cu gradient aurora + drop-shadow filter glow, RecentTransactions
+  > / UpcomingBills cu category colored ring chips.
+  > Quick-add: keypad cu display gradient aurora pe sumă > 0, KeyOp violet
+  > pe operatori, KeyConfirm gradient emerald→cyan + glow shadow, preset
+  > chips glass-thin scale 0.92 active, category grid scale 1.05 + glow
+  > pe selected.
+  > Restul ecranelor: batch sed pentru toate `border-border/60 bg-card
+  > rounded-xl border` → `glass-thin rounded-[--radius-card]`; encoding
+  > UTF-8 preservat (sed mingw, NU PowerShell). Login glass-strong cu
+  > glow-emerald + title gradient aurora + Mail icon glow halo + buton
+  > glow size lg.
+  > Motion: `PageTransition` cu fade-in + slide-up 8px iOS easing,
+  > `useReducedMotionPref` care combină media query + class toggle din
+  > settings (MutationObserver). `ICON_STROKE = 1.75` standard pentru
+  > lucide.
+
 ## 6. Comanda standard de lucru
 
 Pentru fiecare fază nouă:
