@@ -152,7 +152,7 @@ export async function addToGoal(
 
   const { data: goal, error: fetchError } = await c.supabase
     .from("goals")
-    .select("current_amount, target_amount")
+    .select("current_amount, target_amount, name, currency")
     .eq("id", id)
     .single();
   if (fetchError || !goal) {
@@ -167,6 +167,33 @@ export async function addToGoal(
   if (error) return { ok: false, error: error.message };
 
   const reached = next >= goal.target_amount && goal.current_amount < goal.target_amount;
+
+  // Push milestone — 25/50/75/100% trecute peste pragurile uzuale.
+  const target = goal.target_amount;
+  if (target > 0) {
+    const oldPct = (goal.current_amount / target) * 100;
+    const newPct = (next / target) * 100;
+    const milestones = [25, 50, 75, 100];
+    const passed = milestones.find((m) => oldPct < m && newPct >= m);
+    if (passed) {
+      // Best-effort push; ignorăm eroarea (utilizatorul oricum vede UI).
+      try {
+        const { sendPushToUser } = await import("@/lib/push/send");
+        await sendPushToUser(c.user.id, {
+          title:
+            passed === 100 ? `🎉 Obiectiv atins: ${goal.name}!` : `${passed}% la ${goal.name}`,
+          body:
+            passed === 100
+              ? `Ai strâns toți ${(target / 100).toFixed(0)} ${goal.currency}.`
+              : `${(next / 100).toFixed(0)} din ${(target / 100).toFixed(0)} ${goal.currency}.`,
+          url: "/goals",
+          tag: `goal-${id}-${passed}`,
+        });
+      } catch {
+        /* ignore */
+      }
+    }
+  }
 
   revalidatePath("/goals");
   return { ok: true, data: { current: next, reached } };

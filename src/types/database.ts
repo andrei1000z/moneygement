@@ -554,6 +554,9 @@ export interface Database {
           status: BankConnStatus;
           expires_at: Timestamp | null;
           last_synced_at: Timestamp | null;
+          last_sync_status: "ok" | "partial" | "error" | null;
+          last_sync_error: string | null;
+          last_sync_count: number;
           created_at: Timestamp;
         };
         Insert: {
@@ -567,6 +570,9 @@ export interface Database {
           status?: BankConnStatus;
           expires_at?: Timestamp | null;
           last_synced_at?: Timestamp | null;
+          last_sync_status?: "ok" | "partial" | "error" | null;
+          last_sync_error?: string | null;
+          last_sync_count?: number;
         };
         Update: {
           provider?: string;
@@ -576,6 +582,9 @@ export interface Database {
           status?: BankConnStatus;
           expires_at?: Timestamp | null;
           last_synced_at?: Timestamp | null;
+          last_sync_status?: "ok" | "partial" | "error" | null;
+          last_sync_error?: string | null;
+          last_sync_count?: number;
         };
         Relationships: [];
       };
@@ -693,6 +702,49 @@ export interface Database {
           p256dh?: string;
           auth?: string;
           user_agent?: string | null;
+        };
+        Relationships: [];
+      };
+
+      notification_preferences: {
+        Row: {
+          user_id: string;
+          push_bills: boolean;
+          push_anomalies: boolean;
+          push_goal_milestones: boolean;
+          push_weekly_recap: boolean;
+          push_low_balance: boolean;
+          push_bank_reauth: boolean;
+          push_anniversaries: boolean;
+          quiet_start: string | null;
+          quiet_end: string | null;
+          low_balance_threshold_minor: number;
+          updated_at: Timestamp;
+        };
+        Insert: {
+          user_id: string;
+          push_bills?: boolean;
+          push_anomalies?: boolean;
+          push_goal_milestones?: boolean;
+          push_weekly_recap?: boolean;
+          push_low_balance?: boolean;
+          push_bank_reauth?: boolean;
+          push_anniversaries?: boolean;
+          quiet_start?: string | null;
+          quiet_end?: string | null;
+          low_balance_threshold_minor?: number;
+        };
+        Update: {
+          push_bills?: boolean;
+          push_anomalies?: boolean;
+          push_goal_milestones?: boolean;
+          push_weekly_recap?: boolean;
+          push_low_balance?: boolean;
+          push_bank_reauth?: boolean;
+          push_anniversaries?: boolean;
+          quiet_start?: string | null;
+          quiet_end?: string | null;
+          low_balance_threshold_minor?: number;
         };
         Relationships: [];
       };

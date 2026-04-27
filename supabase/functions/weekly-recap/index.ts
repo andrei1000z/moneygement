@@ -12,6 +12,7 @@
 import { createClient } from "jsr:@supabase/supabase-js@2";
 import { generateObject } from "npm:ai@6";
 import { createAnthropic } from "npm:@ai-sdk/anthropic@3";
+import webpush from "npm:web-push@3";
 import { z } from "npm:zod@4";
 
 const RecapSchema = z.object({
@@ -158,6 +159,51 @@ Deno.serve(async (req: Request) => {
         },
         { onConflict: "household_id,period_start,period_end" },
       );
+
+      // Push notification către toți membrii care au push_weekly_recap=true.
+      const vapidPublic = Deno.env.get("VAPID_PUBLIC_KEY");
+      const vapidPrivate = Deno.env.get("VAPID_PRIVATE_KEY");
+      if (vapidPublic && vapidPrivate) {
+        webpush.setVapidDetails(
+          Deno.env.get("VAPID_SUBJECT") ?? "mailto:noreply@banii.app",
+          vapidPublic,
+          vapidPrivate,
+        );
+        const { data: members } = await supabase
+          .from("household_members")
+          .select("user_id")
+          .eq("household_id", hh.id);
+        for (const m of members ?? []) {
+          const { data: prefs } = await supabase
+            .from("notification_preferences")
+            .select("push_weekly_recap")
+            .eq("user_id", m.user_id)
+            .maybeSingle();
+          if (prefs && prefs.push_weekly_recap === false) continue;
+          const { data: subs } = await supabase
+            .from("push_subscriptions")
+            .select("endpoint, p256dh, auth")
+            .eq("user_id", m.user_id);
+          for (const s of subs ?? []) {
+            try {
+              await webpush.sendNotification(
+                {
+                  endpoint: s.endpoint,
+                  keys: { p256dh: s.p256dh, auth: s.auth },
+                },
+                JSON.stringify({
+                  title: "Recap săptămânal",
+                  body: object.highlight.slice(0, 160),
+                  url: "/",
+                  tag: `recap-${hh.id}-${isoDate(startOfPrevWeek)}`,
+                }),
+              );
+            } catch {
+              /* ignore */
+            }
+          }
+        }
+      }
 
       summary.push({ household_id: hh.id, status: "ok" });
     } catch (e) {

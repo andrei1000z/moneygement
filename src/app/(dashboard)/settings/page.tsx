@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 
 import { AppearancePanel } from "@/components/features/settings/appearance-panel";
 import { HouseholdMembersPanel } from "@/components/features/settings/household-members-panel";
+import { NotificationsPanel } from "@/components/features/settings/notifications-panel";
 import {
   Tabs,
   TabsContent,
@@ -56,6 +57,26 @@ export default async function SettingsPage() {
     (members ?? []).find((m) => m.user_id === user.id)?.role === "owner" ||
     (members ?? []).find((m) => m.user_id === user.id)?.role === "admin";
 
+  const { data: notifPrefs } = await supabase
+    .from("notification_preferences")
+    .select("*")
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  const initialNotifPrefs = {
+    push_bills: notifPrefs?.push_bills ?? true,
+    push_anomalies: notifPrefs?.push_anomalies ?? true,
+    push_goal_milestones: notifPrefs?.push_goal_milestones ?? true,
+    push_weekly_recap: notifPrefs?.push_weekly_recap ?? true,
+    push_low_balance: notifPrefs?.push_low_balance ?? true,
+    push_bank_reauth: notifPrefs?.push_bank_reauth ?? true,
+    push_anniversaries: notifPrefs?.push_anniversaries ?? false,
+    quiet_start: notifPrefs?.quiet_start ?? null,
+    quiet_end: notifPrefs?.quiet_end ?? null,
+    low_balance_threshold_minor:
+      notifPrefs?.low_balance_threshold_minor ?? 50000,
+  };
+
   return (
     <div className="container mx-auto max-w-2xl px-4 py-6">
       <header className="mb-6">
@@ -65,6 +86,7 @@ export default async function SettingsPage() {
       <Tabs defaultValue="household">
         <TabsList className="mb-4">
           <TabsTrigger value="household">Membri</TabsTrigger>
+          <TabsTrigger value="notifications">Notificări</TabsTrigger>
           <TabsTrigger value="appearance">Aspect</TabsTrigger>
           <TabsTrigger value="profile">Profil</TabsTrigger>
         </TabsList>
@@ -87,6 +109,10 @@ export default async function SettingsPage() {
             }))}
             canInvite={isOwnerOrAdmin}
           />
+        </TabsContent>
+
+        <TabsContent value="notifications">
+          <NotificationsPanel initial={initialNotifPrefs} />
         </TabsContent>
 
         <TabsContent value="appearance">
