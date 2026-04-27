@@ -38,8 +38,10 @@ export default async function DashboardLayout({
         <Sidebar />
         <div className="flex min-w-0 flex-1 flex-col">
           <main
-            className="flex-1 overflow-y-auto pb-20 md:pb-0"
-            style={{ paddingBottom: "calc(5rem + env(safe-area-inset-bottom))" }}
+            className="flex-1 overflow-y-auto md:pr-3 md:pb-0"
+            style={{
+              paddingBottom: "calc(6rem + env(safe-area-inset-bottom))",
+            }}
           >
             {children}
           </main>

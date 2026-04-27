@@ -141,14 +141,14 @@ export function BottomTabBar() {
     <>
       <nav
         aria-label="Navigare principală"
-        className="bg-background/95 supports-[backdrop-filter]:bg-background/70 fixed inset-x-0 bottom-0 z-40 border-t backdrop-blur md:hidden"
-        style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+        className="glass-strong fixed inset-x-2 bottom-2 z-40 mx-auto max-w-md rounded-[--radius-sheet] border md:hidden"
+        style={{ paddingBottom: "max(env(safe-area-inset-bottom), 8px)" }}
       >
-        <ul className="mx-auto flex max-w-md items-stretch justify-between px-2">
+        <ul className="flex items-stretch justify-between px-1.5 pt-1.5">
           {PRIMARY.slice(0, 2).map((item) => (
             <NavTab key={item.href} item={item} pathname={pathname} />
           ))}
-          <li className="flex items-center justify-center px-2">
+          <li className="flex items-center justify-center px-1">
             <QuickAddFab />
           </li>
           <NavTab item={PRIMARY[2]!} pathname={pathname} />
@@ -159,13 +159,13 @@ export function BottomTabBar() {
               aria-haspopup="dialog"
               aria-expanded={moreOpen}
               className={cn(
-                "flex h-16 w-full flex-col items-center justify-center gap-1 text-[11px] font-medium transition",
+                "relative flex h-14 w-full flex-col items-center justify-center gap-0.5 px-2 text-[10px] font-medium transition active:scale-95",
                 MORE.some((m) => isActive(m, pathname))
                   ? "text-foreground"
                   : "text-muted-foreground",
               )}
             >
-              <MoreHorizontal className="size-5" aria-hidden />
+              <MoreHorizontal className="size-5" aria-hidden strokeWidth={1.75} />
               <span>Mai multe</span>
             </button>
           </li>
@@ -219,13 +219,28 @@ function NavTab({ item, pathname }: { item: NavItem; pathname: string }) {
         href={item.href}
         aria-current={active ? "page" : undefined}
         className={cn(
-          "flex h-16 flex-col items-center justify-center gap-1 text-[11px] font-medium transition",
+          "relative flex h-14 flex-col items-center justify-center gap-0.5 px-2 text-[10px] font-medium transition-colors duration-200 active:scale-95",
           active ? "text-foreground" : "text-muted-foreground",
         )}
       >
+        {active ? (
+          <span
+            aria-hidden
+            className="absolute inset-x-1 inset-y-0.5 -z-10 rounded-2xl"
+            style={{
+              background: "oklch(from var(--accent-emerald) l c h / 0.15)",
+              boxShadow:
+                "0 0 0 1px oklch(from var(--accent-emerald) l c h / 0.25), inset 0 1px 0 oklch(1 0 0 / 0.1)",
+            }}
+          />
+        ) : null}
         <item.Icon
-          className={cn("size-5", active && "scale-110")}
+          className={cn(
+            "size-5 transition-transform",
+            active && "text-[--accent-emerald]",
+          )}
           aria-hidden
+          strokeWidth={1.75}
         />
         <span>{item.label}</span>
       </Link>
@@ -240,13 +255,27 @@ export function Sidebar() {
   return (
     <aside
       aria-label="Navigare principală"
-      className="bg-background hidden w-60 shrink-0 border-r md:flex md:flex-col"
+      className="glass m-3 mr-0 hidden w-64 shrink-0 flex-col rounded-[--radius-card] md:flex"
     >
-      <div className="flex items-center gap-2 px-6 py-5">
-        <div className="bg-primary/10 text-primary flex size-9 items-center justify-center rounded-lg">
-          <Wallet className="size-5" aria-hidden />
+      <div className="flex items-center gap-2.5 px-5 py-5">
+        <div
+          className="flex size-9 items-center justify-center rounded-xl"
+          style={{
+            background:
+              "linear-gradient(135deg, oklch(from var(--accent-emerald) l c h / 0.25), oklch(from var(--accent-cyan) l c h / 0.18))",
+            boxShadow:
+              "inset 0 1px 0 oklch(1 0 0 / 0.15), 0 4px 12px -2px oklch(from var(--accent-emerald) l c h / 0.3)",
+          }}
+        >
+          <Wallet
+            className="size-5 text-[--accent-emerald]"
+            aria-hidden
+            strokeWidth={1.75}
+          />
         </div>
-        <span className="text-lg font-semibold tracking-tight">Banii</span>
+        <span className="text-gradient-aurora text-xl font-semibold tracking-tight">
+          Banii
+        </span>
       </div>
       <nav className="flex-1 px-3">
         <ul className="space-y-1">
@@ -254,7 +283,7 @@ export function Sidebar() {
             <SidebarLink key={item.href} item={item} pathname={pathname} />
           ))}
         </ul>
-        <div className="text-muted-foreground mt-6 mb-1 px-3 text-[11px] font-medium uppercase tracking-wider">
+        <div className="text-muted-foreground mt-6 mb-1 px-3 text-[10px] font-semibold uppercase tracking-[0.15em]">
           Configurare
         </div>
         <ul className="space-y-1">
@@ -284,13 +313,26 @@ function SidebarLink({
         href={item.href}
         aria-current={active ? "page" : undefined}
         className={cn(
-          "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition",
+          "relative flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition-colors duration-200",
           active
-            ? "bg-accent text-accent-foreground"
-            : "text-muted-foreground hover:bg-accent/50 hover:text-foreground",
+            ? "text-foreground"
+            : "text-muted-foreground hover:bg-[oklch(from_var(--foreground)_l_c_h/0.05)] hover:text-foreground",
         )}
+        style={
+          active
+            ? {
+                background: "oklch(from var(--accent-emerald) l c h / 0.12)",
+                boxShadow:
+                  "inset 0 1px 0 oklch(1 0 0 / 0.06), 0 0 0 1px oklch(from var(--accent-emerald) l c h / 0.2)",
+              }
+            : undefined
+        }
       >
-        <item.Icon className="size-4" aria-hidden />
+        <item.Icon
+          className={cn("size-4", active && "text-[--accent-emerald]")}
+          aria-hidden
+          strokeWidth={1.75}
+        />
         {item.label}
       </Link>
     </li>
@@ -348,9 +390,13 @@ function QuickAddFab() {
           e.preventDefault();
           setMenuOpen(true);
         }}
-        className="bg-primary text-primary-foreground ring-background -mt-6 flex size-14 items-center justify-center rounded-full shadow-lg ring-4 transition active:scale-95"
+        className={cn(
+          "relative -mt-7 flex size-14 items-center justify-center rounded-full text-[--bg-base] transition-transform duration-200 active:scale-90",
+          "bg-gradient-to-br from-[--accent-emerald] to-[--accent-cyan]",
+          "shadow-[0_0_0_4px_oklch(from_var(--bg-base)_l_c_h/0.5),0_0_24px_-4px_oklch(from_var(--accent-emerald)_l_c_h/0.55),0_0_60px_-8px_oklch(from_var(--accent-emerald)_l_c_h/0.4)]",
+        )}
       >
-        <Plus className="size-6" aria-hidden />
+        <Plus className="size-6" aria-hidden strokeWidth={2.5} />
       </button>
       <DropdownMenuContent align="center" side="top">
         <DropdownMenuItem onSelect={() => pickMode("expense")}>
@@ -373,9 +419,13 @@ function QuickAddSidebarButton() {
     <button
       type="button"
       onClick={() => openSheet({ mode: "expense" })}
-      className="bg-primary text-primary-foreground hover:bg-primary/90 flex w-full items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition"
+      className={cn(
+        "relative flex w-full items-center justify-center gap-2 rounded-xl px-3 py-2.5 text-sm font-semibold text-[--bg-base] transition-transform duration-200 active:scale-[0.97]",
+        "bg-gradient-to-br from-[--accent-emerald] to-[--accent-cyan]",
+        "shadow-[0_0_0_1px_oklch(from_var(--accent-emerald)_l_c_h/0.3),0_4px_16px_-4px_oklch(from_var(--accent-emerald)_l_c_h/0.4)]",
+      )}
     >
-      <Plus className="size-4" aria-hidden />
+      <Plus className="size-4" aria-hidden strokeWidth={2.25} />
       Adaugă rapid
     </button>
   );
