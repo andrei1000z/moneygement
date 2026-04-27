@@ -706,6 +706,39 @@ export interface Database {
         Relationships: [];
       };
 
+      meal_voucher_lots: {
+        Row: {
+          id: string;
+          account_id: string;
+          household_id: string;
+          provider: string | null;
+          top_up_date: DateString;
+          amount: number;
+          remaining: number;
+          expires_on: DateString;
+          source_transaction_id: string | null;
+          created_at: Timestamp;
+          updated_at: Timestamp;
+        };
+        Insert: {
+          id?: string;
+          account_id: string;
+          household_id: string;
+          provider?: string | null;
+          top_up_date: DateString;
+          amount: number;
+          remaining: number;
+          expires_on: DateString;
+          source_transaction_id?: string | null;
+        };
+        Update: {
+          remaining?: number;
+          provider?: string | null;
+          expires_on?: DateString;
+        };
+        Relationships: [];
+      };
+
       notification_preferences: {
         Row: {
           user_id: string;
