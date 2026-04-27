@@ -19,6 +19,7 @@ import {
   createRuleFromCorrection,
   createTransaction,
   deleteTransaction,
+  setOwnership,
 } from "@/app/(dashboard)/transactions/actions";
 import {
   AlertDialog,
@@ -50,6 +51,7 @@ import {
 } from "@/hooks/use-transactions";
 import { formatMoney } from "@/lib/money";
 import { cn } from "@/lib/utils";
+import type { Ownership } from "@/types/database";
 
 import { SplitModal } from "./split-modal";
 import { TransactionForm } from "./transaction-form";
@@ -135,6 +137,25 @@ export function TransactionDetail({ txId, open, onOpenChange }: Props) {
         return;
       }
       setCommentText("");
+      await invalidate();
+    });
+  }
+
+  function handleOwnership(next: Ownership) {
+    if (!tx || tx.ownership === next) return;
+    startTransition(async () => {
+      const r = await setOwnership(tx.id, next);
+      if (!r.ok) {
+        toast.error("Schimbare apartenență eșuată", { description: r.error });
+        return;
+      }
+      toast.success(
+        next === "mine"
+          ? "Marcat „a mea"
+          : next === "yours"
+          ? "Marcat „a celuilalt"
+          : "Marcat „comună",
+      );
       await invalidate();
     });
   }
@@ -255,16 +276,36 @@ export function TransactionDetail({ txId, open, onOpenChange }: Props) {
                       locale: ro,
                     })}
                   />
-                  <Meta
-                    label="Apartenență"
-                    value={
-                      tx.ownership === "mine"
-                        ? "👤 A mea"
-                        : tx.ownership === "yours"
-                        ? "🤝 A celuilalt"
-                        : "👥 Comună"
-                    }
-                  />
+                  <div className="flex items-center justify-between gap-3 px-3 py-2.5">
+                    <dt className="text-muted-foreground text-xs">
+                      Apartenență
+                    </dt>
+                    <dd className="flex items-center gap-1">
+                      {(
+                        [
+                          { v: "mine", label: "👤 A mea" },
+                          { v: "shared", label: "👥 Comună" },
+                          { v: "yours", label: "🤝 A celuilalt" },
+                        ] as const
+                      ).map((opt) => (
+                        <button
+                          key={opt.v}
+                          type="button"
+                          onClick={() => handleOwnership(opt.v)}
+                          disabled={pending}
+                          aria-pressed={tx.ownership === opt.v}
+                          className={cn(
+                            "rounded-[--radius-pill] px-2.5 py-1 text-xs transition disabled:opacity-50",
+                            tx.ownership === opt.v
+                              ? "bg-emerald-500/15 text-emerald-700 ring-1 ring-emerald-500/30 dark:text-emerald-300"
+                              : "text-muted-foreground hover:bg-[--surface-hover-faint]",
+                          )}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </dd>
+                  </div>
                   <Meta
                     label="Sursă"
                     value={
