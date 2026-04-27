@@ -7,6 +7,7 @@ import { InstallPrompt } from "@/components/features/pwa/install-prompt";
 import { OfflineDrainer } from "@/components/features/pwa/offline-drainer";
 import { PushPrompt } from "@/components/features/pwa/push-prompt";
 import { QuickAddSheet } from "@/components/features/quick-add/quick-add-sheet";
+import { AuroraBackground } from "@/components/effects/aurora-background";
 import { createClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -30,7 +31,8 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="bg-background flex min-h-svh flex-col">
+    <div className="flex min-h-svh flex-col">
+      <AuroraBackground />
       <ConnectionStatus />
       <div className="flex min-h-0 flex-1">
         <Sidebar />
