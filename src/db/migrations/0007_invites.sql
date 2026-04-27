@@ -35,7 +35,7 @@ create policy "household_invites_select_member"
   on public.household_invites
   for select
   using (
-    household_id = any(app.user_household_ids())
+    household_id in (select app.user_household_ids())
   );
 
 -- Doar owner/admin pot crea invitații.

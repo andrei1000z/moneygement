@@ -34,12 +34,12 @@ alter table public.meal_voucher_lots enable row level security;
 
 drop policy if exists "mvl_select_member" on public.meal_voucher_lots;
 create policy "mvl_select_member" on public.meal_voucher_lots
-  for select using (household_id = any(app.user_household_ids()));
+  for select using (household_id in (select app.user_household_ids()));
 
 drop policy if exists "mvl_member_write" on public.meal_voucher_lots;
 create policy "mvl_member_write" on public.meal_voucher_lots
-  for all using (household_id = any(app.user_household_ids()))
-  with check (household_id = any(app.user_household_ids()));
+  for all using (household_id in (select app.user_household_ids()))
+  with check (household_id in (select app.user_household_ids()));
 
 comment on table public.meal_voucher_lots is
   'Loturi tichete masă cu expiry tracking; FIFO consumption pe `remaining`.';

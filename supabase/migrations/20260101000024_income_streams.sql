@@ -38,13 +38,13 @@ alter table public.income_streams enable row level security;
 drop policy if exists "income_streams_select_member"
   on public.income_streams;
 create policy "income_streams_select_member" on public.income_streams
-  for select using (household_id = any(app.user_household_ids()));
+  for select using (household_id in (select app.user_household_ids()));
 
 drop policy if exists "income_streams_member_write"
   on public.income_streams;
 create policy "income_streams_member_write" on public.income_streams
-  for all using (household_id = any(app.user_household_ids()))
-  with check (household_id = any(app.user_household_ids()));
+  for all using (household_id in (select app.user_household_ids()))
+  with check (household_id in (select app.user_household_ids()));
 
 comment on table public.income_streams is
   'Surse de venit recurente — salariu, pensie, freelance — detectate automat sau manuale.';

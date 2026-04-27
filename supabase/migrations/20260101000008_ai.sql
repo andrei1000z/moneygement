@@ -103,27 +103,27 @@ alter table public.chat_messages enable row level security;
 
 drop policy if exists "chat_threads_select" on public.chat_threads;
 create policy "chat_threads_select" on public.chat_threads
-  for select using (household_id = any(app.user_household_ids()));
+  for select using (household_id in (select app.user_household_ids()));
 
 drop policy if exists "chat_threads_insert" on public.chat_threads;
 create policy "chat_threads_insert" on public.chat_threads
   for insert with check (
     user_id = auth.uid() and
-    household_id = any(app.user_household_ids())
+    household_id in (select app.user_household_ids())
   );
 
 drop policy if exists "chat_threads_update" on public.chat_threads;
 create policy "chat_threads_update" on public.chat_threads
   for update using (
     user_id = auth.uid() and
-    household_id = any(app.user_household_ids())
+    household_id in (select app.user_household_ids())
   );
 
 drop policy if exists "chat_threads_delete" on public.chat_threads;
 create policy "chat_threads_delete" on public.chat_threads
   for delete using (
     user_id = auth.uid() and
-    household_id = any(app.user_household_ids())
+    household_id in (select app.user_household_ids())
   );
 
 drop policy if exists "chat_messages_select" on public.chat_messages;
@@ -132,7 +132,7 @@ create policy "chat_messages_select" on public.chat_messages
     exists (
       select 1 from public.chat_threads t
       where t.id = chat_messages.thread_id
-        and t.household_id = any(app.user_household_ids())
+        and t.household_id in (select app.user_household_ids())
     )
   );
 
@@ -165,7 +165,7 @@ alter table public.recaps enable row level security;
 
 drop policy if exists "recaps_select_member" on public.recaps;
 create policy "recaps_select_member" on public.recaps
-  for select using (household_id = any(app.user_household_ids()));
+  for select using (household_id in (select app.user_household_ids()));
 
 drop policy if exists "recaps_service_write" on public.recaps;
 create policy "recaps_service_write" on public.recaps
@@ -201,7 +201,7 @@ alter table public.detected_subscriptions enable row level security;
 
 drop policy if exists "subs_select_member" on public.detected_subscriptions;
 create policy "subs_select_member" on public.detected_subscriptions
-  for select using (household_id = any(app.user_household_ids()));
+  for select using (household_id in (select app.user_household_ids()));
 
 drop policy if exists "subs_service_write" on public.detected_subscriptions;
 create policy "subs_service_write" on public.detected_subscriptions
@@ -209,8 +209,8 @@ create policy "subs_service_write" on public.detected_subscriptions
 
 drop policy if exists "subs_member_status_update" on public.detected_subscriptions;
 create policy "subs_member_status_update" on public.detected_subscriptions
-  for update using (household_id = any(app.user_household_ids()))
-  with check (household_id = any(app.user_household_ids()));
+  for update using (household_id in (select app.user_household_ids()))
+  with check (household_id in (select app.user_household_ids()));
 
 comment on table public.embedding_queue is
   'Coadă outbox pentru embeddings transactions; drained de fn process-embeddings.';
