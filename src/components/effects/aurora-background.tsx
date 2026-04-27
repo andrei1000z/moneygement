@@ -19,32 +19,32 @@ export function AuroraBackground() {
       className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
     >
       <div
-        className="absolute -left-32 -top-40 size-[420px] rounded-full opacity-40 blur-[60px] will-change-transform md:size-[500px]"
+        className="absolute -left-32 -top-40 size-[460px] rounded-full opacity-50 blur-[80px] will-change-transform md:size-[600px]"
         style={{
-          background: "color-mix(in oklch, var(--accent-emerald), transparent 40%)",
+          background: "color-mix(in oklch, var(--accent-blue), transparent 35%)",
           animation: "mesh-drift 20s ease-in-out infinite",
         }}
       />
       <div
-        className="absolute -top-20 right-0 size-[380px] rounded-full opacity-35 blur-[60px] will-change-transform md:size-[450px]"
+        className="absolute -top-20 right-0 size-[400px] rounded-full opacity-45 blur-[80px] will-change-transform md:size-[520px]"
         style={{
-          background: "color-mix(in oklch, var(--accent-violet), transparent 45%)",
+          background: "color-mix(in oklch, var(--accent-blue-bright), transparent 40%)",
           animation: "mesh-drift 25s ease-in-out infinite reverse",
           animationDelay: "-5s",
         }}
       />
       <div
-        className="absolute bottom-0 right-1/4 size-[340px] rounded-full opacity-30 blur-[60px] will-change-transform md:size-[400px]"
+        className="absolute bottom-0 right-1/4 size-[340px] rounded-full opacity-35 blur-[80px] will-change-transform md:size-[440px]"
         style={{
-          background: "color-mix(in oklch, var(--accent-cyan), transparent 50%)",
+          background: "color-mix(in oklch, var(--accent-yellow), transparent 55%)",
           animation: "mesh-drift 30s ease-in-out infinite",
           animationDelay: "-10s",
         }}
       />
       <div
-        className="absolute -bottom-20 -left-20 size-[320px] rounded-full opacity-25 blur-[60px] will-change-transform md:size-[380px]"
+        className="absolute -bottom-20 -left-20 size-[340px] rounded-full opacity-30 blur-[80px] will-change-transform md:size-[440px]"
         style={{
-          background: "color-mix(in oklch, var(--accent-pink), transparent 55%)",
+          background: "color-mix(in oklch, var(--accent-blue), transparent 50%)",
           animation: "mesh-drift 35s ease-in-out infinite reverse",
           animationDelay: "-15s",
         }}

@@ -12,7 +12,11 @@ const buttonVariants = cva(
         default:
           "bg-primary text-primary-foreground hover:brightness-110 [a]:hover:bg-primary/90",
         glow:
-          "bg-gradient-to-br from-[--accent-emerald] to-[--accent-cyan] text-[--bg-base] glow-emerald hover:brightness-110",
+          "bg-gradient-to-br from-[--accent-blue] to-[--accent-blue-bright] text-white glow-blue hover:brightness-110",
+        eu:
+          "bg-[--accent-blue] text-white hover:bg-[--accent-blue-bright] glow-blue",
+        yellow:
+          "bg-[--accent-yellow] text-[--accent-navy] hover:brightness-105 glow-yellow font-semibold",
         outline:
           "glass-thin hover:bg-[--surface-hover] hover:text-foreground aria-expanded:bg-[--surface-hover-strong] aria-expanded:text-foreground",
         secondary:

@@ -49,27 +49,43 @@
 }
 
 /* ============================================================
-   LIGHT MODE — warm white, NU pure white
+   LIGHT MODE — EU palette (Reflex Blue + Stars Yellow + White)
+   Inspirat din eyou.social: alb dominant, blocuri blue masive,
+   accente galbene rare, tipografie aerisită.
    ============================================================ */
 :root {
-  --bg-base: oklch(0.98 0.005 80);
-  --bg-elevated: oklch(1 0 0);
-  --bg-overlay: oklch(0.96 0.008 75);
-  --foreground: oklch(0.18 0.01 265);
-  --muted-foreground: oklch(0.5 0.012 260);
+  --bg-base: oklch(1 0 0);
+  --bg-elevated: oklch(0.99 0.002 250);
+  --bg-overlay: oklch(0.97 0.004 250);
+  --foreground: oklch(0.16 0.04 263);
+  --muted-foreground: oklch(0.46 0.03 260);
 
-  --accent-emerald: oklch(0.62 0.18 162);
-  --accent-violet:  oklch(0.55 0.22 295);
-  --accent-cyan:    oklch(0.62 0.16 215);
-  --accent-pink:    oklch(0.6 0.22 350);
-  --accent-amber:   oklch(0.7 0.17 75);
+  /* ---- EU palette ---- */
+  /* Reflex Blue (#003399) — primar EU flag */
+  --accent-blue:    oklch(0.36 0.22 263);
+  /* Electric blue — eyou-style hero accent (puțin mai luminos) */
+  --accent-blue-bright: oklch(0.56 0.24 260);
+  /* Yellow Pantone 116 (#FFCC00) — stelele EU */
+  --accent-yellow:  oklch(0.88 0.18 95);
+  /* Navy ink */
+  --accent-navy:    oklch(0.22 0.10 263);
 
-  --glass-base: oklch(1 0 0 / 0.65);
-  --glass-elevated: oklch(1 0 0 / 0.85);
-  --glass-strong: oklch(1 0 0 / 0.95);
-  --glass-border: oklch(0.18 0.01 265 / 0.08);
-  --glass-border-hi: oklch(1 0 0 / 0.6);
-  --glass-shadow: oklch(0.18 0.01 265 / 0.08);
+  /* Aliase pentru compatibilitate cu codul existent care folosește
+     --accent-emerald / cyan / violet / pink / amber. Le remap-uim
+     către paleta EU astfel încât TOATE componentele (gradients, glow,
+     ring, sidebar etc.) preiau noul stil fără modificări in-loc. */
+  --accent-emerald: var(--accent-blue);
+  --accent-cyan:    var(--accent-blue-bright);
+  --accent-violet:  var(--accent-navy);
+  --accent-pink:    oklch(0.62 0.22 25);   /* coral ca destructive secundar */
+  --accent-amber:   var(--accent-yellow);
+
+  --glass-base:     oklch(1 0 0 / 0.55);
+  --glass-elevated: oklch(1 0 0 / 0.78);
+  --glass-strong:   oklch(1 0 0 / 0.92);
+  --glass-border:   oklch(0.36 0.22 263 / 0.12);
+  --glass-border-hi: oklch(1 0 0 / 0.7);
+  --glass-shadow:   oklch(0.36 0.22 263 / 0.10);
 
   --background: var(--bg-base);
   --card: var(--glass-base);
@@ -146,28 +162,33 @@
 }
 
 /* ============================================================
-   DARK MODE — primary
+   DARK MODE — Deep EU navy + bright blue + yellow accents
    ============================================================ */
 .dark {
-  --bg-base: oklch(0.14 0.018 265);
-  --bg-elevated: oklch(0.18 0.022 265);
-  --bg-overlay: oklch(0.22 0.025 265);
+  --bg-base: oklch(0.14 0.06 263);
+  --bg-elevated: oklch(0.20 0.07 263);
+  --bg-overlay: oklch(0.24 0.075 263);
 
-  --foreground: oklch(0.985 0 0);
-  --muted-foreground: oklch(0.72 0.015 260);
+  --foreground: oklch(0.985 0.005 250);
+  --muted-foreground: oklch(0.72 0.04 250);
 
-  --accent-emerald: oklch(0.78 0.18 162);
-  --accent-violet:  oklch(0.72 0.22 295);
-  --accent-cyan:    oklch(0.82 0.16 215);
-  --accent-pink:    oklch(0.76 0.22 350);
-  --accent-amber:   oklch(0.82 0.17 75);
+  --accent-blue:    oklch(0.62 0.22 260);
+  --accent-blue-bright: oklch(0.78 0.18 240);
+  --accent-yellow:  oklch(0.88 0.18 95);
+  --accent-navy:    oklch(0.46 0.20 263);
 
-  --glass-base: oklch(0.22 0.02 265 / 0.6);
-  --glass-elevated: oklch(0.28 0.025 265 / 0.7);
-  --glass-strong: oklch(0.32 0.03 265 / 0.85);
-  --glass-border: oklch(1 0 0 / 0.08);
-  --glass-border-hi: oklch(1 0 0 / 0.16);
-  --glass-shadow: oklch(0 0 0 / 0.4);
+  --accent-emerald: var(--accent-blue);
+  --accent-cyan:    var(--accent-blue-bright);
+  --accent-violet:  var(--accent-navy);
+  --accent-pink:    oklch(0.72 0.22 25);
+  --accent-amber:   var(--accent-yellow);
+
+  --glass-base:     oklch(0.20 0.07 263 / 0.55);
+  --glass-elevated: oklch(0.26 0.08 263 / 0.7);
+  --glass-strong:   oklch(0.30 0.08 263 / 0.85);
+  --glass-border:   oklch(1 0 0 / 0.10);
+  --glass-border-hi: oklch(1 0 0 / 0.20);
+  --glass-shadow:   oklch(0 0 0 / 0.45);
 
   --background: var(--bg-base);
   --card: var(--glass-base);
@@ -252,14 +273,14 @@
     @apply text-foreground;
     background: var(--bg-base);
     background-image:
-      radial-gradient(at 20% 10%,
-        color-mix(in oklch, var(--accent-emerald), transparent 85%) 0px, transparent 50%),
-      radial-gradient(at 80% 0%,
-        color-mix(in oklch, var(--accent-violet), transparent 88%) 0px, transparent 50%),
-      radial-gradient(at 70% 80%,
-        color-mix(in oklch, var(--accent-cyan), transparent 90%) 0px, transparent 50%),
-      radial-gradient(at 0% 90%,
-        color-mix(in oklch, var(--accent-pink), transparent 92%) 0px, transparent 50%);
+      radial-gradient(at 18% 8%,
+        color-mix(in oklch, var(--accent-blue), transparent 86%) 0px, transparent 55%),
+      radial-gradient(at 82% 6%,
+        color-mix(in oklch, var(--accent-blue-bright), transparent 90%) 0px, transparent 50%),
+      radial-gradient(at 92% 88%,
+        color-mix(in oklch, var(--accent-yellow), transparent 92%) 0px, transparent 45%),
+      radial-gradient(at 4% 96%,
+        color-mix(in oklch, var(--accent-blue), transparent 92%) 0px, transparent 45%);
     min-height: 100vh;
     overflow-x: hidden;
     font-feature-settings: "tnum" 1, "ss01" 1;
@@ -288,29 +309,48 @@
      20-32px (vizual aproape identic, ~3x mai rapid). */
   .glass {
     background: var(--glass-base);
-    backdrop-filter: blur(20px) saturate(180%) brightness(1.05);
-    -webkit-backdrop-filter: blur(20px) saturate(180%) brightness(1.05);
+    backdrop-filter: blur(28px) saturate(190%) brightness(1.06);
+    -webkit-backdrop-filter: blur(28px) saturate(190%) brightness(1.06);
     border: 1px solid var(--glass-border);
     box-shadow:
       inset 0 1px 0 var(--glass-border-hi),
       0 1px 2px var(--glass-shadow),
-      0 8px 24px -8px var(--glass-shadow);
+      0 12px 32px -10px var(--glass-shadow);
   }
   .glass-strong {
     background: var(--glass-strong);
-    backdrop-filter: blur(32px) saturate(200%) brightness(1.08);
-    -webkit-backdrop-filter: blur(32px) saturate(200%) brightness(1.08);
+    backdrop-filter: blur(40px) saturate(210%) brightness(1.08);
+    -webkit-backdrop-filter: blur(40px) saturate(210%) brightness(1.08);
     border: 1px solid var(--glass-border);
     box-shadow:
       inset 0 1px 0 var(--glass-border-hi),
-      0 4px 12px var(--glass-shadow),
-      0 16px 48px -16px var(--glass-shadow);
+      0 6px 16px var(--glass-shadow),
+      0 24px 64px -20px var(--glass-shadow);
   }
   .glass-thin {
-    background: color-mix(in oklch, var(--glass-base), transparent 60%);
-    backdrop-filter: blur(12px) saturate(160%);
-    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    background: color-mix(in oklch, var(--glass-base), transparent 50%);
+    backdrop-filter: blur(18px) saturate(170%);
+    -webkit-backdrop-filter: blur(18px) saturate(170%);
     border: 1px solid var(--glass-border);
+  }
+  /* Hero block — solid EU blue cu text alb (ca eyou.social) */
+  .eu-hero {
+    background:
+      linear-gradient(135deg, var(--accent-blue), var(--accent-blue-bright));
+    color: oklch(0.99 0.005 250);
+  }
+  .eu-hero-stars {
+    background:
+      radial-gradient(circle at 20% 30%,
+        color-mix(in oklch, var(--accent-yellow), transparent 80%) 0px, transparent 8%),
+      radial-gradient(circle at 78% 22%,
+        color-mix(in oklch, var(--accent-yellow), transparent 80%) 0px, transparent 6%),
+      radial-gradient(circle at 92% 75%,
+        color-mix(in oklch, var(--accent-yellow), transparent 80%) 0px, transparent 7%),
+      radial-gradient(circle at 14% 84%,
+        color-mix(in oklch, var(--accent-yellow), transparent 80%) 0px, transparent 6%),
+      linear-gradient(135deg, var(--accent-blue), var(--accent-blue-bright));
+    color: oklch(0.99 0.005 250);
   }
 
   .glow-emerald {
@@ -337,6 +377,18 @@
       0 0 24px -4px color-mix(in oklch, var(--accent-amber), transparent 55%),
       0 0 80px -8px color-mix(in oklch, var(--accent-amber), transparent 75%);
   }
+  .glow-yellow {
+    box-shadow:
+      0 0 0 1px color-mix(in oklch, var(--accent-yellow), transparent 75%),
+      0 0 28px -4px color-mix(in oklch, var(--accent-yellow), transparent 50%),
+      0 0 96px -10px color-mix(in oklch, var(--accent-yellow), transparent 70%);
+  }
+  .glow-blue {
+    box-shadow:
+      0 0 0 1px color-mix(in oklch, var(--accent-blue), transparent 75%),
+      0 0 28px -4px color-mix(in oklch, var(--accent-blue), transparent 50%),
+      0 0 96px -10px color-mix(in oklch, var(--accent-blue), transparent 70%);
+  }
   .glow-destructive {
     box-shadow:
       0 0 0 1px color-mix(in oklch, var(--destructive), transparent 75%),
@@ -349,13 +401,13 @@
   .glow-fab {
     box-shadow:
       0 0 0 4px color-mix(in oklch, var(--bg-base), transparent 50%),
-      0 0 24px -4px color-mix(in oklch, var(--accent-emerald), transparent 45%),
-      0 0 60px -8px color-mix(in oklch, var(--accent-emerald), transparent 60%);
+      0 0 28px -4px color-mix(in oklch, var(--accent-blue), transparent 40%),
+      0 0 72px -8px color-mix(in oklch, var(--accent-blue-bright), transparent 55%);
   }
   .glow-cta {
     box-shadow:
-      0 0 0 1px color-mix(in oklch, var(--accent-emerald), transparent 70%),
-      0 4px 16px -4px color-mix(in oklch, var(--accent-emerald), transparent 60%);
+      0 0 0 1px color-mix(in oklch, var(--accent-blue), transparent 65%),
+      0 4px 20px -4px color-mix(in oklch, var(--accent-blue-bright), transparent 55%);
   }
   .glow-keypad-confirm {
     box-shadow:
@@ -372,30 +424,49 @@
 
   .text-gradient-emerald {
     background: linear-gradient(135deg,
-      var(--accent-emerald),
-      var(--accent-cyan));
+      var(--accent-blue),
+      var(--accent-blue-bright));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
   .text-gradient-violet {
     background: linear-gradient(135deg,
-      var(--accent-violet),
-      var(--accent-pink));
+      var(--accent-navy),
+      var(--accent-blue));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
   .text-gradient-aurora {
     background: linear-gradient(135deg,
-      var(--accent-cyan),
-      var(--accent-violet),
-      var(--accent-emerald));
+      var(--accent-blue-bright),
+      var(--accent-blue),
+      var(--accent-yellow));
     background-size: 200% 200%;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     animation: gradient-flow 8s ease infinite;
+  }
+  .text-gradient-eu {
+    background: linear-gradient(135deg,
+      var(--accent-blue),
+      var(--accent-blue-bright),
+      var(--accent-yellow));
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradient-flow 10s ease infinite;
+  }
+  .text-gradient-yellow {
+    background: linear-gradient(135deg,
+      var(--accent-yellow),
+      var(--accent-blue-bright));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
   .specular {
@@ -408,7 +479,7 @@
     inset: 0;
     background: radial-gradient(
       400px circle at var(--mx, 50%) var(--my, 50%),
-      color-mix(in oklch, var(--accent-emerald), transparent 85%),
+      color-mix(in oklch, var(--accent-blue), transparent 80%),
       transparent 40%
     );
     opacity: 0;
