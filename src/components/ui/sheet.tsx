@@ -82,7 +82,7 @@ function SheetContent({
         {side === "bottom" ? (
           <div
             aria-hidden
-            className="mx-auto mt-2 h-1 w-10 rounded-full bg-[oklch(from_var(--foreground)_l_c_h/0.2)]"
+            className="mx-auto mt-2 h-1 w-10 rounded-full bg-[--surface-hover]"
           />
         ) : null}
         {children}

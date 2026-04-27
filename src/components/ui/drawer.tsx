@@ -67,7 +67,7 @@ function DrawerContent({
         {...props}
       >
         {/* Handle bar capsule iOS-style */}
-        <div className="mx-auto mt-3 hidden h-1 w-10 shrink-0 rounded-full bg-[oklch(from_var(--foreground)_l_c_h/0.2)] group-data-[vaul-drawer-direction=bottom]/drawer-content:block" />
+        <div className="mx-auto mt-3 hidden h-1 w-10 shrink-0 rounded-full bg-[--surface-hover] group-data-[vaul-drawer-direction=bottom]/drawer-content:block" />
         {children}
       </DrawerPrimitive.Content>
     </DrawerPortal>

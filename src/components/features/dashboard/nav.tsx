@@ -316,7 +316,7 @@ function SidebarLink({
           "relative flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition-colors duration-200",
           active
             ? "text-foreground"
-            : "text-muted-foreground hover:bg-[oklch(from_var(--foreground)_l_c_h/0.05)] hover:text-foreground",
+            : "text-muted-foreground hover:bg-[--surface-tint] hover:text-foreground",
         )}
         style={
           active
@@ -393,7 +393,7 @@ function QuickAddFab() {
         className={cn(
           "relative -mt-7 flex size-14 items-center justify-center rounded-full text-[--bg-base] transition-transform duration-200 active:scale-90",
           "bg-gradient-to-br from-[--accent-emerald] to-[--accent-cyan]",
-          "shadow-[0_0_0_4px_oklch(from_var(--bg-base)_l_c_h/0.5),0_0_24px_-4px_oklch(from_var(--accent-emerald)_l_c_h/0.55),0_0_60px_-8px_oklch(from_var(--accent-emerald)_l_c_h/0.4)]",
+          "glow-fab",
         )}
       >
         <Plus className="size-6" aria-hidden strokeWidth={2.5} />
@@ -422,7 +422,7 @@ function QuickAddSidebarButton() {
       className={cn(
         "relative flex w-full items-center justify-center gap-2 rounded-xl px-3 py-2.5 text-sm font-semibold text-[--bg-base] transition-transform duration-200 active:scale-[0.97]",
         "bg-gradient-to-br from-[--accent-emerald] to-[--accent-cyan]",
-        "shadow-[0_0_0_1px_oklch(from_var(--accent-emerald)_l_c_h/0.3),0_4px_16px_-4px_oklch(from_var(--accent-emerald)_l_c_h/0.4)]",
+        "glow-cta",
       )}
     >
       <Plus className="size-4" aria-hidden strokeWidth={2.25} />

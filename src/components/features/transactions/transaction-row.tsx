@@ -96,10 +96,10 @@ export function TransactionRow({
         className={cn(
           "relative flex items-center gap-3 px-4 py-3 transition-colors",
           isIncome
-            ? "bg-[oklch(from_var(--accent-emerald)_l_c_h/0.06)]"
-            : "bg-[oklch(from_var(--bg-base)_l_c_h/0.4)] backdrop-blur-md",
+            ? "bg-[--tint-emerald-row]"
+            : "bg-[--bg-base-tint] backdrop-blur-md",
           isVoid && "opacity-50",
-          selected && "bg-[oklch(from_var(--accent-emerald)_l_c_h/0.12)]",
+          selected && "bg-[--tint-emerald-soft]",
         )}
         onClick={(e) => {
           if (selectMode) {

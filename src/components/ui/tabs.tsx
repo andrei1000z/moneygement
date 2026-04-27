@@ -67,11 +67,11 @@ function TabsTrigger({
         "transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0.32,0.72,0,1)]",
         "group-data-vertical/tabs:w-full group-data-vertical/tabs:justify-start",
         "hover:text-foreground",
-        "focus-visible:ring-[3px] focus-visible:ring-[oklch(from_var(--accent-emerald)_l_c_h/0.25)]",
+        "focus-visible:ring-[3px] focus-visible:ring-[--tint-emerald-strong]",
         "disabled:pointer-events-none disabled:opacity-50",
         "has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
         "data-active:text-foreground",
-        "group-data-[variant=default]/tabs-list:data-active:bg-[oklch(from_var(--foreground)_l_c_h/0.1)]",
+        "group-data-[variant=default]/tabs-list:data-active:bg-[--surface-active]",
         "group-data-[variant=default]/tabs-list:data-active:shadow-[inset_0_1px_0_oklch(1_0_0/0.1),0_1px_2px_oklch(0_0_0/0.15)]",
         // Line variant: underline glow
         "group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-active:bg-transparent",

@@ -133,7 +133,7 @@ export function SpendingHeatmap({ daily, currency, days = 84 }: Props) {
             <a
               href={`/transactions?from=${selectedDay?.date}&to=${selectedDay?.date}`}
               className={cn(
-                "glass-thin hover:bg-[oklch(from_var(--foreground)_l_c_h/0.04)] flex items-center justify-between rounded-lg border p-3 text-sm",
+                "glass-thin hover:bg-[--surface-hover-faint] flex items-center justify-between rounded-lg border p-3 text-sm",
               )}
             >
               <span>Vezi tranzacțiile zilei</span>

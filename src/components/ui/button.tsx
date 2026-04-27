@@ -14,11 +14,11 @@ const buttonVariants = cva(
         glow:
           "bg-gradient-to-br from-[--accent-emerald] to-[--accent-cyan] text-[--bg-base] glow-emerald hover:brightness-110",
         outline:
-          "glass-thin hover:bg-[oklch(from_var(--foreground)_l_c_h/0.06)] hover:text-foreground aria-expanded:bg-[oklch(from_var(--foreground)_l_c_h/0.08)] aria-expanded:text-foreground",
+          "glass-thin hover:bg-[--surface-hover] hover:text-foreground aria-expanded:bg-[--surface-hover-strong] aria-expanded:text-foreground",
         secondary:
-          "glass-thin text-foreground hover:bg-[oklch(from_var(--foreground)_l_c_h/0.08)] aria-expanded:bg-[oklch(from_var(--foreground)_l_c_h/0.1)]",
+          "glass-thin text-foreground hover:bg-[--surface-hover-strong] aria-expanded:bg-[--surface-active]",
         ghost:
-          "hover:bg-[oklch(from_var(--foreground)_l_c_h/0.08)] hover:text-foreground aria-expanded:bg-[oklch(from_var(--foreground)_l_c_h/0.1)] aria-expanded:text-foreground",
+          "hover:bg-[--surface-hover-strong] hover:text-foreground aria-expanded:bg-[--surface-active] aria-expanded:text-foreground",
         destructive:
           "bg-destructive/15 text-destructive hover:bg-destructive/25 focus-visible:border-destructive/40 focus-visible:ring-destructive/20",
         link: "text-primary underline-offset-4 hover:underline",

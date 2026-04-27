@@ -356,7 +356,7 @@ export function ImportWizard({ accounts }: Props) {
       onDrop={handleDrop}
       onClick={() => fileInput.current?.click()}
       className={cn(
-        "glass-thin hover:bg-[oklch(from_var(--foreground)_l_c_h/0.04)] flex cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed p-12 text-center transition",
+        "glass-thin hover:bg-[--surface-hover-faint] flex cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed p-12 text-center transition",
       )}
     >
       <FileUp className="text-muted-foreground size-10" aria-hidden />

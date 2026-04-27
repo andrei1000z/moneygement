@@ -147,7 +147,7 @@ function Grid({
               "transition-[transform,background-color,box-shadow] duration-200 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.92]",
               active
                 ? "scale-[1.05] glow-emerald"
-                : "hover:bg-[oklch(from_var(--foreground)_l_c_h/0.06)]",
+                : "hover:bg-[--surface-hover]",
             )}
             style={
               c.color && active

@@ -103,7 +103,7 @@ export function MerchantsScreen() {
                 type="button"
                 onClick={() => setDrawerMerchant(m)}
                 className={cn(
-                  "glass-thin hover:bg-[oklch(from_var(--foreground)_l_c_h/0.04)] flex w-full items-center gap-3 rounded-lg border p-3 text-left transition",
+                  "glass-thin hover:bg-[--surface-hover-faint] flex w-full items-center gap-3 rounded-lg border p-3 text-left transition",
                 )}
               >
                 <div

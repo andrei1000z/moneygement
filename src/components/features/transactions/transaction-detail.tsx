@@ -304,7 +304,7 @@ export function TransactionDetail({ txId, open, onOpenChange }: Props) {
                     href={tx.receipt_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="glass-thin hover:bg-[oklch(from_var(--foreground)_l_c_h/0.04)] flex items-center justify-between rounded-xl border p-3 text-sm"
+                    className="glass-thin hover:bg-[--surface-hover-faint] flex items-center justify-between rounded-xl border p-3 text-sm"
                   >
                     📷 Vezi bon
                     <ExternalLink className="size-4" aria-hidden />

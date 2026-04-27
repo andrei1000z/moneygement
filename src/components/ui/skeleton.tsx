@@ -5,7 +5,7 @@ function Skeleton({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="skeleton"
       className={cn(
-        "shimmer rounded-[--radius] bg-[oklch(from_var(--foreground)_l_c_h/0.05)]",
+        "shimmer rounded-[--radius] bg-[--surface-tint]",
         className,
       )}
       {...props}

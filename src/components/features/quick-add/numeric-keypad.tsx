@@ -304,7 +304,7 @@ function Key({
       onClick={onPress}
       className={cn(
         baseKeyClass,
-        "glass-thin hover:bg-[oklch(from_var(--foreground)_l_c_h/0.08)]",
+        "glass-thin hover:bg-[--surface-hover-strong]",
         className,
       )}
     >
@@ -331,8 +331,8 @@ function KeyOp({
         baseKeyClass,
         "border text-lg",
         active
-          ? "bg-[oklch(from_var(--accent-violet)_l_c_h/0.2)] text-[--accent-violet] border-[oklch(from_var(--accent-violet)_l_c_h/0.35)] glow-violet"
-          : "glass-thin text-[--accent-violet] hover:bg-[oklch(from_var(--accent-violet)_l_c_h/0.1)]",
+          ? "bg-[--tint-violet] text-[--accent-violet] border-[--tint-violet-edge] glow-violet"
+          : "glass-thin text-[--accent-violet] hover:bg-[--tint-violet-soft]",
       )}
     >
       {label}
@@ -352,7 +352,7 @@ function KeyAccent({
       {...rest}
       className={cn(
         baseKeyClass,
-        "glass-thin hover:bg-[oklch(from_var(--foreground)_l_c_h/0.08)]",
+        "glass-thin hover:bg-[--surface-hover-strong]",
       )}
     >
       {children}
@@ -373,7 +373,7 @@ function KeyConfirm({
       className={cn(
         baseKeyClass,
         "bg-gradient-to-br from-[--accent-emerald] to-[--accent-cyan] text-[--bg-base]",
-        "shadow-[inset_0_1px_0_oklch(1_0_0/0.15),0_0_0_1px_oklch(from_var(--accent-emerald)_l_c_h/0.3),0_0_24px_-4px_oklch(from_var(--accent-emerald)_l_c_h/0.5)]",
+        "glow-keypad-confirm",
       )}
     >
       {children}

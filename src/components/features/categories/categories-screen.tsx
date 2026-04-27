@@ -191,7 +191,7 @@ function CategoryNode({
         type="button"
         onClick={() => onEdit(node)}
         className={cn(
-          "glass-thin hover:bg-[oklch(from_var(--foreground)_l_c_h/0.04)] group flex w-full items-center gap-3 rounded-lg border p-3 text-left transition",
+          "glass-thin hover:bg-[--surface-hover-faint] group flex w-full items-center gap-3 rounded-lg border p-3 text-left transition",
         )}
         style={{ marginLeft: depth > 0 ? depth * 20 : undefined }}
       >

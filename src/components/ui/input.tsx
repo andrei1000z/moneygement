@@ -12,7 +12,7 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
         "transition-[border-color,box-shadow,background-color] duration-200",
         "file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground",
         "placeholder:text-muted-foreground",
-        "focus-visible:border-[oklch(from_var(--accent-emerald)_l_c_h/0.5)] focus-visible:ring-3 focus-visible:ring-[oklch(from_var(--accent-emerald)_l_c_h/0.2)]",
+        "focus-visible:border-[--tint-emerald-half] focus-visible:ring-3 focus-visible:ring-[--tint-emerald]",
         "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
         "aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20",
         "md:text-sm",

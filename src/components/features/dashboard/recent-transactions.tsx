@@ -53,7 +53,7 @@ export async function RecentTransactions() {
           return (
             <li
               key={t.id}
-              className="flex items-center gap-3 px-4 py-2.5 text-sm transition-colors hover:bg-[oklch(from_var(--foreground)_l_c_h/0.03)]"
+              className="flex items-center gap-3 px-4 py-2.5 text-sm transition-colors hover:bg-[--surface-tint-faint]"
             >
               <span
                 className="flex size-9 shrink-0 items-center justify-center rounded-full text-base"

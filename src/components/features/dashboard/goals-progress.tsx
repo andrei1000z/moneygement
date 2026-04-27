@@ -50,7 +50,7 @@ export async function GoalsProgress() {
           return (
             <li
               key={g.id}
-              className="flex items-center gap-3 rounded-xl border border-[--glass-border] bg-[oklch(from_var(--foreground)_l_c_h/0.03)] p-2.5"
+              className="flex items-center gap-3 rounded-xl border border-[--glass-border] bg-[--surface-tint-faint] p-2.5"
             >
               <Ring pct={pct} reached={reached} keySuffix={g.id} />
               <div className="min-w-0 flex-1">

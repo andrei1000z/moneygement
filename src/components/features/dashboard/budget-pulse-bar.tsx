@@ -92,7 +92,7 @@ export async function BudgetPulseBar() {
         </p>
       </div>
       <div
-        className="relative mt-3 h-2.5 overflow-hidden rounded-full bg-[oklch(from_var(--foreground)_l_c_h/0.08)]"
+        className="relative mt-3 h-2.5 overflow-hidden rounded-full bg-[--surface-hover-strong]"
         aria-hidden
       >
         <div

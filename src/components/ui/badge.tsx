@@ -10,24 +10,24 @@ const badgeVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-[oklch(from_var(--accent-emerald)_l_c_h/0.18)] text-[--accent-emerald] border-[oklch(from_var(--accent-emerald)_l_c_h/0.25)]",
+          "bg-[--tint-emerald] text-[--accent-emerald] border-[--tint-emerald-strong]",
         secondary: "glass-thin text-foreground",
         destructive:
           "bg-destructive/15 text-destructive border-destructive/25 [a]:hover:bg-destructive/25",
         outline:
-          "border-border text-foreground [a]:hover:bg-[oklch(from_var(--foreground)_l_c_h/0.05)]",
+          "border-border text-foreground [a]:hover:bg-[--surface-tint]",
         ghost:
-          "hover:bg-[oklch(from_var(--foreground)_l_c_h/0.06)] hover:text-foreground",
+          "hover:bg-[--surface-hover] hover:text-foreground",
         emerald:
-          "bg-[oklch(from_var(--accent-emerald)_l_c_h/0.18)] text-[--accent-emerald] border-[oklch(from_var(--accent-emerald)_l_c_h/0.3)]",
+          "bg-[--tint-emerald] text-[--accent-emerald] border-[--tint-emerald-medium]",
         violet:
-          "bg-[oklch(from_var(--accent-violet)_l_c_h/0.18)] text-[--accent-violet] border-[oklch(from_var(--accent-violet)_l_c_h/0.3)]",
+          "bg-[--tint-violet] text-[--accent-violet] border-[--tint-violet-medium]",
         cyan:
-          "bg-[oklch(from_var(--accent-cyan)_l_c_h/0.18)] text-[--accent-cyan] border-[oklch(from_var(--accent-cyan)_l_c_h/0.3)]",
+          "bg-[--tint-cyan] text-[--accent-cyan] border-[--tint-cyan]",
         amber:
-          "bg-[oklch(from_var(--accent-amber)_l_c_h/0.18)] text-[--accent-amber] border-[oklch(from_var(--accent-amber)_l_c_h/0.3)]",
+          "bg-[--tint-amber] text-[--accent-amber] border-[--tint-amber-medium]",
         pink:
-          "bg-[oklch(from_var(--accent-pink)_l_c_h/0.18)] text-[--accent-pink] border-[oklch(from_var(--accent-pink)_l_c_h/0.3)]",
+          "bg-[--tint-pink] text-[--accent-pink] border-[--tint-pink]",
         link: "text-primary underline-offset-4 hover:underline",
       },
     },
