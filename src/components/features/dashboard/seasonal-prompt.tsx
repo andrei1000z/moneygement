@@ -83,9 +83,9 @@ export function SeasonalPrompt() {
           className="flex size-10 shrink-0 items-center justify-center rounded-xl"
           style={{
             background:
-              "linear-gradient(135deg, oklch(from var(--accent-pink) l c h / 0.25), oklch(from var(--accent-violet) l c h / 0.18))",
+              "linear-gradient(135deg, color-mix(in oklch, var(--accent-yellow), transparent 75%), color-mix(in oklch, var(--accent-blue), transparent 82%))",
             boxShadow:
-              "inset 0 1px 0 oklch(1 0 0 / 0.1), 0 4px 12px -2px oklch(from var(--accent-pink) l c h / 0.3)",
+              "inset 0 1px 0 oklch(1 0 0 / 0.1), 0 4px 12px -2px color-mix(in oklch, var(--accent-yellow), transparent 70%)",
           }}
         >
           <CalendarHeart

@@ -228,16 +228,16 @@ function NavTab({ item, pathname }: { item: NavItem; pathname: string }) {
             aria-hidden
             className="absolute inset-x-1 inset-y-0.5 -z-10 rounded-2xl"
             style={{
-              background: "oklch(from var(--accent-emerald) l c h / 0.15)",
+              background: "color-mix(in oklch, var(--accent-blue), transparent 85%)",
               boxShadow:
-                "0 0 0 1px oklch(from var(--accent-emerald) l c h / 0.25), inset 0 1px 0 oklch(1 0 0 / 0.1)",
+                "0 0 0 1px color-mix(in oklch, var(--accent-blue), transparent 75%), inset 0 1px 0 oklch(1 0 0 / 0.1)",
             }}
           />
         ) : null}
         <item.Icon
           className={cn(
             "size-5 transition-transform",
-            active && "text-[--accent-emerald]",
+            active && "text-[--accent-blue]",
           )}
           aria-hidden
           strokeWidth={1.75}
@@ -262,18 +262,18 @@ export function Sidebar() {
           className="flex size-9 items-center justify-center rounded-xl"
           style={{
             background:
-              "linear-gradient(135deg, oklch(from var(--accent-emerald) l c h / 0.25), oklch(from var(--accent-cyan) l c h / 0.18))",
+              "linear-gradient(135deg, color-mix(in oklch, var(--accent-blue), transparent 75%), color-mix(in oklch, var(--accent-blue-bright), transparent 82%))",
             boxShadow:
-              "inset 0 1px 0 oklch(1 0 0 / 0.15), 0 4px 12px -2px oklch(from var(--accent-emerald) l c h / 0.3)",
+              "inset 0 1px 0 oklch(1 0 0 / 0.15), 0 4px 12px -2px color-mix(in oklch, var(--accent-blue), transparent 70%)",
           }}
         >
           <Wallet
-            className="size-5 text-[--accent-emerald]"
+            className="size-5 text-[--accent-blue]"
             aria-hidden
             strokeWidth={1.75}
           />
         </div>
-        <span className="text-gradient-aurora text-xl font-semibold tracking-tight">
+        <span className="text-gradient-eu text-xl font-semibold tracking-tight">
           Banii
         </span>
       </div>
@@ -321,9 +321,9 @@ function SidebarLink({
         style={
           active
             ? {
-                background: "oklch(from var(--accent-emerald) l c h / 0.12)",
+                background: "color-mix(in oklch, var(--accent-blue), transparent 88%)",
                 boxShadow:
-                  "inset 0 1px 0 oklch(1 0 0 / 0.06), 0 0 0 1px oklch(from var(--accent-emerald) l c h / 0.2)",
+                  "inset 0 1px 0 oklch(1 0 0 / 0.06), 0 0 0 1px color-mix(in oklch, var(--accent-blue), transparent 80%)",
               }
             : undefined
         }

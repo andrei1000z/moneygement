@@ -92,23 +92,15 @@ function Ring({
         <linearGradient id={gradId} x1="0" y1="0" x2="1" y2="1">
           <stop
             offset="0%"
-            stopColor={
-              reached
-                ? "oklch(from var(--accent-emerald) l c h)"
-                : "oklch(from var(--accent-cyan) l c h)"
-            }
+            stopColor={reached ? "var(--accent-blue)" : "var(--accent-blue-bright)"}
           />
           <stop
             offset="50%"
-            stopColor={
-              reached
-                ? "oklch(from var(--accent-emerald) l c h)"
-                : "oklch(from var(--accent-violet) l c h)"
-            }
+            stopColor={reached ? "var(--accent-blue)" : "var(--accent-yellow)"}
           />
           <stop
             offset="100%"
-            stopColor="oklch(from var(--accent-emerald) l c h)"
+            stopColor="var(--accent-blue)"
           />
         </linearGradient>
         <filter id={glowId}>
@@ -125,7 +117,7 @@ function Ring({
         r={r}
         strokeWidth={4}
         fill="none"
-        stroke="oklch(from var(--foreground) l c h / 0.12)"
+        stroke="color-mix(in oklch, var(--foreground), transparent 88%)"
       />
       <circle
         cx="18"

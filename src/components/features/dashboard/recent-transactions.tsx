@@ -59,10 +59,10 @@ export async function RecentTransactions() {
                 className="flex size-9 shrink-0 items-center justify-center rounded-full text-base"
                 style={{
                   background: cat?.color
-                    ? `oklch(from ${cat.color} l c h / 0.2)`
-                    : "oklch(from var(--foreground) l c h / 0.06)",
+                    ? `color-mix(in oklch, ${cat.color}, transparent 80%)`
+                    : "color-mix(in oklch, var(--foreground), transparent 94%)",
                   boxShadow: cat?.color
-                    ? `inset 0 1px 0 oklch(1 0 0 / 0.06), 0 0 0 1px oklch(from ${cat.color} l c h / 0.2)`
+                    ? `inset 0 1px 0 oklch(1 0 0 / 0.06), 0 0 0 1px color-mix(in oklch, ${cat.color}, transparent 80%)`
                     : "inset 0 1px 0 oklch(1 0 0 / 0.04)",
                 }}
                 aria-hidden

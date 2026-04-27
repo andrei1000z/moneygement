@@ -29,10 +29,10 @@ export function KpiCard({
 
   const iconBg =
     tone === "positive"
-      ? "oklch(from var(--accent-emerald) l c h / 0.15)"
+      ? "color-mix(in oklch, var(--accent-blue), transparent 85%)"
       : tone === "info"
-        ? "oklch(from var(--accent-cyan) l c h / 0.15)"
-        : "oklch(from var(--foreground) l c h / 0.06)";
+        ? "color-mix(in oklch, var(--accent-blue-bright), transparent 85%)"
+        : "color-mix(in oklch, var(--foreground), transparent 94%)";
   const iconColor =
     tone === "positive"
       ? "text-[--accent-emerald]"

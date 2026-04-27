@@ -65,12 +65,12 @@ export async function BudgetPulseBar() {
   // - 85-100% amber → destructive
   // - >100% destructive solid
   const gradient = overBudget
-    ? "linear-gradient(90deg, oklch(from var(--destructive) l c h), oklch(from var(--destructive) l c h))"
+    ? "linear-gradient(90deg, var(--destructive), var(--destructive))"
     : spentPct > 0.85
-      ? "linear-gradient(90deg, oklch(from var(--accent-emerald) l c h), oklch(from var(--accent-amber) l c h), oklch(from var(--destructive) l c h))"
+      ? "linear-gradient(90deg, var(--accent-blue), var(--accent-yellow), var(--destructive))"
       : spentPct > 0.5
-        ? "linear-gradient(90deg, oklch(from var(--accent-emerald) l c h), oklch(from var(--accent-amber) l c h))"
-        : "linear-gradient(90deg, oklch(from var(--accent-emerald) l c h), oklch(from var(--accent-cyan) l c h))";
+        ? "linear-gradient(90deg, var(--accent-blue), var(--accent-yellow))"
+        : "linear-gradient(90deg, var(--accent-blue), var(--accent-blue-bright))";
 
   return (
     <Link
@@ -101,10 +101,10 @@ export async function BudgetPulseBar() {
             width: `${spentPct * 100}%`,
             background: gradient,
             boxShadow: overBudget
-              ? "0 0 12px -2px oklch(from var(--destructive) l c h / 0.5)"
+              ? "0 0 12px -2px color-mix(in oklch, var(--destructive), transparent 50%)"
               : spentPct > 0.85
-                ? "0 0 12px -2px oklch(from var(--accent-amber) l c h / 0.5)"
-                : "0 0 12px -2px oklch(from var(--accent-emerald) l c h / 0.4)",
+                ? "0 0 12px -2px color-mix(in oklch, var(--accent-yellow), transparent 50%)"
+                : "0 0 14px -2px color-mix(in oklch, var(--accent-blue), transparent 50%)",
           }}
         />
       </div>

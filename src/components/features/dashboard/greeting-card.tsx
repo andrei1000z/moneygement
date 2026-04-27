@@ -43,11 +43,11 @@ export async function GreetingCard() {
   return (
     <header className="glass-thin noise relative flex items-center gap-3 overflow-hidden rounded-[--radius-card] p-4">
       <div
-        className="flex size-11 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-[--accent-emerald]"
+        className="flex size-11 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-[--accent-blue]"
         style={{
-          background: "oklch(from var(--accent-emerald) l c h / 0.18)",
+          background: "color-mix(in oklch, var(--accent-blue), transparent 82%)",
           boxShadow:
-            "inset 0 1px 0 oklch(1 0 0 / 0.08), 0 0 0 1px oklch(from var(--accent-emerald) l c h / 0.25)",
+            "inset 0 1px 0 oklch(1 0 0 / 0.08), 0 0 0 1px color-mix(in oklch, var(--accent-blue), transparent 75%)",
         }}
       >
         {initialsLetters}
