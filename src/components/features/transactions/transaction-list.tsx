@@ -176,7 +176,7 @@ export function TransactionList({
 
   if (items.length === 0) {
     return (
-      <div className="glass-thin mx-4 my-6 flex flex-col items-center justify-center rounded-[--radius-card] border-dashed p-10 text-center">
+      <div className="glass-thin mx-4 my-6 flex flex-col items-center justify-center rounded-(--radius-card) border-dashed p-10 text-center">
         <h3 className="text-base font-semibold">Niciun rezultat</h3>
         <p className="text-muted-foreground mt-1 max-w-md text-sm">
           Nicio tranzacție nu se potrivește filtrelor curente. Schimbă-le

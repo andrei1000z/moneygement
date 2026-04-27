@@ -58,14 +58,14 @@ export async function AnniversariesWidget() {
   return (
     <Link
       href="/transactions"
-      className="glass-thin specular block rounded-[--radius-card] p-4 transition-transform duration-200 hover:scale-[1.005]"
+      className="glass-thin specular block rounded-(--radius-card) p-4 transition-transform duration-200 hover:scale-[1.005]"
     >
       <div className="flex items-baseline justify-between">
         <p className="text-muted-foreground text-[10px] font-semibold uppercase tracking-[0.15em]">
           Acum un an…
         </p>
         <Clock4
-          className="text-[--accent-violet] size-3.5"
+          className="text-(--accent-violet) size-3.5"
           aria-hidden
           strokeWidth={1.75}
         />

@@ -96,10 +96,10 @@ export function TransactionRow({
         className={cn(
           "relative flex items-center gap-3 px-4 py-3 transition-colors",
           isIncome
-            ? "bg-[--tint-emerald-row]"
-            : "bg-[--bg-base-tint] backdrop-blur-md",
+            ? "bg-(--tint-emerald-row)"
+            : "bg-(--bg-base-tint) backdrop-blur-md",
           isVoid && "opacity-50",
-          selected && "bg-[--tint-emerald-soft]",
+          selected && "bg-(--tint-emerald-soft)",
         )}
         onClick={(e) => {
           if (selectMode) {
@@ -189,7 +189,7 @@ export function TransactionRow({
         <div
           className={cn(
             "shrink-0 text-right tabular-nums slashed-zero font-semibold",
-            isIncome ? "text-[--accent-emerald]" : "text-foreground",
+            isIncome ? "text-(--accent-emerald)" : "text-foreground",
           )}
           aria-label={`${isIncome ? "+" : ""}${parts.integer}${
             parts.separator

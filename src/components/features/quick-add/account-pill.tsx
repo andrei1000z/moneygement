@@ -69,7 +69,7 @@ export function AccountPill({ accounts, selectedId, onSelect }: Props) {
                   type="button"
                   onClick={() => handleSelect(a.id)}
                   className={cn(
-                    "glass-thin hover:bg-[--surface-hover] flex w-full items-center gap-3 rounded-xl p-3 text-left transition",
+                    "glass-thin hover:bg-(--surface-hover) flex w-full items-center gap-3 rounded-xl p-3 text-left transition",
                     selectedId === a.id && "bg-accent",
                   )}
                 >

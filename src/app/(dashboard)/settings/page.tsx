@@ -125,7 +125,7 @@ export default async function SettingsPage() {
         </TabsContent>
 
         <TabsContent value="profile">
-          <div className="glass-thin space-y-3 rounded-[--radius-card] p-4">
+          <div className="glass-thin space-y-3 rounded-(--radius-card) p-4">
             <Field label="Email" value={user.email ?? "—"} />
             <Field label="Nume" value={profile.full_name ?? "—"} />
             <Field
@@ -144,7 +144,7 @@ export default async function SettingsPage() {
         </TabsContent>
 
         <TabsContent value="links">
-          <div className="glass-thin divide-y divide-[--glass-border] rounded-[--radius-card]">
+          <div className="glass-thin divide-y divide-(--glass-border) rounded-(--radius-card)">
             <LinkRow
               href="/categories"
               label="Categorii"

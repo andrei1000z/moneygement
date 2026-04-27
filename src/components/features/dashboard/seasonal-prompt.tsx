@@ -69,7 +69,7 @@ export function SeasonalPrompt() {
   }
 
   return (
-    <div className="glass-thin relative rounded-[--radius-card] p-4">
+    <div className="glass-thin relative rounded-(--radius-card) p-4">
       <button
         type="button"
         onClick={dismiss}
@@ -89,7 +89,7 @@ export function SeasonalPrompt() {
           }}
         >
           <CalendarHeart
-            className="text-[--accent-pink] size-5"
+            className="text-(--accent-pink) size-5"
             aria-hidden
             strokeWidth={1.75}
           />

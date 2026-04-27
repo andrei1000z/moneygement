@@ -82,7 +82,7 @@ export function GoalsScreen() {
               ))}
             </div>
           ) : sorted.length === 0 ? (
-            <div className="glass-thin flex flex-col items-center justify-center rounded-[--radius-card] border-dashed p-10 text-center">
+            <div className="glass-thin flex flex-col items-center justify-center rounded-(--radius-card) border-dashed p-10 text-center">
               <div className="bg-accent text-accent-foreground mb-4 flex size-12 items-center justify-center rounded-full">
                 <Target className="size-5" aria-hidden />
               </div>

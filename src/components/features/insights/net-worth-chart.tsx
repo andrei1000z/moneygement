@@ -28,14 +28,14 @@ export function NetWorthChart({ data, currency }: Props) {
 
   if (chartData.every((d) => d.value === 0)) {
     return (
-      <div className="glass-thin text-muted-foreground flex h-72 items-center justify-center rounded-[--radius-card] text-sm">
+      <div className="glass-thin text-muted-foreground flex h-72 items-center justify-center rounded-(--radius-card) text-sm">
         Niciun cont încă. Adaugă unul ca să vezi patrimoniul.
       </div>
     );
   }
 
   return (
-    <div className="glass-thin rounded-[--radius-card] p-4">
+    <div className="glass-thin rounded-(--radius-card) p-4">
       <h3 className="text-muted-foreground mb-3 text-xs uppercase tracking-wider">
         Patrimoniu — istoric
       </h3>

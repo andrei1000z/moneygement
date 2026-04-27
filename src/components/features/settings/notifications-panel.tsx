@@ -89,7 +89,7 @@ export function NotificationsPanel({ initial }: Props) {
 
   return (
     <div className="space-y-4">
-      <section className="glass-thin rounded-[--radius-card]">
+      <section className="glass-thin rounded-(--radius-card)">
         <h3 className="border-b px-4 py-3 text-sm font-semibold">
           Tipuri notificări
         </h3>
@@ -123,7 +123,7 @@ export function NotificationsPanel({ initial }: Props) {
         </ul>
       </section>
 
-      <section className="glass-thin space-y-3 rounded-[--radius-card] p-4">
+      <section className="glass-thin space-y-3 rounded-(--radius-card) p-4">
         <h3 className="text-sm font-semibold">Quiet hours</h3>
         <p className="text-muted-foreground text-xs">
           În acest interval nu primești push-uri (cu excepția chat-ului).
@@ -162,7 +162,7 @@ export function NotificationsPanel({ initial }: Props) {
         </div>
       </section>
 
-      <section className="glass-thin rounded-[--radius-card] p-4">
+      <section className="glass-thin rounded-(--radius-card) p-4">
         <h3 className="text-sm font-semibold">Prag „sold scăzut&rdquo;</h3>
         <p className="text-muted-foreground mt-1 text-xs">
           Notificare când un cont scade sub această sumă.

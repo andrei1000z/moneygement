@@ -22,9 +22,9 @@ export function KpiCard({
 }: Props) {
   const accentClass =
     tone === "positive"
-      ? "text-[--accent-emerald]"
+      ? "text-(--accent-emerald)"
       : tone === "info"
-        ? "text-[--accent-cyan]"
+        ? "text-(--accent-cyan)"
         : "text-foreground";
 
   const iconBg =
@@ -35,13 +35,13 @@ export function KpiCard({
         : "color-mix(in oklch, var(--foreground), transparent 94%)";
   const iconColor =
     tone === "positive"
-      ? "text-[--accent-emerald]"
+      ? "text-(--accent-emerald)"
       : tone === "info"
-        ? "text-[--accent-cyan]"
+        ? "text-(--accent-cyan)"
         : "text-muted-foreground";
 
   return (
-    <div className="glass-thin specular relative overflow-hidden rounded-[--radius-card] p-4">
+    <div className="glass-thin specular relative overflow-hidden rounded-(--radius-card) p-4">
       <div className="flex items-start justify-between gap-2">
         <span
           className="text-muted-foreground text-[10px] font-semibold uppercase tracking-[0.15em]"
@@ -66,7 +66,7 @@ export function KpiCard({
         <p
           className={cn(
             "mt-1 text-[11px] tabular-nums",
-            delta > 0 ? "text-[--accent-emerald]" : "text-muted-foreground",
+            delta > 0 ? "text-(--accent-emerald)" : "text-muted-foreground",
           )}
         >
           {delta > 0 ? "▲ +" : "▼ "}

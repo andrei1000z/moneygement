@@ -10,24 +10,24 @@ const badgeVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-[--tint-emerald] text-[--accent-emerald] border-[--tint-emerald-strong]",
+          "bg-(--tint-emerald) text-(--accent-emerald) border-(--tint-emerald-strong)",
         secondary: "glass-thin text-foreground",
         destructive:
           "bg-destructive/15 text-destructive border-destructive/25 [a]:hover:bg-destructive/25",
         outline:
-          "border-border text-foreground [a]:hover:bg-[--surface-tint]",
+          "border-border text-foreground [a]:hover:bg-(--surface-tint)",
         ghost:
-          "hover:bg-[--surface-hover] hover:text-foreground",
+          "hover:bg-(--surface-hover) hover:text-foreground",
         emerald:
-          "bg-[--tint-emerald] text-[--accent-emerald] border-[--tint-emerald-medium]",
+          "bg-(--tint-emerald) text-(--accent-emerald) border-(--tint-emerald-medium)",
         violet:
-          "bg-[--tint-violet] text-[--accent-violet] border-[--tint-violet-medium]",
+          "bg-(--tint-violet) text-(--accent-violet) border-(--tint-violet-medium)",
         cyan:
-          "bg-[--tint-cyan] text-[--accent-cyan] border-[--tint-cyan]",
+          "bg-(--tint-cyan) text-(--accent-cyan) border-(--tint-cyan)",
         amber:
-          "bg-[--tint-amber] text-[--accent-amber] border-[--tint-amber-medium]",
+          "bg-(--tint-amber) text-(--accent-amber) border-(--tint-amber-medium)",
         pink:
-          "bg-[--tint-pink] text-[--accent-pink] border-[--tint-pink]",
+          "bg-(--tint-pink) text-(--accent-pink) border-(--tint-pink)",
         link: "text-primary underline-offset-4 hover:underline",
       },
     },

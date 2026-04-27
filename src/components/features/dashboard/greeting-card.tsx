@@ -41,9 +41,9 @@ export async function GreetingCard() {
   );
 
   return (
-    <header className="glass-thin noise relative flex items-center gap-3 overflow-hidden rounded-[--radius-card] p-4">
+    <header className="glass-thin noise relative flex items-center gap-3 overflow-hidden rounded-(--radius-card) p-4">
       <div
-        className="flex size-11 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-[--accent-blue]"
+        className="flex size-11 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-(--accent-blue)"
         style={{
           background: "color-mix(in oklch, var(--accent-blue), transparent 82%)",
           boxShadow:

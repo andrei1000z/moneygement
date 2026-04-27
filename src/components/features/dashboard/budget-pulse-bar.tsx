@@ -26,7 +26,7 @@ export async function BudgetPulseBar() {
     return (
       <Link
         href="/budgets"
-        className="glass-thin specular flex items-center justify-between rounded-[--radius-card] p-4 text-sm transition-transform duration-200 hover:scale-[1.005]"
+        className="glass-thin specular flex items-center justify-between rounded-(--radius-card) p-4 text-sm transition-transform duration-200 hover:scale-[1.005]"
       >
         <div>
           <p className="text-muted-foreground text-[10px] font-semibold uppercase tracking-[0.15em]">
@@ -75,7 +75,7 @@ export async function BudgetPulseBar() {
   return (
     <Link
       href="/budgets"
-      className="glass-thin specular block rounded-[--radius-card] p-4 transition-transform duration-200 hover:scale-[1.005]"
+      className="glass-thin specular block rounded-(--radius-card) p-4 transition-transform duration-200 hover:scale-[1.005]"
     >
       <div className="flex items-baseline justify-between gap-2">
         <p className="text-muted-foreground text-[10px] font-semibold uppercase tracking-[0.15em]">
@@ -92,7 +92,7 @@ export async function BudgetPulseBar() {
         </p>
       </div>
       <div
-        className="relative mt-3 h-2.5 overflow-hidden rounded-full bg-[--surface-hover-strong]"
+        className="relative mt-3 h-2.5 overflow-hidden rounded-full bg-(--surface-hover-strong)"
         aria-hidden
       >
         <div

@@ -114,7 +114,7 @@ export function PensionDashboard({
         return (
           <section
             key={year}
-            className="glass-thin rounded-[--radius-card] p-4"
+            className="glass-thin rounded-(--radius-card) p-4"
           >
             <div className="flex items-baseline justify-between">
               <h2 className="text-lg font-semibold">{year}</h2>
@@ -194,7 +194,7 @@ export function PensionDashboard({
         );
       })}
 
-      <section className="glass-thin rounded-[--radius-card] p-4">
+      <section className="glass-thin rounded-(--radius-card) p-4">
         <h2 className="mb-3 text-sm font-semibold">Adaugă contribuție</h2>
         <form
           onSubmit={submit}

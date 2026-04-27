@@ -74,7 +74,7 @@ export function TargetBudget({ month, categories, progress, currency = "RON" }: 
         </Button>
       </div>
 
-      <ul className="glass-thin divide-y divide-[--glass-border] rounded-[--radius-card]">
+      <ul className="glass-thin divide-y divide-(--glass-border) rounded-(--radius-card)">
         {expenseCategories.length === 0 ? (
           <li className="text-muted-foreground p-6 text-center text-sm">
             Nicio categorie de cheltuieli.

@@ -26,7 +26,7 @@ export async function NetWorthHeadline() {
   return (
     <Link
       href="/insights"
-      className="glass specular relative flex items-end justify-between gap-4 overflow-hidden rounded-[--radius-card] p-5 transition-transform duration-200 hover:scale-[1.005]"
+      className="glass specular relative flex items-end justify-between gap-4 overflow-hidden rounded-(--radius-card) p-5 transition-transform duration-200 hover:scale-[1.005]"
     >
       <div className="min-w-0">
         <p className="text-muted-foreground text-[11px] font-medium uppercase tracking-[0.18em]">
@@ -42,7 +42,7 @@ export async function NetWorthHeadline() {
         {history.length > 1 ? (
           <p
             className={`mt-2 text-xs tabular-nums ${
-              positive ? "text-[--accent-emerald]" : "text-destructive"
+              positive ? "text-(--accent-emerald)" : "text-destructive"
             }`}
           >
             {positive ? "▲ +" : "▼ −"}

@@ -91,7 +91,7 @@ export function SubscriptionsScreen({
 
   return (
     <div className="space-y-4">
-      <div className="glass-thin flex items-center justify-between rounded-[--radius-card] p-4">
+      <div className="glass-thin flex items-center justify-between rounded-(--radius-card) p-4">
         <div>
           <p className="text-muted-foreground text-xs uppercase tracking-wider">
             Cost lunar (active)
@@ -157,7 +157,7 @@ function SubsList({
   dim?: boolean;
 }) {
   return (
-    <section className="glass-thin overflow-hidden rounded-[--radius-card]">
+    <section className="glass-thin overflow-hidden rounded-(--radius-card)">
       <h2 className="text-muted-foreground border-b px-4 py-2.5 text-xs uppercase tracking-wider">
         {title} ({subs.length})
       </h2>

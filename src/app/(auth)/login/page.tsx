@@ -91,7 +91,7 @@ export default function LoginPage() {
   return (
     <Card variant="glass">
       <CardHeader className="space-y-2 text-center">
-        <CardTitle className="text-3xl font-semibold tracking-tight text-[--accent-blue]">
+        <CardTitle className="text-3xl font-semibold tracking-tight text-(--accent-blue)">
           Bun venit la Banii
         </CardTitle>
         <CardDescription>
@@ -103,7 +103,7 @@ export default function LoginPage() {
         {sent ? (
           <div className="space-y-4 text-center">
             <div
-              className="mx-auto flex size-14 items-center justify-center rounded-full text-[--accent-blue]"
+              className="mx-auto flex size-14 items-center justify-center rounded-full text-(--accent-blue)"
               style={{
                 background: "color-mix(in oklch, var(--accent-blue), transparent 85%)",
                 boxShadow:

@@ -34,7 +34,7 @@ export function DebtPayoff({ debts }: Props) {
 
   return (
     <div className="space-y-5">
-      <div className="glass-thin rounded-[--radius-card] p-4">
+      <div className="glass-thin rounded-(--radius-card) p-4">
         <p className="text-xs font-medium uppercase tracking-wider">
           Plată extra lunară
         </p>
@@ -111,7 +111,7 @@ function StrategyCard({
   return (
     <div
       className={cn(
-        "glass-thin relative space-y-3 rounded-[--radius-card] p-4",
+        "glass-thin relative space-y-3 rounded-(--radius-card) p-4",
         recommended && "border-emerald-500 ring-emerald-500/30 ring-2",
       )}
     >

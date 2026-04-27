@@ -39,7 +39,7 @@ export function ChatScreen() {
   return (
     <div className="flex flex-1 flex-col gap-3">
       {/* Mesaje */}
-      <div className="glass-thin flex-1 overflow-y-auto rounded-[--radius-card] p-3">
+      <div className="glass-thin flex-1 overflow-y-auto rounded-(--radius-card) p-3">
         {messages.length === 0 ? (
           <div className="flex h-full flex-col items-center justify-center gap-3 text-center">
             <Sparkles

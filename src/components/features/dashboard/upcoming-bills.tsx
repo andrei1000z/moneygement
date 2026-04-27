@@ -11,7 +11,7 @@ export async function UpcomingBills() {
 
   if (bills.length === 0) {
     return (
-      <div className="glass-thin rounded-[--radius-card] p-4">
+      <div className="glass-thin rounded-(--radius-card) p-4">
         <h3 className="text-muted-foreground mb-2 text-[10px] font-semibold uppercase tracking-[0.15em]">
           Următoarele facturi
         </h3>
@@ -25,14 +25,14 @@ export async function UpcomingBills() {
   const today = new Date();
 
   return (
-    <div className="glass-thin overflow-hidden rounded-[--radius-card]">
-      <div className="flex items-baseline justify-between border-b border-[--glass-border] px-4 py-3">
+    <div className="glass-thin overflow-hidden rounded-(--radius-card)">
+      <div className="flex items-baseline justify-between border-b border-(--glass-border) px-4 py-3">
         <h3 className="text-muted-foreground text-[10px] font-semibold uppercase tracking-[0.15em]">
           Următoarele facturi
         </h3>
         <p className="text-muted-foreground text-xs">7 zile</p>
       </div>
-      <ul className="divide-y divide-[--glass-border]">
+      <ul className="divide-y divide-(--glass-border)">
         {bills.map((b) => {
           const next = parseISO(b.next_date);
           const days = differenceInDays(next, today);
@@ -48,7 +48,7 @@ export async function UpcomingBills() {
           return (
             <li
               key={b.id}
-              className="flex items-center gap-3 px-4 py-2.5 text-sm transition-colors hover:bg-[--surface-tint-faint]"
+              className="flex items-center gap-3 px-4 py-2.5 text-sm transition-colors hover:bg-(--surface-tint-faint)"
             >
               <div className="min-w-0 flex-1">
                 <p className="truncate font-medium">
@@ -57,7 +57,7 @@ export async function UpcomingBills() {
                 <p
                   className={
                     urgent
-                      ? "text-[--accent-amber] text-[11px] font-medium"
+                      ? "text-(--accent-amber) text-[11px] font-medium"
                       : "text-muted-foreground text-[11px]"
                   }
                 >

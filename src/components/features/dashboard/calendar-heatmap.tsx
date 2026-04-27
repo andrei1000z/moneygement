@@ -58,7 +58,7 @@ export function SpendingHeatmap({ daily, currency, days = 84 }: Props) {
 
   return (
     <>
-      <div className="glass-thin rounded-[--radius-card] p-3">
+      <div className="glass-thin rounded-(--radius-card) p-3">
         <div className="mb-2 flex items-baseline justify-between px-1">
           <h3 className="text-muted-foreground text-xs uppercase tracking-wider">
             Cheltuieli zilnice
@@ -133,7 +133,7 @@ export function SpendingHeatmap({ daily, currency, days = 84 }: Props) {
             <a
               href={`/transactions?from=${selectedDay?.date}&to=${selectedDay?.date}`}
               className={cn(
-                "glass-thin hover:bg-[--surface-hover-faint] flex items-center justify-between rounded-lg border p-3 text-sm",
+                "glass-thin hover:bg-(--surface-hover-faint) flex items-center justify-between rounded-lg border p-3 text-sm",
               )}
             >
               <span>Vezi tranzacțiile zilei</span>

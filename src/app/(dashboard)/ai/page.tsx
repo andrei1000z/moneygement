@@ -33,7 +33,7 @@ export default async function AiPage() {
 
 function NoProvider() {
   return (
-    <div className="glass-thin flex flex-1 items-center justify-center rounded-[--radius-card] p-6">
+    <div className="glass-thin flex flex-1 items-center justify-center rounded-(--radius-card) p-6">
       <div className="max-w-sm text-center">
         <p className="text-sm font-semibold">AI nu e configurat</p>
         <p className="text-muted-foreground mt-2 text-xs">

@@ -30,9 +30,9 @@ function Switch({
         // Sizes
         "data-[size=default]:h-7 data-[size=default]:w-12 data-[size=sm]:h-5 data-[size=sm]:w-9",
         // States
-        "data-checked:bg-gradient-to-br data-checked:from-[--accent-emerald] data-checked:to-[--accent-cyan]",
+        "data-checked:bg-gradient-to-br data-checked:from-(--accent-emerald) data-checked:to-(--accent-cyan)",
         "data-checked:glow-switch-checked",
-        "data-unchecked:bg-[--surface-active-strong]",
+        "data-unchecked:bg-(--surface-active-strong)",
         "data-unchecked:shadow-[inset_0_1px_2px_oklch(0_0_0/0.1)]",
         "data-disabled:cursor-not-allowed data-disabled:opacity-50",
         className

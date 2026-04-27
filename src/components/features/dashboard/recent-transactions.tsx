@@ -21,7 +21,7 @@ export async function RecentTransactions() {
 
   if (tx.length === 0) {
     return (
-      <div className="glass-thin rounded-[--radius-card] p-4">
+      <div className="glass-thin rounded-(--radius-card) p-4">
         <h3 className="text-muted-foreground mb-2 text-[10px] font-semibold uppercase tracking-[0.15em]">
           Tranzacții recente
         </h3>
@@ -33,8 +33,8 @@ export async function RecentTransactions() {
   }
 
   return (
-    <div className="glass-thin overflow-hidden rounded-[--radius-card]">
-      <div className="flex items-baseline justify-between border-b border-[--glass-border] px-4 py-3">
+    <div className="glass-thin overflow-hidden rounded-(--radius-card)">
+      <div className="flex items-baseline justify-between border-b border-(--glass-border) px-4 py-3">
         <h3 className="text-muted-foreground text-[10px] font-semibold uppercase tracking-[0.15em]">
           Tranzacții recente
         </h3>
@@ -45,7 +45,7 @@ export async function RecentTransactions() {
           Vezi toate →
         </Link>
       </div>
-      <ul className="divide-y divide-[--glass-border]">
+      <ul className="divide-y divide-(--glass-border)">
         {tx.map((t) => {
           const cat = t.category_id ? catById.get(t.category_id) : null;
           const parts = formatMoneyParts(t.amount, t.currency);
@@ -53,7 +53,7 @@ export async function RecentTransactions() {
           return (
             <li
               key={t.id}
-              className="flex items-center gap-3 px-4 py-2.5 text-sm transition-colors hover:bg-[--surface-tint-faint]"
+              className="flex items-center gap-3 px-4 py-2.5 text-sm transition-colors hover:bg-(--surface-tint-faint)"
             >
               <span
                 className="flex size-9 shrink-0 items-center justify-center rounded-full text-base"
@@ -92,7 +92,7 @@ export async function RecentTransactions() {
               <span
                 className={cn(
                   "tabular-nums text-right text-sm font-semibold",
-                  isIncome ? "text-[--accent-emerald]" : "text-foreground",
+                  isIncome ? "text-(--accent-emerald)" : "text-foreground",
                 )}
               >
                 {isIncome ? "+" : parts.sign}

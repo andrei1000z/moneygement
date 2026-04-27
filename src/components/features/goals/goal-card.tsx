@@ -54,7 +54,7 @@ export function GoalCard({ goal, onClick, onReached }: Props) {
   return (
     <article
       className={cn(
-        "glass-thin relative flex flex-col gap-3 rounded-[--radius-card] p-4 transition",
+        "glass-thin relative flex flex-col gap-3 rounded-(--radius-card) p-4 transition",
         onClick && "hover:bg-accent/30 cursor-pointer",
       )}
       onClick={(e) => {

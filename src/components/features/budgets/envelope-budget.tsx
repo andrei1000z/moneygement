@@ -148,7 +148,7 @@ export function EnvelopeBudget({
         ) : null}
       </div>
 
-      <div className="glass-thin overflow-hidden rounded-[--radius-card]">
+      <div className="glass-thin overflow-hidden rounded-(--radius-card)">
         <div className="bg-muted/40 grid grid-cols-[1fr_120px_120px_120px] items-center gap-2 px-3 py-2 text-xs font-medium uppercase tracking-wider">
           <span>Categorie</span>
           <span className="text-right">Alocat</span>

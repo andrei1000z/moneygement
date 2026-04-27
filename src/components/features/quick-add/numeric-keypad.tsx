@@ -229,7 +229,7 @@ export function NumericKeypad({
     <div className={cn("flex flex-col gap-3", className)}>
       <div className="text-center">
         {state.stored !== null && state.op !== null ? (
-          <div className="text-[--accent-violet] mb-1 text-xs tabular-nums font-medium">
+          <div className="text-(--accent-violet) mb-1 text-xs tabular-nums font-medium">
             {formatNumber(state.stored)} {opLabel}
           </div>
         ) : null}
@@ -304,7 +304,7 @@ function Key({
       onClick={onPress}
       className={cn(
         baseKeyClass,
-        "glass-thin hover:bg-[--surface-hover-strong]",
+        "glass-thin hover:bg-(--surface-hover-strong)",
         className,
       )}
     >
@@ -331,8 +331,8 @@ function KeyOp({
         baseKeyClass,
         "border text-lg",
         active
-          ? "bg-[--tint-violet] text-[--accent-violet] border-[--tint-violet-edge] glow-violet"
-          : "glass-thin text-[--accent-violet] hover:bg-[--tint-violet-soft]",
+          ? "bg-(--tint-violet) text-(--accent-violet) border-(--tint-violet-edge) glow-violet"
+          : "glass-thin text-(--accent-violet) hover:bg-(--tint-violet-soft)",
       )}
     >
       {label}
@@ -352,7 +352,7 @@ function KeyAccent({
       {...rest}
       className={cn(
         baseKeyClass,
-        "glass-thin hover:bg-[--surface-hover-strong]",
+        "glass-thin hover:bg-(--surface-hover-strong)",
       )}
     >
       {children}
@@ -372,7 +372,7 @@ function KeyConfirm({
       {...rest}
       className={cn(
         baseKeyClass,
-        "bg-gradient-to-br from-[--accent-emerald] to-[--accent-cyan] text-[--bg-base]",
+        "bg-gradient-to-br from-(--accent-emerald) to-(--accent-cyan) text-(--bg-base)",
         "glow-keypad-confirm",
       )}
     >

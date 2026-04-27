@@ -110,7 +110,7 @@ export async function CashflowForecastWidget() {
   return (
     <Link
       href="/insights"
-      className="glass-thin specular block rounded-[--radius-card] p-4 transition-transform duration-200 hover:scale-[1.005]"
+      className="glass-thin specular block rounded-(--radius-card) p-4 transition-transform duration-200 hover:scale-[1.005]"
     >
       <div className="flex items-baseline justify-between">
         <p className="text-muted-foreground text-[10px] font-semibold uppercase tracking-[0.15em]">

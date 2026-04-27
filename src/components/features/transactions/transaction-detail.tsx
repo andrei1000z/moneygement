@@ -268,7 +268,7 @@ export function TransactionDetail({ txId, open, onOpenChange }: Props) {
                 </div>
 
                 {/* Metadata */}
-                <dl className="glass-thin divide-y divide-[--glass-border] rounded-[--radius-card] text-sm">
+                <dl className="glass-thin divide-y divide-(--glass-border) rounded-(--radius-card) text-sm">
                   <Meta label="Cont" value={account?.name ?? "—"} />
                   <Meta
                     label="Data"
@@ -295,10 +295,10 @@ export function TransactionDetail({ txId, open, onOpenChange }: Props) {
                           disabled={pending}
                           aria-pressed={tx.ownership === opt.v}
                           className={cn(
-                            "rounded-[--radius-pill] px-2.5 py-1 text-xs transition disabled:opacity-50",
+                            "rounded-(--radius-pill) px-2.5 py-1 text-xs transition disabled:opacity-50",
                             tx.ownership === opt.v
                               ? "bg-emerald-500/15 text-emerald-700 ring-1 ring-emerald-500/30 dark:text-emerald-300"
-                              : "text-muted-foreground hover:bg-[--surface-hover-faint]",
+                              : "text-muted-foreground hover:bg-(--surface-hover-faint)",
                           )}
                         >
                           {opt.label}
@@ -345,7 +345,7 @@ export function TransactionDetail({ txId, open, onOpenChange }: Props) {
                     href={tx.receipt_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="glass-thin hover:bg-[--surface-hover-faint] flex items-center justify-between rounded-xl border p-3 text-sm"
+                    className="glass-thin hover:bg-(--surface-hover-faint) flex items-center justify-between rounded-xl border p-3 text-sm"
                   >
                     📷 Vezi bon
                     <ExternalLink className="size-4" aria-hidden />

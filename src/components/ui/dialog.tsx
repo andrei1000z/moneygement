@@ -61,7 +61,7 @@ function DialogContent({
       <DialogPrimitive.Content
         data-slot="dialog-content"
         className={cn(
-          "glass-strong fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-[--radius-card] p-5 text-sm text-popover-foreground duration-200 outline-none sm:max-w-md data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+          "glass-strong fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-(--radius-card) p-5 text-sm text-popover-foreground duration-200 outline-none sm:max-w-md data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
           className
         )}
         {...props}
@@ -107,7 +107,7 @@ function DialogFooter({
     <div
       data-slot="dialog-footer"
       className={cn(
-        "-mx-5 -mb-5 mt-2 flex flex-col-reverse gap-2 rounded-b-[--radius-card] border-t border-[--glass-border] bg-[--surface-tint-faint] p-4 sm:flex-row sm:justify-end",
+        "-mx-5 -mb-5 mt-2 flex flex-col-reverse gap-2 rounded-b-(--radius-card) border-t border-(--glass-border) bg-(--surface-tint-faint) p-4 sm:flex-row sm:justify-end",
         className
       )}
       {...props}

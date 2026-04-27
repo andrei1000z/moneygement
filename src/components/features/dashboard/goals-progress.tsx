@@ -19,7 +19,7 @@ export async function GoalsProgress() {
     return (
       <Link
         href="/goals"
-        className="glass-thin specular block rounded-[--radius-card] p-4 text-sm transition-transform duration-200 hover:scale-[1.005]"
+        className="glass-thin specular block rounded-(--radius-card) p-4 text-sm transition-transform duration-200 hover:scale-[1.005]"
       >
         <p className="text-muted-foreground text-[10px] font-semibold uppercase tracking-[0.15em]">
           Obiective
@@ -32,7 +32,7 @@ export async function GoalsProgress() {
   return (
     <Link
       href="/goals"
-      className="glass-thin specular block rounded-[--radius-card] p-4 transition-transform duration-200 hover:scale-[1.005]"
+      className="glass-thin specular block rounded-(--radius-card) p-4 transition-transform duration-200 hover:scale-[1.005]"
     >
       <div className="flex items-baseline justify-between">
         <h3 className="text-muted-foreground text-[10px] font-semibold uppercase tracking-[0.15em]">
@@ -50,7 +50,7 @@ export async function GoalsProgress() {
           return (
             <li
               key={g.id}
-              className="flex items-center gap-3 rounded-xl border border-[--glass-border] bg-[--surface-tint-faint] p-2.5"
+              className="flex items-center gap-3 rounded-xl border border-(--glass-border) bg-(--surface-tint-faint) p-2.5"
             >
               <Ring pct={pct} reached={reached} keySuffix={g.id} />
               <div className="min-w-0 flex-1">

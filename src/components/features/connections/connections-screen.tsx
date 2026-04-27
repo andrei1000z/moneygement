@@ -95,7 +95,7 @@ export function ConnectionsScreen({
 
   return (
     <div className="space-y-4">
-      <section className="glass-thin rounded-[--radius-card] p-4">
+      <section className="glass-thin rounded-(--radius-card) p-4">
         <h2 className="mb-3 text-sm font-semibold">Conectează un cont</h2>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end">
           <div className="flex-1">
@@ -130,7 +130,7 @@ export function ConnectionsScreen({
         </p>
       </section>
 
-      <section className="glass-thin overflow-hidden rounded-[--radius-card]">
+      <section className="glass-thin overflow-hidden rounded-(--radius-card)">
         <h2 className="border-b px-4 py-2.5 text-sm font-semibold">
           Conexiuni active ({connections.length})
         </h2>

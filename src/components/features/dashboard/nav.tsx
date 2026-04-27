@@ -141,7 +141,7 @@ export function BottomTabBar() {
     <>
       <nav
         aria-label="Navigare principală"
-        className="glass-strong fixed inset-x-2 bottom-2 z-40 mx-auto max-w-md rounded-[--radius-sheet] border md:hidden"
+        className="glass-strong fixed inset-x-2 bottom-2 z-40 mx-auto max-w-md rounded-(--radius-sheet) border md:hidden"
         style={{ paddingBottom: "max(env(safe-area-inset-bottom), 8px)" }}
       >
         <ul className="flex items-stretch justify-between px-1.5 pt-1.5">
@@ -237,7 +237,7 @@ function NavTab({ item, pathname }: { item: NavItem; pathname: string }) {
         <item.Icon
           className={cn(
             "size-5 transition-transform",
-            active && "text-[--accent-blue]",
+            active && "text-(--accent-blue)",
           )}
           aria-hidden
           strokeWidth={1.75}
@@ -255,7 +255,7 @@ export function Sidebar() {
   return (
     <aside
       aria-label="Navigare principală"
-      className="glass m-3 mr-0 hidden w-64 shrink-0 flex-col rounded-[--radius-card] md:flex"
+      className="glass m-3 mr-0 hidden w-64 shrink-0 flex-col rounded-(--radius-card) md:flex"
     >
       <div className="flex items-center gap-2.5 px-5 py-5">
         <div
@@ -268,12 +268,12 @@ export function Sidebar() {
           }}
         >
           <Wallet
-            className="size-5 text-[--accent-blue]"
+            className="size-5 text-(--accent-blue)"
             aria-hidden
             strokeWidth={1.75}
           />
         </div>
-        <span className="text-xl font-semibold tracking-tight text-[--accent-blue]">
+        <span className="text-xl font-semibold tracking-tight text-(--accent-blue)">
           Banii
         </span>
       </div>
@@ -316,7 +316,7 @@ function SidebarLink({
           "relative flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition-colors duration-200",
           active
             ? "text-foreground"
-            : "text-muted-foreground hover:bg-[--surface-tint] hover:text-foreground",
+            : "text-muted-foreground hover:bg-(--surface-tint) hover:text-foreground",
         )}
         style={
           active
@@ -329,7 +329,7 @@ function SidebarLink({
         }
       >
         <item.Icon
-          className={cn("size-4", active && "text-[--accent-emerald]")}
+          className={cn("size-4", active && "text-(--accent-emerald)")}
           aria-hidden
           strokeWidth={1.75}
         />
@@ -391,8 +391,8 @@ function QuickAddFab() {
           setMenuOpen(true);
         }}
         className={cn(
-          "relative -mt-7 flex size-14 items-center justify-center rounded-full text-[--bg-base] transition-transform duration-200 active:scale-90",
-          "bg-gradient-to-br from-[--accent-emerald] to-[--accent-cyan]",
+          "relative -mt-7 flex size-14 items-center justify-center rounded-full text-(--bg-base) transition-transform duration-200 active:scale-90",
+          "bg-gradient-to-br from-(--accent-emerald) to-(--accent-cyan)",
           "glow-fab",
         )}
       >
@@ -420,8 +420,8 @@ function QuickAddSidebarButton() {
       type="button"
       onClick={() => openSheet({ mode: "expense" })}
       className={cn(
-        "relative flex w-full items-center justify-center gap-2 rounded-xl px-3 py-2.5 text-sm font-semibold text-[--bg-base] transition-transform duration-200 active:scale-[0.97]",
-        "bg-gradient-to-br from-[--accent-emerald] to-[--accent-cyan]",
+        "relative flex w-full items-center justify-center gap-2 rounded-xl px-3 py-2.5 text-sm font-semibold text-(--bg-base) transition-transform duration-200 active:scale-[0.97]",
+        "bg-gradient-to-br from-(--accent-emerald) to-(--accent-cyan)",
         "glow-cta",
       )}
     >

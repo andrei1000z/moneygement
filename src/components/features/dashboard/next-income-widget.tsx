@@ -41,14 +41,14 @@ export async function NextIncomeWidget() {
   return (
     <Link
       href="/income"
-      className="glass-thin specular block rounded-[--radius-card] p-4 transition-transform duration-200 hover:scale-[1.005]"
+      className="glass-thin specular block rounded-(--radius-card) p-4 transition-transform duration-200 hover:scale-[1.005]"
     >
       <div className="flex items-baseline justify-between">
         <p className="text-muted-foreground text-[10px] font-semibold uppercase tracking-[0.15em]">
           Următoarea încasare
         </p>
         <CalendarClock
-          className="text-[--accent-emerald] size-3.5"
+          className="text-(--accent-emerald) size-3.5"
           aria-hidden
           strokeWidth={1.75}
         />
@@ -61,7 +61,7 @@ export async function NextIncomeWidget() {
         className={cn(
           "mt-1 text-xs tabular-nums",
           days <= 3
-            ? "font-medium text-[--accent-emerald]"
+            ? "font-medium text-(--accent-emerald)"
             : "text-muted-foreground",
         )}
       >

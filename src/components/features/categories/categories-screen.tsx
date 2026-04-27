@@ -139,7 +139,7 @@ export function CategoriesScreen() {
 
 function EmptyState({ onCreate }: { onCreate: () => void }) {
   return (
-    <div className="glass-thin flex flex-col items-center justify-center rounded-[--radius-card] border-dashed p-10 text-center">
+    <div className="glass-thin flex flex-col items-center justify-center rounded-(--radius-card) border-dashed p-10 text-center">
       <div className="bg-accent text-accent-foreground mb-4 flex size-12 items-center justify-center rounded-full">
         <Tags className="size-5" aria-hidden />
       </div>
@@ -191,7 +191,7 @@ function CategoryNode({
         type="button"
         onClick={() => onEdit(node)}
         className={cn(
-          "glass-thin hover:bg-[--surface-hover-faint] group flex w-full items-center gap-3 rounded-lg border p-3 text-left transition",
+          "glass-thin hover:bg-(--surface-hover-faint) group flex w-full items-center gap-3 rounded-lg border p-3 text-left transition",
         )}
         style={{ marginLeft: depth > 0 ? depth * 20 : undefined }}
       >

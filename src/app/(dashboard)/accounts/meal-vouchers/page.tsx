@@ -45,7 +45,7 @@ export default async function MealVouchersPage() {
       </header>
 
       {(accounts ?? []).length === 0 ? (
-        <div className="glass-thin text-muted-foreground rounded-[--radius-card] p-6 text-center text-sm">
+        <div className="glass-thin text-muted-foreground rounded-(--radius-card) p-6 text-center text-sm">
           Niciun cont de tichete masă. Adaugă unul din pagina Conturi cu
           tipul „Tichete masă&rdquo;.
         </div>

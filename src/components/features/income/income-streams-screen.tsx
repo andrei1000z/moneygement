@@ -47,7 +47,7 @@ export function IncomeStreamsScreen({ streams }: { streams: Stream[] }) {
 
   return (
     <div className="space-y-4">
-      <div className="glass-thin flex items-center justify-between rounded-[--radius-card] p-4">
+      <div className="glass-thin flex items-center justify-between rounded-(--radius-card) p-4">
         <p className="text-muted-foreground text-xs">
           {streams.length === 0
             ? "Nicio sursă încă. Apasă „Detectează” pentru a analiza istoricul."
@@ -75,7 +75,7 @@ export function IncomeStreamsScreen({ streams }: { streams: Stream[] }) {
             return (
               <li
                 key={s.id}
-                className="glass-thin rounded-[--radius-card] p-4"
+                className="glass-thin rounded-(--radius-card) p-4"
               >
                 <div className="flex items-start justify-between">
                   <div className="min-w-0">

@@ -5,24 +5,24 @@ import { Slot } from "radix-ui"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center rounded-[--radius-pill] border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap outline-none select-none transition-[transform,background-color,box-shadow,opacity,color] duration-200 ease-[cubic-bezier(0.32,0.72,0,1)] focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:scale-[0.97] active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/button inline-flex shrink-0 items-center justify-center rounded-(--radius-pill) border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap outline-none select-none transition-[transform,background-color,box-shadow,opacity,color] duration-200 ease-[cubic-bezier(0.32,0.72,0,1)] focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:scale-[0.97] active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
         default:
           "bg-primary text-primary-foreground hover:brightness-110 [a]:hover:bg-primary/90",
         glow:
-          "bg-[--accent-blue] text-white hover:bg-[--accent-blue-bright]",
+          "bg-(--accent-blue) text-white hover:bg-(--accent-blue-bright)",
         eu:
-          "bg-[--accent-blue] text-white hover:bg-[--accent-blue-bright]",
+          "bg-(--accent-blue) text-white hover:bg-(--accent-blue-bright)",
         yellow:
-          "bg-[--accent-yellow] text-[--accent-navy] hover:brightness-105 font-semibold",
+          "bg-(--accent-yellow) text-(--accent-navy) hover:brightness-105 font-semibold",
         outline:
-          "glass-thin hover:bg-[--surface-hover] hover:text-foreground aria-expanded:bg-[--surface-hover-strong] aria-expanded:text-foreground",
+          "glass-thin hover:bg-(--surface-hover) hover:text-foreground aria-expanded:bg-(--surface-hover-strong) aria-expanded:text-foreground",
         secondary:
-          "glass-thin text-foreground hover:bg-[--surface-hover-strong] aria-expanded:bg-[--surface-active]",
+          "glass-thin text-foreground hover:bg-(--surface-hover-strong) aria-expanded:bg-(--surface-active)",
         ghost:
-          "hover:bg-[--surface-hover-strong] hover:text-foreground aria-expanded:bg-[--surface-active] aria-expanded:text-foreground",
+          "hover:bg-(--surface-hover-strong) hover:text-foreground aria-expanded:bg-(--surface-active) aria-expanded:text-foreground",
         destructive:
           "bg-destructive/15 text-destructive hover:bg-destructive/25 focus-visible:border-destructive/40 focus-visible:ring-destructive/20",
         link: "text-primary underline-offset-4 hover:underline",
