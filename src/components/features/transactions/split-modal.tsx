@@ -4,10 +4,8 @@ import { useMemo, useState, useTransition } from "react";
 import { Loader2, Plus, Scale, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
-import {
-  splitTransaction,
-  type SplitItem,
-} from "@/app/(dashboard)/transactions/actions";
+import { splitTransaction } from "@/app/(dashboard)/transactions/actions";
+import type { SplitItem } from "@/lib/validation/transactions";
 import { Button } from "@/components/ui/button";
 import { CurrencyInput } from "@/components/ui/currency-input";
 import {

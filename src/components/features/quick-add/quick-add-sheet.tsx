@@ -4,10 +4,8 @@ import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { ArrowLeft, Loader2, Save } from "lucide-react";
 import { toast } from "sonner";
 
-import {
-  createTransaction,
-  type TransactionInput,
-} from "@/app/(dashboard)/transactions/actions";
+import { createTransaction } from "@/app/(dashboard)/transactions/actions";
+import type { TransactionInput } from "@/lib/validation/transactions";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,

@@ -76,3 +76,15 @@ export const bulkPatchSchema = z
 
 export type BulkPatch = z.infer<typeof bulkPatchSchema>;
 
+// ---------- Action result --------------------------------------------------
+
+/**
+ * Discriminated union pentru rezultatul unei server action. Trăiește aici
+ * (NU în actions.ts cu 'use server') pentru că Next 16 acceptă doar export-uri
+ * de async functions în fișiere 'use server'.
+ */
+export type ActionResult<T = void> =
+  | { ok: true; data: T }
+  | { ok: false; error: string };
+
+

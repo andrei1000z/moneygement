@@ -283,10 +283,13 @@
    GLASS UTILITIES
    ============================================================ */
 @layer utilities {
+  /* Glass utilities — optimizate pentru dev. blur 40-60px e foarte scump
+     pe Windows/Chrome (compositor) când avem multe layer-e. Reducem la
+     20-32px (vizual aproape identic, ~3x mai rapid). */
   .glass {
     background: var(--glass-base);
-    backdrop-filter: blur(40px) saturate(180%) brightness(1.05);
-    -webkit-backdrop-filter: blur(40px) saturate(180%) brightness(1.05);
+    backdrop-filter: blur(20px) saturate(180%) brightness(1.05);
+    -webkit-backdrop-filter: blur(20px) saturate(180%) brightness(1.05);
     border: 1px solid var(--glass-border);
     box-shadow:
       inset 0 1px 0 var(--glass-border-hi),
@@ -295,8 +298,8 @@
   }
   .glass-strong {
     background: var(--glass-strong);
-    backdrop-filter: blur(60px) saturate(200%) brightness(1.08);
-    -webkit-backdrop-filter: blur(60px) saturate(200%) brightness(1.08);
+    backdrop-filter: blur(32px) saturate(200%) brightness(1.08);
+    -webkit-backdrop-filter: blur(32px) saturate(200%) brightness(1.08);
     border: 1px solid var(--glass-border);
     box-shadow:
       inset 0 1px 0 var(--glass-border-hi),
@@ -305,8 +308,8 @@
   }
   .glass-thin {
     background: color-mix(in oklch, var(--glass-base), transparent 60%);
-    backdrop-filter: blur(24px) saturate(160%);
-    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
     border: 1px solid var(--glass-border);
   }
 

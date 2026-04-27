@@ -2,10 +2,8 @@ import "server-only";
 
 import { NextResponse } from "next/server";
 
-import {
-  createTransaction,
-  type TransactionInput,
-} from "@/app/(dashboard)/transactions/actions";
+import { createTransaction } from "@/app/(dashboard)/transactions/actions";
+import type { TransactionInput } from "@/lib/validation/transactions";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

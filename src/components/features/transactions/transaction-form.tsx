@@ -10,8 +10,8 @@ import { z } from "zod";
 import {
   createTransaction,
   updateTransaction,
-  type TransactionInput,
 } from "@/app/(dashboard)/transactions/actions";
+import type { TransactionInput } from "@/lib/validation/transactions";
 import { Button } from "@/components/ui/button";
 import { CurrencyInput } from "@/components/ui/currency-input";
 import {

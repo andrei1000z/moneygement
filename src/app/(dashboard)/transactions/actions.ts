@@ -15,9 +15,12 @@ import {
 import { firstZodMessage } from "@/lib/zod-utils";
 import type { Database, TxStatus, Ownership, TxSource } from "@/types/database";
 
-export type { TransactionInput, SplitItem, BulkPatch };
+// NOTĂ: în Next 16, fișierele 'use server' acceptă DOAR async functions ca
+// export-uri (nu re-export-uri de tipuri sau alias-uri locale). Tipurile
+// (TransactionInput, SplitItem, BulkPatch, ActionResult) trăiesc în
+// `@/lib/validation/transactions` — consumatorii importă de acolo direct.
 
-export type ActionResult<T = void> =
+type ActionResult<T = void> =
   | { ok: true; data: T }
   | { ok: false; error: string };
 
