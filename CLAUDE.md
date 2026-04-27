@@ -72,98 +72,29 @@ Vezi `package.json` pentru lista completă.
 
 - **Faza 5** — bugete (target-based + envelope mode YNAB-style cu Ready to Assign + Move Money + Auto-assign + rollover via 0012 RPC), goals (5 bucket types, progress ring SVG, ETA, debt snowball/avalanche cu recomandare). **Status: complet.** (Lipsește invite mamă, CSV importer, pipeline FX — împinse în Faza 6.)
 
-- **Faza 6** — invite mamă, CSV importer (6 bănci), pipeline FX
-  (BNR + Frankfurter cu cron). **Status: complet.**
+- **Faza 6** — invite mamă, CSV importer (6 bănci), pipeline FX (BNR + Frankfurter cu cron). **Status: complet.**
 
-  > FX: migrare 0006 + Edge Function `fx-update` + `/api/fx/historical`
-  > pentru backfill, pagina `/insights/fx` cu chart 12 luni.
-  > Invite: migrare 0007 + RPC `accept_invite` + UI în `/settings`.
-  > CSV: 6 parsere (BT24/BCR/ING/Revolut/CEC/Raiffeisen) +
-  > merchant-matcher 4-tier + UI wizard în `/import`.
+  > FX: migrare 0006 + Edge Function `fx-update` + `/api/fx/historical`pentru backfill, pagina `/insights/fx` cu chart 12 luni. Invite: migrare 0007 + RPC `accept_invite` + UI în `/settings`. CSV: 6 parsere (BT24/BCR/ING/Revolut/CEC/Raiffeisen) + merchant-matcher 4-tier + UI wizard în `/import`.
 
-- **Faza 7** — dashboard streaming (RSC + Suspense), hero number, KPI
-  cards, mini-Sankey, calendar heatmap, recent transactions.
-  **Status: complet** (livrat în Faza 5/6 vizuale).
+- **Faza 7** — dashboard streaming (RSC + Suspense), hero number, KPI cards, mini-Sankey, calendar heatmap, recent transactions. **Status: complet** (livrat în Faza 5/6 vizuale).
 
-- **Faza 8** — AI 3-tier categorize (rules → KNN → LLM), chat cu
-  tool-calling (Vercel AI SDK 6), weekly recap, anomaly detection,
-  subscription detector. **Status: complet.**
+- **Faza 8** — AI 3-tier categorize (rules → KNN → LLM), chat cu tool-calling (Vercel AI SDK 6), weekly recap, anomaly detection, subscription detector. **Status: complet.**
 
-  > Migrare 0008 (embedding_queue + chat_threads + chat_messages +
-  > recaps + detected_subscriptions) + 0009 (cron-uri).
-  > Edge functions: `process-embeddings`, `weekly-recap`.
-  > Pagini: `/ai`, `/subscriptions`. Tool-uri: query_transactions,
-  > get_budget, get_net_worth, get_goal_progress, simulate_scenario,
-  > semantic_search, update_transaction_category.
+  > Migrare 0008 (embedding_queue + chat_threads + chat_messages + recaps + detected_subscriptions) + 0009 (cron-uri). Edge functions: `process-embeddings`, `weekly-recap`. Pagini: `/ai`, `/subscriptions`. Tool-uri: query_transactions, get_budget, get_net_worth, get_goal_progress, simulate_scenario, semantic_search, update_transaction_category.
 
-- **Faza 9** — PWA push + offline queue + Enable Banking integration.
-  **Status: complet.**
+- **Faza 9** — PWA push + offline queue + Enable Banking integration. **Status: complet.**
 
-  > web-push + idb. SW extins cu push event handler. Component
-  > `PushPrompt` (după 5 acțiuni, gating iOS la PWA install) +
-  > `OfflineDrainer` (drain pe `online`).
-  > Enable Banking: client JWT RS256 cu jose, routes `start-auth` /
-  > `callback`, pagina `/connections`, Edge Function `bank-sync`,
-  > cron 6h (migrare 0020).
+  > web-push + idb. SW extins cu push event handler. Component `PushPrompt` (după 5 acțiuni, gating iOS la PWA install) + `OfflineDrainer` (drain pe `online`). Enable Banking: client JWT RS256 cu jose, routes `start-auth` / `callback`, pagina `/connections`, Edge Function `bank-sync`, cron 6h (migrare 0020).
 
-- **Faza 10** — features românești.
-  **Status: parțial complet.**
+- **Faza 10** — features românești. **Status: parțial complet.**
 
-  > Livrat: `lib/text/diacritics`, `lib/holidays/ro` (Computus),
-  > `lib/forecast/cashflow` (30/60/90 zile cu confidence band ±15%),
-  > `lib/intelligence/{rage-spending,lifestyle-inflation,anniversaries}`,
-  > `lib/meal-vouchers/providers`, `lib/seasonal/budgets`.
-  > Rămase pentru V2: pagini dedicate Pilon III tracker, salary
-  > intelligence (income_streams + algoritm detection), tichete masă
-  > UI cu lots & expiry warnings, seasonal budgets auto-prompt UI.
+  > Livrat: `lib/text/diacritics`, `lib/holidays/ro` (Computus), `lib/forecast/cashflow` (30/60/90 zile cu confidence band ±15%), `lib/intelligence/{rage-spending,lifestyle-inflation,anniversaries}`, `lib/meal-vouchers/providers`, `lib/seasonal/budgets`. Rămase pentru V2: pagini dedicate Pilon III tracker, salary intelligence (income_streams + algoritm detection), tichete masă UI cu lots & expiry warnings, seasonal budgets auto-prompt UI.
 
-- **Faza 12** — PWA polish (icons, install prompt, connection status,
-  push, offline queue). **Status: complet** (Faza 12 anterioară din
-  BLUEPRINT a fost realizată în Stage B + G).
+- **Faza 12** — PWA polish (icons, install prompt, connection status, push, offline queue). **Status: complet** (Faza 12 anterioară din BLUEPRINT a fost realizată în Stage B + G).
 
 - **Faza 13** — Liquid Glass design system (iOS premium). **Status: complet.**
 
-  > Tokens Aurora în `globals.css`: paletă oklch (emerald/violet/cyan/
-  > pink/amber) + variabile glass (base/elevated/strong/border/border-hi/
-  > shadow) + radius scale (--radius / --radius-card / --radius-sheet /
-  > --radius-pill).
-  > Utilities: `.glass`, `.glass-strong`, `.glass-thin` (backdrop-blur
-  > 24-60px + saturate + brightness + inset highlight), 5x `.glow-*`,
-  > 3x `.text-gradient-*` (cu animație `gradient-flow` pentru aurora),
-  > `.specular` (radial follow on hover), `.num-hero` (tabular slashed-zero
-  > letter-spacing tight), `.shimmer`, `.noise`.
-  > Body cu radial-gradient mesh ambient 4 colțuri.
-  > `AuroraBackground`: 4 blob-uri soft-glow drift 20-35s în (dashboard) +
-  > (auth) layouts.
-  > UI primitives glass: `Card` cu variant glass/solid, `Button` cu variant
-  > nou `glow` (gradient + glow-emerald), `Switch` iOS-style cu gradient
-  > checked + spring, `Skeleton` shimmer, `Tabs` glass-thin pill, `Sheet`
-  > / `Drawer` glass-strong cu rounded-sheet 32px și handle bar capsule,
-  > `Dialog` overlay backdrop-blur, `Sonner` top-center glass-strong,
-  > `Input` / `Textarea` glass-thin h-11, `Badge` 6 variante colored.
-  > Floating bottom tab bar (inset-x-2, max-w-md, glass-strong) cu pill
-  > emerald active + glow FAB cu gradient + 3-stops shadow (ring/close/
-  > ambient). Sidebar glass m-3 mr-0 cu logo `text-gradient-aurora` +
-  > SidebarLink active cu bg emerald/12 + ring.
-  > Dashboard widgets: NetWorthHeadline glass + text-gradient-emerald,
-  > KpiCard glass-thin + specular + accent icons, BudgetPulseBar progress
-  > 3-stop gradient (emerald→amber→destructive) cu glow box-shadow,
-  > GreetingCard glass-thin + noise + hour-aware emoji, GoalsProgress ring
-  > SVG cu gradient aurora + drop-shadow filter glow, RecentTransactions
-  > / UpcomingBills cu category colored ring chips.
-  > Quick-add: keypad cu display gradient aurora pe sumă > 0, KeyOp violet
-  > pe operatori, KeyConfirm gradient emerald→cyan + glow shadow, preset
-  > chips glass-thin scale 0.92 active, category grid scale 1.05 + glow
-  > pe selected.
-  > Restul ecranelor: batch sed pentru toate `border-border/60 bg-card
-  > rounded-xl border` → `glass-thin rounded-[--radius-card]`; encoding
-  > UTF-8 preservat (sed mingw, NU PowerShell). Login glass-strong cu
-  > glow-emerald + title gradient aurora + Mail icon glow halo + buton
-  > glow size lg.
-  > Motion: `PageTransition` cu fade-in + slide-up 8px iOS easing,
-  > `useReducedMotionPref` care combină media query + class toggle din
-  > settings (MutationObserver). `ICON_STROKE = 1.75` standard pentru
-  > lucide.
+  > Tokens Aurora în `globals.css`: paletă oklch (emerald/violet/cyan/ pink/amber) + variabile glass (base/elevated/strong/border/border-hi/ shadow) + radius scale (--radius / --radius-card / --radius-sheet / --radius-pill). Utilities: `.glass`, `.glass-strong`, `.glass-thin` (backdrop-blur 24-60px + saturate + brightness + inset highlight), 5x `.glow-*`, 3x `.text-gradient-*` (cu animație `gradient-flow` pentru aurora), `.specular` (radial follow on hover), `.num-hero` (tabular slashed-zero letter-spacing tight), `.shimmer`, `.noise`. Body cu radial-gradient mesh ambient 4 colțuri. `AuroraBackground`: 4 blob-uri soft-glow drift 20-35s în (dashboard) + (auth) layouts. UI primitives glass: `Card` cu variant glass/solid, `Button` cu variant nou `glow` (gradient + glow-emerald), `Switch` iOS-style cu gradient checked + spring, `Skeleton` shimmer, `Tabs` glass-thin pill, `Sheet`/ `Drawer` glass-strong cu rounded-sheet 32px și handle bar capsule, `Dialog` overlay backdrop-blur, `Sonner` top-center glass-strong, `Input` / `Textarea` glass-thin h-11, `Badge` 6 variante colored. Floating bottom tab bar (inset-x-2, max-w-md, glass-strong) cu pill emerald active + glow FAB cu gradient + 3-stops shadow (ring/close/ ambient). Sidebar glass m-3 mr-0 cu logo `text-gradient-aurora` + SidebarLink active cu bg emerald/12 + ring. Dashboard widgets: NetWorthHeadline glass + text-gradient-emerald, KpiCard glass-thin + specular + accent icons, BudgetPulseBar progress 3-stop gradient (emerald→amber→destructive) cu glow box-shadow, GreetingCard glass-thin + noise + hour-aware emoji, GoalsProgress ring SVG cu gradient aurora + drop-shadow filter glow, RecentTransactions / UpcomingBills cu category colored ring chips. Quick-add: keypad cu display gradient aurora pe sumă &gt; 0, KeyOp violet pe operatori, KeyConfirm gradient emerald→cyan + glow shadow, preset chips glass-thin scale 0.92 active, category grid scale 1.05 + glow pe selected. Restul ecranelor: batch sed pentru toate `border-border/60 bg-card rounded-xl border` → `glass-thin rounded-[--radius-card]`; encoding UTF-8 preservat (sed mingw, NU PowerShell). Login glass-strong cu glow-emerald + title gradient aurora + Mail icon glow halo + buton glow size lg. Motion: `PageTransition` cu fade-in + slide-up 8px iOS easing, `useReducedMotionPref` care combină media query + class toggle din settings (MutationObserver). `ICON_STROKE = 1.75` standard pentru lucide.
 
 ## 6. Comanda standard de lucru
 
