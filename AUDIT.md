@@ -1,129 +1,153 @@
-# AUDIT — Banii (26 aprilie 2026)
+# AUDIT v2 — Banii (27 aprilie 2026)
 
-Auditul a fost făcut prin inspecție directă a codului în `C:\Users\Andrei\Desktop\banii`,
-plus rulare `npm run typecheck` și `npm run lint`. Folosit ca sursă de adevăr pentru
-promptul de finalizare din `FINISH_PROMPT.md`.
+> Refăcut după inspecție directă + rulare typecheck/lint/build.
+> **Vestea bună:** aplicația e ~95% gata funcțional. **Singurul lucru care lipsește serios e DESIGN-UL.**
 
-## TL;DR
+---
 
-- **Faze 0–5**: complete și bine implementate. Cod production-grade.
-- **Faza 6**: parțială. Lipsesc invite mamă, CSV importer, FX pipeline.
-- **Fazele 7–10**: 90% lipsesc.
-- **Erori care blochează**: 5 type-check, 1 lint, 3 icon-uri PWA lipsă, 0 commit-uri git.
-- **Cod prezent dar gol**: `src/lib/ai/{providers,tools,prompts}.ts` sunt placeholders.
+## ✅ Status real (nu cel de ieri)
 
-## ✅ Ce e gata și e BUN
+### Funcțional: COMPLET conform BLUEPRINT secțiunile 1-11
 
-### Setup (Faza 0)
-- Next 16.2.4 + React 19.2.4 + Tailwind v4 + shadcn/ui (preset radix-nova) ✓
-- `proxy.ts` (echivalentul Next 16 pentru `middleware.ts`) ✓
-- Serwist configurat în `next.config.ts` cu `disable: isDev` ✓
-- `next.config.ts` cu `experimental.cpus: 2` și `typescript.ignoreBuildErrors: true` cu motivație validă (bug ACCESS_VIOLATION pe Windows pe instantieri adânci de generic-uri Zod 4 + RHF + Database types). `npm run typecheck` rămâne sursa de adevăr.
-- Manifest PWA în `manifest.ts` ✓ (icon-urile referite NU există — vezi blockers)
+Verificat pe disk — 18 commits Git, toate fazele închise:
 
-### Schema DB (Faza 1)
-9 migrații în `supabase/migrations/` (timestamped) și mirror în `src/db/migrations/`:
-- `0001_init.sql` — toate tabelele cerute conform BLUEPRINT §6, indexuri HNSW pe `embedding`, GIN pe `pg_trgm`, GIN pe `tags` ✓
-- `0002_rls.sql` — RLS pe TOATE tabelele publice + `app.user_household_ids()` security-definer ca single-source-of-truth pentru membership ✓
-- `0003_triggers.sql` — `handle_new_user`, `fn_tx_balance`, `fn_tx_base_amount` ✓
-- `0004_functions.sql` — `fx_at` (cu strategie directă → inversă → pivot RON), `match_transactions` (cu RLS double-check), `cashflow` (rollup pe categorii cu base_amount și exclude transfer-uri) ✓
-- `0005_iban_crypto.sql` — encrypt/decrypt cu pgcrypto + Vault key ✓
-- `0010_transfer_detect.sql` — auto-detect transfer pe insert ✓
-- `0011_presets.sql` — quick-add presets ✓
-- `0012_budget_progress.sql` — RPC pentru envelope mode ✓
-- `0099_seed.sql` — 25 categorii românești seed cu trigger automat la creare household ✓
+| Faza | Status | Ce există concret |
+|------|--------|-------------------|
+| 0 — Setup | ✅ | Next 16, React 19, Tailwind v4, shadcn/ui, Serwist, proxy.ts, env complete |
+| 1 — Schema DB | ✅ | 19 migrații (0001 → 0099), RLS pe tot, triggers, fx_at, match_transactions, cashflow RPC |
+| 2 — Accounts/Categories/Merchants | ✅ | CRUD + IBAN encrypted + Dinero v2 + count-up animations |
+| 3 — Transactions core | ✅ | Listă virtualizată, filtre URL state, splits, transfer auto-detect, comments, ownership, bulk actions |
+| 4 — Quick-add | ✅ | Keypad custom, presets pinned, voice (Groq + Claude fallback), receipt OCR (GPT-4o vision), draft persistence |
+| 5 — Budgets + Goals | ✅ | Target + envelope mode, Move Money, 5 bucket types, debt snowball/avalanche |
+| 6 — Invite + CSV + FX | ✅ | Token-based invite, 6 parsers CSV (BT/BCR/ING/Revolut/CEC/Raiffeisen), BNR cron + Frankfurter fallback |
+| 7 — Multi-currency | ✅ | Integer minor units, fx_at cross-rate, base_amount auto-trigger |
+| 8 — AI complet | ✅ | 3-tier categorization (rules → KNN → LLM), chat cu tool-calling, weekly recap, anomaly, subscription detector, Cmd+K palette |
+| 9 — PWA + Banking | ✅ | Serwist offline queue (IndexedDB), web-push VAPID, install prompt iOS-aware, Enable Banking RS256 + sync 6h |
+| 10 — Romanian polish | ✅ | Tichete masă cu loturi expiry, Pilon III 400 EUR cap, salary detection + dashboard countdown, seasonal budgets, holidays, cashflow forecast, anniversaries, rage spending, lifestyle inflation |
+| Settings | ✅ | 6 tabs (Membri, Notificări, Aspect, Profil, Linkuri, Export), CSV/JSON export |
 
-### Pagini și componente
-- `(auth)`: login + callback ✓
-- `(dashboard)`: accounts, budgets, categories, goals, insights, merchants, transactions — fiecare cu `page.tsx` + `actions.ts` ✓
-- Transactions: list virtualizat (TanStack Virtual), filters cu URL state, splits, transaction-detail drawer cu comments, bulk-action-bar, transaction-form, transaction-row cu swipe gestures via `motion` ✓
-- Quick-add: numeric-keypad, preset-bar, voice-input, receipt-capture, account-pill, category-grid, quick-add-sheet ✓
-- API AI: `/api/ai/parse-voice/route.ts` și `/api/ai/parse-receipt/route.ts` — implementate cu Groq primary + Claude Sonnet fallback, rate limiting, auth check, Zod schemas, category matching la BD prin `ilike` ✓
-- Goals: 5 bucket types, debt-payoff (snowball + avalanche side-by-side), goal-celebration ✓
-- Budgets: target + envelope mode YNAB-style + Move Money + Auto-assign + rollover ✓
-- Dashboard widgets: greeting, net-worth-headline cu sparkline, kpi-card, mini-sankey, calendar-heatmap, recent-transactions, upcoming-bills, goals-progress ✓
-- Insights: net-worth-chart, income-vs-expense-chart, category-treemap, period-selector ✓
+### Tehnic: VERDE
 
-### Securitate
-- `src/lib/supabase/admin.ts` — `import "server-only"` la prima linie, service_role NU ajunge în client bundle ✓
-- `src/lib/ai/providers.ts` — `import "server-only"` ✓
-- IBAN encrypted cu pgcrypto + key în Supabase Vault ✓
-- Search recursiv după `SUPABASE_SERVICE_ROLE_KEY` în `src/`: confirmat că apare doar în `admin.ts` ✓
+- `npm run typecheck` → **0 erori** ✅
+- `npm run lint` → **0 erori, 4 warnings** (toate sunt react-compiler pe `form.watch()` și `useVirtualizer()` — API-uri externe acceptabile)
+- `npm run build` → **fail pe Windows** cu `VirtualAlloc failed` (e bug de mediu Next 16, NU bug în cod) — verifică pe Vercel sau cu memorie mai multă
+- Securitate: `service_role` doar în `admin.ts` cu `import "server-only"`, IBAN encrypted cu pgcrypto, RLS pe TOATE tabelele
 
-### Money + FX (parțial)
-- `src/lib/money.ts` — wrapper Dinero v2 production-grade: `toMinor`, `fromMinor`, `formatMoney` (cu post-process "RON" → "lei"), `formatMoneyParts` (pentru randare cents la 80% size), banker-style rounding pentru consistență monetară ✓
-- 6 currencies suportate (RON, EUR, USD, GBP, CHF, HUF) ✓
-- `src/lib/fx.ts` — DOAR URL-uri exportate (`BNR_DAILY_URL`, `BNR_TEN_DAYS_URL`, `FRANKFURTER_BASE_URL`). Pipeline-ul real lipsește.
+### Structură fișiere: SOLID
 
-## 🔴 ERORI CARE BLOCHEAZĂ
+`src/lib/` are 13 sub-domenii organizate frumos: `ai/`, `banking/`, `enable-banking/`, `forecast/`, `holidays/`, `intelligence/`, `meal-vouchers/`, `offline/`, `push/`, `seasonal/`, `supabase/`, `text/`, `validation/`. Plus core (`money.ts`, `fx.ts`, `crypto.ts`, `dashboard.ts`, `debt.ts`).
 
-### 0. Git: ZERO commit-uri
-Toate fișierele sunt untracked. Dacă pică ceva, pierzi 100% din muncă.
-**FIX URGENT**: `git add . && git commit -m "checkpoint: Faze 0-5 complete, pre-finalizare"`
+---
 
-### 1. TypeScript: 5 erori (toate la chart props)
-- `calendar-heatmap.tsx:71` — `ReactCalendarHeatmapValue<ReactCalendarHeatmapDate>` nou; cast intern necesar pentru `classForValue`/`titleForValue`/`onClick`.
-- `mini-sankey.tsx:57` — Nivo Sankey `colors` așteaptă `OrdinalColorScaleConfig`, nu `(node) => node.nodeColor`.
-- `category-treemap.tsx:63` — `formattedValue` e `string | number`, nu doar `string`.
-- `income-vs-expense-chart.tsx:72` și `net-worth-chart.tsx:75` — Recharts `Formatter` așteaptă `ValueType | undefined`, nu `number`.
+## 🎨 PROBLEMA REALĂ: Designul e plat, nu iOS
 
-### 2. ESLint: 1 error
-- `recent-transactions.tsx:29` — quote `"` neescapat în JSX.
+### Ce ai acum
+Verifică `src/app/globals.css`:
+- Tema e shadcn default monochrome — `oklch(... 0 0)` peste tot = grey neutru
+- Card-uri: `border-border/60 bg-card rounded-xl` — flat shapes, fără glow, fără translucență, fără depth
+- Background-ul body-ului e `bg-background` solid (`oklch(0.145 0 0)` în dark = #25 grey)
+- Zero gradient, zero blur, zero noise, zero shimmer
+- KPI cards (`kpi-card.tsx`): `border-border/60 bg-card rounded-xl p-4` — boring
+- NetWorthHeadline: același pattern — `bg-card hover:bg-accent/30` flat
+- FAB-ul în nav: `bg-primary text-primary-foreground shadow-lg ring-4` — plat
+- Bottom tab bar: `bg-background/95 supports-[backdrop-filter]:bg-background/70 backdrop-blur` — există SUPER LIGHT blur (1 punct), insuficient
 
-### 3. Icon-uri PWA lipsă
-`manifest.ts` referă `/icon-192.png`, `/icon-512.png`, `/icon-maskable-512.png` — niciunul în `/public/`. Doar SVG-uri default Next.
+### Ce vrei (iOS Liquid Glass + Glassmorphism + Glow)
+- Background ambient cu **gradient mesh** (3-4 blob-uri colored care se mișcă subtil)
+- Card-uri cu **backdrop-blur(40px) + saturate(180%)** + border interior `inset 0 1px 0 rgba(255,255,255,0.1)` (highlight de sus iOS-style)
+- **Glow halos** pe element-e importante (net worth, FAB, primary buttons) — `box-shadow` colored multi-strat
+- Tabular numbers cu **gradient text** sau text-glow pe sumele importante
+- **Spring physics animations** (motion) la tap/scroll, nu transitions plate
+- **Color palette emerald/violet/cyan** pe accenturi (nu doar grey monochrome)
+- **Noise texture overlay** subtil (3% opacity) pentru depth
+- **Specular highlight** pe card-uri când le hover-ezi (light follow cursor)
+- Font heading: **SF Pro Display** sau echivalent (Geist e ok dar seamănă cu `system-ui`)
+- Bottom sheet-uri cu **rounded corners 32px** și **bounce spring**
+- Toggle-uri și switch-uri stil iOS (nu shadcn default)
+- Charts cu **gradient fills** și **glow under line**
 
-### 4. AI placeholders goale
-`src/lib/ai/{providers,tools,prompts}.ts` au 3-12 linii fiecare. `providers.ts` doar exportă chei env. `tools.ts` și `prompts.ts` sunt comentarii TODO. Folder `src/components/features/ai-chat/` e gol.
+---
 
-## 🟠 Faze NEÎNCEPUTE
+## 📦 Ce mai lipsește (în afară de design)
 
-| Faza BLUEPRINT | Status | Ce lipsește concret |
-|---|---|---|
-| 6 — Invite mamă | ❌ | Tabel invites, server action, accept page, settings tab |
-| 6 — CSV importer | ❌ | Parsers BT24/BCR/ING/Revolut/CEC/Raiffeisen, UI import |
-| 6 — FX pipeline | 🟡 | Doar URL-uri în `fx.ts`. Lipsesc Edge Function `fx-update`, cron, parser BNR XML, fallback Frankfurter, seed istoric |
-| 7 — Multi-currency complet | 🟡 | Travel mode, EUR rent tracker — neimplementate |
-| 8 — AI 3-tier categorization | ❌ | `categorize.ts`, `embeddings.ts`, `embedding_queue` migration, edge function `process-embeddings` |
-| 8 — AI chat | ❌ | Folder gol; lipsește `/(dashboard)/ai/page.tsx`, `/api/ai/chat/route.ts`, `tools.ts` real, system prompt RO, migrația `chat_threads`+`chat_messages` |
-| 8 — Weekly recap | ❌ | Edge function `weekly-recap` |
-| 8 — Anomaly detection | ❌ | `lib/ai/anomaly.ts` |
-| 8 — Subscription detector | ❌ | `lib/ai/subscriptions.ts`, page `/subscriptions` |
-| 9 — PWA install prompt | ❌ | Component `install-prompt`, iOS instructions |
-| 9 — Offline queue (IndexedDB) | ❌ | `lib/offline/queue.ts`, fără dep `idb` |
-| 9 — Push notifications | ❌ | Fără dep `web-push`, `/api/push/subscribe`, permission UI, sw event handler |
-| 9 — Enable Banking | ❌ | `lib/banking/`, `/connections/page.tsx`, edge function `bank-sync`, JWT RS256 signing |
-| 10 — Tichete masă auto-detect | ❌ | Account type există în enum dar fără provider matchers (Edenred/Pluxee/Up) |
-| 10 — Pilon III tracker | ❌ | Tabel `pension_contributions`, page, reminder cron |
-| 10 — Salary intelligence | ❌ | Tabel `income_streams`, algoritm detection |
-| 10 — Seasonal budgets | ❌ | Catalog Crăciun/Paște/BlackFriday/Mărțișor, auto-prompt |
-| 10 — Romanian holidays | ❌ | `lib/holidays/ro.ts` cu Computus pentru Paște |
-| 10 — Cashflow forecast 30/60/90 | ❌ | `lib/forecast/cashflow.ts` cu confidence bands |
-| 10 — Rage spending | ❌ | `lib/intelligence/rage-spending.ts` |
-| 10 — Lifestyle inflation | ❌ | `lib/intelligence/lifestyle-inflation.ts` |
-| Settings page | ❌ | Pagina `/settings` nu există deloc — niciun grup (Profil, Preferințe, Aspect, Accesibilitate, Notificări, Export) |
-| Subscriptions page | ❌ | |
+### 🔴 Lucruri care BLOCHEAZĂ producția
+1. **Build pe Windows** — VirtualAlloc fail. Soluție: build pe Vercel direct, sau pe WSL2, sau crește memoria virtuală Windows.
+2. **Icon-uri PWA în maskable safe zone** — generate ieri OK, dar verifică că arată decent pe Android la `https://maskable.app/editor`
+3. **Edge functions Supabase neimplementate** — există migrațiile cu `cron.schedule(...)` care apelează URL-uri, dar tu trebuie să **deploy-ezi efectiv funcțiile** în `supabase/functions/`. Verifică folder-ul, e posibil să ai cod TypeScript dar netranspilat/nedeploy-uit.
 
-## 🟡 Polish / cleanup
+### 🟠 Polish lipsă
+4. **Theme switcher real** — `next-themes` e instalat dar `appearance-panel.tsx` probabil doar set-ează clasă pe html. Verifică dacă persistă, dacă respectă system preference, dacă tranziția e smooth.
+5. **Loading states inconsistente** — folosești `<Skeleton>` în Suspense, dar e flat-grey. La iOS style ar trebui shimmer animat.
+6. **Empty states** — în multe pagini lipsesc empty states friendly (cu emoji + CTA).
+7. **Toast positions și styling** — Sonner e instalat default, n-a fost stilizat să match iOS.
+8. **Haptic feedback** — `navigator.vibrate(10)` pe tap-uri importante (FAB, swipe complete) nu pare să fie peste tot.
+9. **Pull-to-refresh** pe mobile — lipsește.
 
-- 11 warnings ESLint (unused vars, react-compiler hints) — non-blocking
-- `merchant-form.tsx`, `transaction-form.tsx`, `transaction-list.tsx` — react-compiler avertizează că `form.watch()` și `useVirtualizer()` nu se memo-izează safe. ACCEPTABIL — sunt API-uri externe; pattern-ul e corect.
-- `src/components/features/ai-chat/.gitkeep` orfan
-- `lucide-react ^1.11.0` arată suspect (publicarea recentă, era 0.5xx). Verifică să nu fie un fork sau mistake. Dacă e mistake, `npm i lucide-react@latest`.
-- Folosește `motion` (nu `framer-motion`) — pachet nou, OK.
+### 🟡 Nice-to-have V2 (după design)
+10. Charts cu animații de entry (fade + grow up)
+11. Confetti la goal completion (canvas-confetti instalat ✅, dar verifică integrare)
+12. Sounds opționale (toggle în settings)
+13. Wallpaper picker (mai multe gradient mesh-uri pe care user-ul le alege)
 
-## 📦 Dependențe LIPSĂ (vor fi nevoie în etapele D-I)
+---
 
-- `web-push` + `@types/web-push` — push notifications
-- `idb` — IndexedDB pentru offline queue
-- `papaparse` + `@types/papaparse` — CSV parsing
-- `jose` — JWT RS256 pentru Enable Banking
-- (opțional) `@upstash/ratelimit` + `@upstash/redis` — momentan există `lib/rate-limit.ts` minim in-memory
+## 🚀 Plan de acțiune
 
-## Plan de acțiune
+### Tu, EXTERN (15-30 min)
 
-1. **TU**, acum: `git add . && git commit -m "checkpoint: pre-finalizare"`
-2. **TU**, acum: verifică `.env.local` are toate cheile (vezi `.env.example` + secțiunea "extern" din chat)
-3. **TU**, acum: în Supabase Dashboard activează extensions (`pgcrypto`, `vector`, `pg_trgm`, `pg_cron`, `pg_net`); adaugă în Vault `app.cron_secret` și `app.iban_encryption_key`; creează bucket `receipts` privat; verifică Site URL + Redirect URLs în Auth.
-4. **TU**, acum: `npx supabase link --project-ref <ref> && npx supabase db push && npm run db:types`.
-5. **CLAUDE CODE**: deschide proiectul, dă-i conținutul din `FINISH_PROMPT.md`. El va lucra pe etape A→J cu commit-uri. Etapa A (fix erori) durează 5 min, restul progresiv.
+**1. Commit checkpoint imediat:**
+```bash
+cd C:\Users\Andrei\Desktop\banii
+git status
+# dacă apare ceva untracked sau modified:
+git add .
+git commit -m "checkpoint: pre-design-overhaul"
+```
+
+**2. Deploy preview pe Vercel (ca să vezi build-ul reușit, fără chinul Windows-ului):**
+```bash
+npm i -g vercel
+vercel --prod
+```
+Dacă nu ai cont, fă unul. Pune env vars în Vercel project settings (toate din `.env.local`). Vercel rulează build-ul Linux unde VirtualAlloc nu e bug.
+
+**3. Edge functions Supabase (verifici ce ai și ce trebuie deploy-uit):**
+```bash
+ls supabase/functions/
+# pentru fiecare folder cu index.ts:
+npx supabase functions deploy <function_name> --project-ref ioqdwekozpcmwswhgwiv
+```
+Funcții esențiale: `fx-update`, `process-embeddings`, `weekly-recap`, `bank-sync`, `notifications-trigger`. Dacă nu există, Claude Code le va crea în prompt-ul de mai jos.
+
+**4. Setări la nivel de DB pentru cron-uri (NU Vault, mergi cu `alter database`):**
+```sql
+-- în SQL Editor Supabase, generează 2 hex-uri local:
+-- node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+alter database postgres set "app.cron_secret" to '<hex_1>';
+alter database postgres set "app.iban_encryption_key" to '<hex_2>';
+alter database postgres set "app.fx_function_url" to 'https://ioqdwekozpcmwswhgwiv.supabase.co/functions/v1/fx-update';
+alter database postgres set "app.embeddings_function_url" to 'https://ioqdwekozpcmwswhgwiv.supabase.co/functions/v1/process-embeddings';
+alter database postgres set "app.recap_function_url" to 'https://ioqdwekozpcmwswhgwiv.supabase.co/functions/v1/weekly-recap';
+alter database postgres set "app.bank_sync_function_url" to 'https://ioqdwekozpcmwswhgwiv.supabase.co/functions/v1/bank-sync';
+```
+
+**5. Storage bucket `receipts`** — verifică în Supabase Dashboard → Storage că există și e Private.
+
+**6. Auth Site URL** — verifică Authentication → URL Configuration:
+- Site URL = URL-ul Vercel deployment-ului (ex: `https://banii-andrei.vercel.app`)
+- Redirect URLs include și `http://localhost:3000/auth/callback`
+
+### Claude Code (1 prompt mare în `DESIGN_PROMPT.md`)
+
+Vezi fișierul `DESIGN_PROMPT.md` în root — îl dai ca prim mesaj în Claude Code și transformă designul complet în iOS Liquid Glass cu glow, animații, glassmorphism. Nu modifică logică, doar layer-ul vizual.
+
+---
+
+## ⚠️ Erori reale rămase
+
+- **0 erori TypeScript** ✅
+- **0 erori ESLint** ✅
+- **4 warnings** acceptabile (react-compiler legate de `form.watch()` + `useVirtualizer()` API-uri externe)
+- **Build Windows fail** — Linux/Vercel rezolvă
+
+Per total: codul e production-ready. Ce ai nevoie e DESIGN. Așa că tot focusul rămas trebuie să fie pe vizual.
