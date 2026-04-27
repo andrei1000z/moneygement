@@ -1,6 +1,8 @@
 import { Suspense } from "react";
 
+import { AnniversariesWidget } from "@/components/features/dashboard/anniversaries-widget";
 import { BudgetPulseBar } from "@/components/features/dashboard/budget-pulse-bar";
+import { CashflowForecastWidget } from "@/components/features/dashboard/cashflow-forecast-widget";
 import { GoalsProgress } from "@/components/features/dashboard/goals-progress";
 import { GreetingCard } from "@/components/features/dashboard/greeting-card";
 import { HeatmapSection } from "@/components/features/dashboard/heatmap-section";
@@ -9,6 +11,7 @@ import { NetWorthHeadline } from "@/components/features/dashboard/net-worth-head
 import { NextIncomeWidget } from "@/components/features/dashboard/next-income-widget";
 import { RecentTransactions } from "@/components/features/dashboard/recent-transactions";
 import { SankeySection } from "@/components/features/dashboard/sankey-section";
+import { SeasonalPrompt } from "@/components/features/dashboard/seasonal-prompt";
 import { UpcomingBills } from "@/components/features/dashboard/upcoming-bills";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -45,8 +48,19 @@ export default function DashboardHome() {
         <BudgetPulseBar />
       </Suspense>
 
-      <Suspense fallback={null}>
-        <NextIncomeWidget />
+      <SeasonalPrompt />
+
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <Suspense fallback={null}>
+          <NextIncomeWidget />
+        </Suspense>
+        <Suspense fallback={null}>
+          <AnniversariesWidget />
+        </Suspense>
+      </div>
+
+      <Suspense fallback={<CardSkeleton className="h-56 w-full rounded-xl" />}>
+        <CashflowForecastWidget />
       </Suspense>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">

@@ -30,8 +30,12 @@ export async function NextIncomeWidget() {
   const next = streams?.[0];
   if (!next || !next.next_expected_on) return null;
 
+  // Server component — Date.now() e ok la render server-side, dar React
+  // Compiler îl flagă. eslint-disable pentru linia de mai jos.
+  // eslint-disable-next-line react-hooks/purity
+  const nowMs = Date.now();
   const days = Math.ceil(
-    (Date.parse(next.next_expected_on) - Date.now()) / 86400000,
+    (Date.parse(next.next_expected_on) - nowMs) / 86400000,
   );
 
   return (
