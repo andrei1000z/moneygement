@@ -706,6 +706,42 @@ export interface Database {
         Relationships: [];
       };
 
+      pension_contributions: {
+        Row: {
+          id: string;
+          household_id: string;
+          user_id: string;
+          provider: string | null;
+          contribution_date: DateString;
+          amount_eur: number;
+          amount_ron: number | null;
+          deductible: boolean;
+          notes: string | null;
+          year: number;
+          created_at: Timestamp;
+        };
+        Insert: {
+          id?: string;
+          household_id: string;
+          user_id: string;
+          provider?: string | null;
+          contribution_date: DateString;
+          amount_eur: number;
+          amount_ron?: number | null;
+          deductible?: boolean;
+          notes?: string | null;
+        };
+        Update: {
+          provider?: string | null;
+          contribution_date?: DateString;
+          amount_eur?: number;
+          amount_ron?: number | null;
+          deductible?: boolean;
+          notes?: string | null;
+        };
+        Relationships: [];
+      };
+
       meal_voucher_lots: {
         Row: {
           id: string;
