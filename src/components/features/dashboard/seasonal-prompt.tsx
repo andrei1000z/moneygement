@@ -69,7 +69,7 @@ export function SeasonalPrompt() {
   }
 
   return (
-    <div className="border-border/60 bg-card relative rounded-xl border p-4">
+    <div className="glass-thin relative rounded-[--radius-card] p-4">
       <button
         type="button"
         onClick={dismiss}
@@ -79,8 +79,20 @@ export function SeasonalPrompt() {
         <X className="size-3.5" />
       </button>
       <div className="flex items-start gap-3">
-        <div className="bg-primary/10 text-primary flex size-10 shrink-0 items-center justify-center rounded-lg">
-          <CalendarHeart className="size-5" aria-hidden />
+        <div
+          className="flex size-10 shrink-0 items-center justify-center rounded-xl"
+          style={{
+            background:
+              "linear-gradient(135deg, oklch(from var(--accent-pink) l c h / 0.25), oklch(from var(--accent-violet) l c h / 0.18))",
+            boxShadow:
+              "inset 0 1px 0 oklch(1 0 0 / 0.1), 0 4px 12px -2px oklch(from var(--accent-pink) l c h / 0.3)",
+          }}
+        >
+          <CalendarHeart
+            className="text-[--accent-pink] size-5"
+            aria-hidden
+            strokeWidth={1.75}
+          />
         </div>
         <div className="min-w-0 flex-1">
           <p className="text-sm font-semibold">{next.display} se apropie</p>

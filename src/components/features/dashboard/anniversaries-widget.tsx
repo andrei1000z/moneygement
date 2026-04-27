@@ -58,13 +58,17 @@ export async function AnniversariesWidget() {
   return (
     <Link
       href="/transactions"
-      className="border-border/60 bg-card hover:bg-accent/40 block rounded-xl border p-4 transition"
+      className="glass-thin specular block rounded-[--radius-card] p-4 transition-transform duration-200 hover:scale-[1.005]"
     >
       <div className="flex items-baseline justify-between">
-        <p className="text-muted-foreground text-xs uppercase tracking-wider">
+        <p className="text-muted-foreground text-[10px] font-semibold uppercase tracking-[0.15em]">
           Acum un an…
         </p>
-        <Clock4 className="text-muted-foreground size-3.5" aria-hidden />
+        <Clock4
+          className="text-[--accent-violet] size-3.5"
+          aria-hidden
+          strokeWidth={1.75}
+        />
       </div>
       <ul className="mt-2 space-y-1.5">
         {significant.slice(0, 3).map((a, i) => (

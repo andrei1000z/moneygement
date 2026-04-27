@@ -26,24 +26,26 @@ export async function NetWorthHeadline() {
   return (
     <Link
       href="/insights"
-      className="border-border/60 bg-card hover:bg-accent/30 flex items-end justify-between gap-4 rounded-xl border p-5 transition"
+      className="glass specular relative flex items-end justify-between gap-4 overflow-hidden rounded-[--radius-card] p-5 transition-transform duration-200 hover:scale-[1.005]"
     >
       <div className="min-w-0">
-        <p className="text-muted-foreground text-xs uppercase tracking-wider">
+        <p className="text-muted-foreground text-[11px] font-medium uppercase tracking-[0.18em]">
           Patrimoniu
         </p>
-        <p className="mt-1 text-2xl font-semibold tabular-nums md:text-3xl">
+        <p
+          className={`num-hero mt-2 text-3xl md:text-4xl ${
+            positive ? "text-gradient-emerald" : "text-foreground"
+          }`}
+        >
           {formatMoney(nw.totalMinor, nw.currency)}
         </p>
         {history.length > 1 ? (
           <p
-            className={`mt-1 text-xs tabular-nums ${
-              positive
-                ? "text-emerald-600 dark:text-emerald-400"
-                : "text-destructive"
+            className={`mt-2 text-xs tabular-nums ${
+              positive ? "text-[--accent-emerald]" : "text-destructive"
             }`}
           >
-            {positive ? "+" : "−"}
+            {positive ? "▲ +" : "▼ −"}
             {formatMoney(Math.abs(delta), nw.currency)}
             {" · "}
             {(pct * 100).toFixed(1)}% luna asta

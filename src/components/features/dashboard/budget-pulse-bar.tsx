@@ -26,13 +26,13 @@ export async function BudgetPulseBar() {
     return (
       <Link
         href="/budgets"
-        className="border-border/60 bg-card hover:bg-accent/30 flex items-center justify-between rounded-xl border p-4 text-sm transition"
+        className="glass-thin specular flex items-center justify-between rounded-[--radius-card] p-4 text-sm transition-transform duration-200 hover:scale-[1.005]"
       >
         <div>
-          <p className="text-muted-foreground text-xs uppercase tracking-wider">
+          <p className="text-muted-foreground text-[10px] font-semibold uppercase tracking-[0.15em]">
             Buget lunar
           </p>
-          <p className="mt-0.5">
+          <p className="mt-1">
             Setează un buget ca să-ți urmărești progresul.
           </p>
         </div>
@@ -59,46 +59,74 @@ export async function BudgetPulseBar() {
   const daysLeft = Math.max(0, differenceInDays(lastDay, today)) + 1;
   const dailyAvg = daysLeft > 0 ? Math.floor(remaining / daysLeft) : 0;
 
+  // Background gradient pe progress bar:
+  // - <50% emerald solid
+  // - 50-85% emerald → amber
+  // - 85-100% amber → destructive
+  // - >100% destructive solid
+  const gradient = overBudget
+    ? "linear-gradient(90deg, oklch(from var(--destructive) l c h), oklch(from var(--destructive) l c h))"
+    : spentPct > 0.85
+      ? "linear-gradient(90deg, oklch(from var(--accent-emerald) l c h), oklch(from var(--accent-amber) l c h), oklch(from var(--destructive) l c h))"
+      : spentPct > 0.5
+        ? "linear-gradient(90deg, oklch(from var(--accent-emerald) l c h), oklch(from var(--accent-amber) l c h))"
+        : "linear-gradient(90deg, oklch(from var(--accent-emerald) l c h), oklch(from var(--accent-cyan) l c h))";
+
   return (
     <Link
       href="/budgets"
-      className="border-border/60 bg-card hover:bg-accent/30 block rounded-xl border p-4 transition"
+      className="glass-thin specular block rounded-[--radius-card] p-4 transition-transform duration-200 hover:scale-[1.005]"
     >
       <div className="flex items-baseline justify-between gap-2">
-        <p className="text-muted-foreground text-xs uppercase tracking-wider">
+        <p className="text-muted-foreground text-[10px] font-semibold uppercase tracking-[0.15em]">
           Buget lunar
         </p>
         <p className="text-xs tabular-nums">
-          <span className="font-semibold">
+          <span className="font-semibold text-foreground">
             {formatMoney(spent, ctx.baseCurrency)}
           </span>
-          {" / "}
-          {formatMoney(planned, ctx.baseCurrency)}
+          <span className="text-muted-foreground">
+            {" / "}
+            {formatMoney(planned, ctx.baseCurrency)}
+          </span>
         </p>
       </div>
       <div
-        className="bg-muted relative mt-2 h-2.5 overflow-hidden rounded-full"
+        className="relative mt-3 h-2.5 overflow-hidden rounded-full bg-[oklch(from_var(--foreground)_l_c_h/0.08)]"
         aria-hidden
       >
         <div
-          className={
-            overBudget
-              ? "bg-destructive absolute inset-y-0 left-0"
+          className="absolute inset-y-0 left-0 rounded-full transition-[width] duration-500"
+          style={{
+            width: `${spentPct * 100}%`,
+            background: gradient,
+            boxShadow: overBudget
+              ? "0 0 12px -2px oklch(from var(--destructive) l c h / 0.5)"
               : spentPct > 0.85
-              ? "bg-amber-500 absolute inset-y-0 left-0"
-              : "bg-emerald-500 absolute inset-y-0 left-0"
-          }
-          style={{ width: `${spentPct * 100}%` }}
+                ? "0 0 12px -2px oklch(from var(--accent-amber) l c h / 0.5)"
+                : "0 0 12px -2px oklch(from var(--accent-emerald) l c h / 0.4)",
+          }}
         />
       </div>
-      <p className="text-muted-foreground mt-2 text-xs">
-        {overBudget
-          ? `Ai depășit cu ${formatMoney(spent - planned, ctx.baseCurrency)}.`
-          : daysLeft > 0
-          ? `Mai ai ${formatMoney(remaining, ctx.baseCurrency)} pentru ${daysLeft} ${
-              daysLeft === 1 ? "zi" : "zile"
-            } (${formatMoney(dailyAvg, ctx.baseCurrency)}/zi).`
-          : "Luna s-a încheiat."}
+      <p className="mt-3 text-xs">
+        {overBudget ? (
+          <span className="font-medium text-destructive">
+            Ai depășit cu {formatMoney(spent - planned, ctx.baseCurrency)}.
+          </span>
+        ) : daysLeft > 0 ? (
+          <>
+            <span className="text-muted-foreground">Mai ai </span>
+            <span className="font-semibold text-foreground">
+              {formatMoney(remaining, ctx.baseCurrency)}
+            </span>
+            <span className="text-muted-foreground">
+              {" "}pentru {daysLeft} {daysLeft === 1 ? "zi" : "zile"} (
+              {formatMoney(dailyAvg, ctx.baseCurrency)}/zi).
+            </span>
+          </>
+        ) : (
+          <span className="text-muted-foreground">Luna s-a încheiat.</span>
+        )}
       </p>
     </Link>
   );

@@ -12,37 +12,64 @@ type Props = {
   delta?: number;
 };
 
-export function KpiCard({ label, amount, currency, Icon, tone = "neutral", delta }: Props) {
-  const toneClass =
+export function KpiCard({
+  label,
+  amount,
+  currency,
+  Icon,
+  tone = "neutral",
+  delta,
+}: Props) {
+  const accentClass =
     tone === "positive"
-      ? "text-emerald-600 dark:text-emerald-400"
+      ? "text-[--accent-emerald]"
       : tone === "info"
-      ? "text-sky-600 dark:text-sky-400"
-      : "text-foreground";
+        ? "text-[--accent-cyan]"
+        : "text-foreground";
+
+  const iconBg =
+    tone === "positive"
+      ? "oklch(from var(--accent-emerald) l c h / 0.15)"
+      : tone === "info"
+        ? "oklch(from var(--accent-cyan) l c h / 0.15)"
+        : "oklch(from var(--foreground) l c h / 0.06)";
+  const iconColor =
+    tone === "positive"
+      ? "text-[--accent-emerald]"
+      : tone === "info"
+        ? "text-[--accent-cyan]"
+        : "text-muted-foreground";
+
   return (
-    <div className="border-border/60 bg-card rounded-xl border p-4">
-      <div className="text-muted-foreground flex items-center gap-2 text-xs uppercase tracking-wider">
-        <Icon className="size-3.5" aria-hidden />
-        {label}
+    <div className="glass-thin specular relative overflow-hidden rounded-[--radius-card] p-4">
+      <div className="flex items-start justify-between gap-2">
+        <span
+          className="text-muted-foreground text-[10px] font-semibold uppercase tracking-[0.15em]"
+        >
+          {label}
+        </span>
+        <span
+          className="flex size-8 shrink-0 items-center justify-center rounded-xl"
+          style={{ background: iconBg }}
+        >
+          <Icon
+            className={cn("size-4", iconColor)}
+            aria-hidden
+            strokeWidth={1.75}
+          />
+        </span>
       </div>
-      <p
-        className={cn(
-          "mt-1 text-xl font-semibold tabular-nums md:text-2xl",
-          toneClass,
-        )}
-      >
+      <p className={cn("num-hero mt-2 text-2xl md:text-[1.65rem]", accentClass)}>
         {amount === 0 ? "—" : formatMoney(amount, currency)}
       </p>
       {delta !== undefined && delta !== 0 ? (
         <p
           className={cn(
-            "mt-0.5 text-[11px] tabular-nums",
-            delta > 0
-              ? "text-emerald-600 dark:text-emerald-400"
-              : "text-muted-foreground",
+            "mt-1 text-[11px] tabular-nums",
+            delta > 0 ? "text-[--accent-emerald]" : "text-muted-foreground",
           )}
         >
-          {delta > 0 ? "+" : ""}
+          {delta > 0 ? "▲ +" : "▼ "}
           {((delta / Math.max(1, amount)) * 100).toFixed(1)}% vs luna trecută
         </p>
       ) : null}

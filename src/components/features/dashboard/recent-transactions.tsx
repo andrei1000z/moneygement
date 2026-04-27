@@ -21,8 +21,8 @@ export async function RecentTransactions() {
 
   if (tx.length === 0) {
     return (
-      <div className="border-border/60 bg-card rounded-xl border p-4">
-        <h3 className="text-muted-foreground mb-2 text-xs uppercase tracking-wider">
+      <div className="glass-thin rounded-[--radius-card] p-4">
+        <h3 className="text-muted-foreground mb-2 text-[10px] font-semibold uppercase tracking-[0.15em]">
           Tranzacții recente
         </h3>
         <p className="text-muted-foreground text-sm">
@@ -33,19 +33,19 @@ export async function RecentTransactions() {
   }
 
   return (
-    <div className="border-border/60 bg-card rounded-xl border">
-      <div className="flex items-baseline justify-between border-b px-4 py-3">
-        <h3 className="text-muted-foreground text-xs uppercase tracking-wider">
+    <div className="glass-thin overflow-hidden rounded-[--radius-card]">
+      <div className="flex items-baseline justify-between border-b border-[--glass-border] px-4 py-3">
+        <h3 className="text-muted-foreground text-[10px] font-semibold uppercase tracking-[0.15em]">
           Tranzacții recente
         </h3>
         <Link
           href="/transactions"
-          className="text-muted-foreground hover:text-foreground text-xs"
+          className="text-muted-foreground hover:text-foreground text-xs transition-colors"
         >
           Vezi toate →
         </Link>
       </div>
-      <ul className="divide-y">
+      <ul className="divide-y divide-[--glass-border]">
         {tx.map((t) => {
           const cat = t.category_id ? catById.get(t.category_id) : null;
           const parts = formatMoneyParts(t.amount, t.currency);
@@ -53,14 +53,17 @@ export async function RecentTransactions() {
           return (
             <li
               key={t.id}
-              className="flex items-center gap-3 px-4 py-2.5 text-sm"
+              className="flex items-center gap-3 px-4 py-2.5 text-sm transition-colors hover:bg-[oklch(from_var(--foreground)_l_c_h/0.03)]"
             >
               <span
-                className="flex size-8 shrink-0 items-center justify-center rounded-full text-base"
+                className="flex size-9 shrink-0 items-center justify-center rounded-full text-base"
                 style={{
-                  backgroundColor: cat?.color
-                    ? `${cat.color}20`
-                    : "var(--muted)",
+                  background: cat?.color
+                    ? `oklch(from ${cat.color} l c h / 0.2)`
+                    : "oklch(from var(--foreground) l c h / 0.06)",
+                  boxShadow: cat?.color
+                    ? `inset 0 1px 0 oklch(1 0 0 / 0.06), 0 0 0 1px oklch(from ${cat.color} l c h / 0.2)`
+                    : "inset 0 1px 0 oklch(1 0 0 / 0.04)",
                 }}
                 aria-hidden
               >
@@ -73,10 +76,11 @@ export async function RecentTransactions() {
                     <ArrowLeftRight
                       className="text-muted-foreground size-3"
                       aria-hidden
+                      strokeWidth={1.75}
                     />
                   ) : null}
                   {!t.category_id && !t.is_transfer ? (
-                    <Badge variant="outline" className="h-4 px-1 text-[9px]">
+                    <Badge variant="amber" className="h-4 px-1 text-[9px]">
                       Review
                     </Badge>
                   ) : null}
@@ -88,15 +92,15 @@ export async function RecentTransactions() {
               <span
                 className={cn(
                   "tabular-nums text-right text-sm font-semibold",
-                  isIncome
-                    ? "text-emerald-600 dark:text-emerald-400"
-                    : "text-foreground",
+                  isIncome ? "text-[--accent-emerald]" : "text-foreground",
                 )}
               >
                 {isIncome ? "+" : parts.sign}
                 {parts.integer}
                 {parts.separator}
-                <span className="text-[0.8em] opacity-80">{parts.decimal}</span>
+                <span className="text-[0.8em] opacity-70">
+                  {parts.decimal}
+                </span>
               </span>
             </li>
           );
