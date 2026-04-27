@@ -370,6 +370,54 @@ export async function setOwnership(
   return { ok: true, data: undefined };
 }
 
+// ---------- rule extraction din corecție --------------------------------
+
+/**
+ * Creează o regulă din corectarea categoriei pe o tranzacție anume.
+ * Pattern-ul de match: payee normalizat (anchor word). Toate viitoarele
+ * tx care match-uiesc payee-ul vor fi auto-categorisite.
+ *
+ * Folosit de toast-ul "Crează regulă: toate de la {payee} → {category}?"
+ * afișat după ce userul schimbă manual o categorie.
+ */
+export async function createRuleFromCorrection(args: {
+  payee: string;
+  category_id: string;
+  /** Filtru opțional pe cont — implicit aplică pe toate. */
+  account_id?: string | null;
+}): Promise<ActionResult<{ id: string }>> {
+  const c = await ctx();
+  if (!c.ok) return { ok: false, error: c.error };
+
+  const payee = args.payee.trim();
+  if (payee.length < 2 || payee.length > 100) {
+    return { ok: false, error: "Payee invalid pentru regulă" };
+  }
+
+  // Escape pentru regex — păstrăm literal-match pe word boundary.
+  const escaped = payee.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const regex = `\\b${escaped}\\b`;
+
+  const { data, error } = await c.supabase
+    .from("rules")
+    .insert({
+      household_id: c.householdId,
+      name: `Auto: ${payee} → categorie`,
+      priority: 50,
+      is_active: true,
+      match_payee_regex: regex,
+      match_account_id: args.account_id ?? null,
+      set_category_id: args.category_id,
+      add_tags: [],
+    })
+    .select("id")
+    .single();
+  if (error) return { ok: false, error: error.message };
+
+  revalidatePath("/transactions");
+  return { ok: true, data: { id: data.id } };
+}
+
 // ---------- comments (legate de tx_detail) -------------------------------
 export async function addComment(
   transactionId: string,

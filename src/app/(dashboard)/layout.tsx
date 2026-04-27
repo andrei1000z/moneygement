@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 
+import { CommandPalette } from "@/components/features/ai-chat/command-palette";
 import { BottomTabBar, Sidebar } from "@/components/features/dashboard/nav";
 import { ConnectionStatus } from "@/components/features/pwa/connection-status";
 import { InstallPrompt } from "@/components/features/pwa/install-prompt";
@@ -44,6 +45,7 @@ export default async function DashboardLayout({
       </div>
       <BottomTabBar />
       <QuickAddSheet />
+      <CommandPalette />
       <InstallPrompt />
       <PushPrompt />
       <OfflineDrainer />

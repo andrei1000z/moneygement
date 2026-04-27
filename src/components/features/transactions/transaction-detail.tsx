@@ -16,6 +16,7 @@ import { toast } from "sonner";
 
 import {
   addComment,
+  createRuleFromCorrection,
   createTransaction,
   deleteTransaction,
 } from "@/app/(dashboard)/transactions/actions";
@@ -70,6 +71,9 @@ export function TransactionDetail({ txId, open, onOpenChange }: Props) {
   const { data: accounts } = useAccounts({ archived: false });
   const { data: categories } = useCategories();
   const [commentText, setCommentText] = useState("");
+  const [previousCategoryId, setPreviousCategoryId] = useState<
+    string | null
+  >(null);
 
   const account = (accounts ?? []).find((a) => a.id === tx?.account_id);
   const category = (categories ?? []).find((c) => c.id === tx?.category_id);
@@ -156,6 +160,43 @@ export function TransactionDetail({ txId, open, onOpenChange }: Props) {
                 onDone={() => {
                   setView("view");
                   invalidate();
+                  // Detect category change → propune extragere regulă.
+                  const newCategory = tx.category_id ?? null;
+                  const old = previousCategoryId;
+                  setPreviousCategoryId(null);
+                  if (
+                    newCategory &&
+                    old !== newCategory &&
+                    tx.payee &&
+                    tx.payee.trim().length > 1
+                  ) {
+                    const newCatName =
+                      (categories ?? []).find((c) => c.id === newCategory)
+                        ?.name ?? "categorie";
+                    const payeeLabel = tx.payee;
+                    toast(
+                      `Crează regulă: toate de la „${payeeLabel}" → ${newCatName}?`,
+                      {
+                        duration: 8000,
+                        action: {
+                          label: "Da",
+                          onClick: () => {
+                            startTransition(async () => {
+                              const r = await createRuleFromCorrection({
+                                payee: payeeLabel,
+                                category_id: newCategory,
+                              });
+                              if (!r.ok) {
+                                toast.error(r.error);
+                              } else {
+                                toast.success("Regulă creată");
+                              }
+                            });
+                          },
+                        },
+                      },
+                    );
+                  }
                 }}
               />
             ) : (
@@ -319,7 +360,13 @@ export function TransactionDetail({ txId, open, onOpenChange }: Props) {
 
                 {/* Actions */}
                 <div className="flex flex-wrap gap-2">
-                  <Button variant="outline" onClick={() => setView("edit")}>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setPreviousCategoryId(tx.category_id ?? null);
+                      setView("edit");
+                    }}
+                  >
                     <Pencil className="size-4" aria-hidden /> Editează
                   </Button>
                   {!tx.is_transfer && tx.status !== "void" ? (
