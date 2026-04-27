@@ -706,6 +706,57 @@ export interface Database {
         Relationships: [];
       };
 
+      income_streams: {
+        Row: {
+          id: string;
+          household_id: string;
+          user_id: string;
+          name: string;
+          payer: string | null;
+          expected_amount: number;
+          expected_currency: Currency;
+          expected_day_of_month: number | null;
+          cadence_days: number;
+          day_variance: number;
+          confidence: number;
+          is_active: boolean;
+          source: "auto" | "manual";
+          last_seen_on: DateString | null;
+          next_expected_on: DateString | null;
+          created_at: Timestamp;
+          updated_at: Timestamp;
+        };
+        Insert: {
+          id?: string;
+          household_id: string;
+          user_id: string;
+          name: string;
+          payer?: string | null;
+          expected_amount: number;
+          expected_currency?: Currency;
+          expected_day_of_month?: number | null;
+          cadence_days?: number;
+          day_variance?: number;
+          confidence?: number;
+          is_active?: boolean;
+          source?: "auto" | "manual";
+          last_seen_on?: DateString | null;
+          next_expected_on?: DateString | null;
+        };
+        Update: {
+          name?: string;
+          payer?: string | null;
+          expected_amount?: number;
+          expected_day_of_month?: number | null;
+          cadence_days?: number;
+          confidence?: number;
+          is_active?: boolean;
+          last_seen_on?: DateString | null;
+          next_expected_on?: DateString | null;
+        };
+        Relationships: [];
+      };
+
       pension_contributions: {
         Row: {
           id: string;

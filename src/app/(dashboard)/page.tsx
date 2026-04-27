@@ -6,6 +6,7 @@ import { GreetingCard } from "@/components/features/dashboard/greeting-card";
 import { HeatmapSection } from "@/components/features/dashboard/heatmap-section";
 import { KpiRow } from "@/components/features/dashboard/kpi-row";
 import { NetWorthHeadline } from "@/components/features/dashboard/net-worth-headline";
+import { NextIncomeWidget } from "@/components/features/dashboard/next-income-widget";
 import { RecentTransactions } from "@/components/features/dashboard/recent-transactions";
 import { SankeySection } from "@/components/features/dashboard/sankey-section";
 import { UpcomingBills } from "@/components/features/dashboard/upcoming-bills";
@@ -42,6 +43,10 @@ export default function DashboardHome() {
 
       <Suspense fallback={<CardSkeleton className="h-24 w-full rounded-xl" />}>
         <BudgetPulseBar />
+      </Suspense>
+
+      <Suspense fallback={null}>
+        <NextIncomeWidget />
       </Suspense>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
