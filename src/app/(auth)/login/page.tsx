@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import { Loader2, Mail } from "lucide-react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { startAuthentication } from "@simplewebauthn/browser";
+import { Fingerprint, Loader2, Mail } from "lucide-react";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -38,9 +39,11 @@ type LoginValues = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const nextParam = searchParams.get("next");
   const hintParam = searchParams.get("hint");
   const [sent, setSent] = useState<string | null>(null);
+  const [passkeyPending, setPasskeyPending] = useState(false);
   const form = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: "" },
@@ -49,6 +52,60 @@ export default function LoginPage() {
   useEffect(() => {
     if (hintParam) form.setValue("email", hintParam);
   }, [hintParam, form]);
+
+  async function signInWithPasskey() {
+    setPasskeyPending(true);
+    try {
+      const email = form.getValues("email").trim();
+      const optsRes = await fetch("/api/auth/passkey/auth-options", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(email ? { email } : {}),
+      });
+      if (!optsRes.ok) throw new Error("Nu pot iniția autentificarea");
+      const opts = await optsRes.json();
+
+      const response = await startAuthentication({
+        optionsJSON: opts,
+      });
+
+      const verifyRes = await fetch("/api/auth/passkey/auth-verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ response }),
+      });
+      if (!verifyRes.ok) {
+        const err = await verifyRes.json().catch(() => ({}));
+        throw new Error(err.error ?? "Verificare eșuată");
+      }
+      const verify = await verifyRes.json() as {
+        token_hash: string;
+        type: "magiclink";
+      };
+
+      const supabase = createClient();
+      const { error } = await supabase.auth.verifyOtp({
+        token_hash: verify.token_hash,
+        type: verify.type,
+      });
+      if (error) throw new Error(error.message);
+
+      toast.success("Autentificat cu passkey");
+      const safeNext =
+        nextParam && /^\/[^\/].*$/.test(nextParam) && !nextParam.startsWith("//")
+          ? nextParam
+          : "/";
+      router.replace(safeNext);
+      router.refresh();
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : "Eroare neașteptată";
+      if (!msg.toLowerCase().includes("not allowed") && !msg.toLowerCase().includes("aborted")) {
+        toast.error("Login passkey eșuat", { description: msg });
+      }
+    } finally {
+      setPasskeyPending(false);
+    }
+  }
 
   async function onSubmit({ email }: LoginValues) {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -160,7 +217,7 @@ export default function LoginPage() {
                 variant="eu"
                 size="lg"
                 className="w-full"
-                disabled={form.formState.isSubmitting}
+                disabled={form.formState.isSubmitting || passkeyPending}
               >
                 {form.formState.isSubmitting ? (
                   <>
@@ -169,6 +226,35 @@ export default function LoginPage() {
                   </>
                 ) : (
                   "Trimite link"
+                )}
+              </Button>
+
+              <div className="flex items-center gap-3 py-1">
+                <div className="bg-(--glass-border) h-px flex-1" />
+                <span className="text-muted-foreground text-[10px] font-semibold uppercase tracking-[0.2em]">
+                  sau
+                </span>
+                <div className="bg-(--glass-border) h-px flex-1" />
+              </div>
+
+              <Button
+                type="button"
+                variant="outline"
+                size="lg"
+                className="w-full"
+                onClick={signInWithPasskey}
+                disabled={passkeyPending || form.formState.isSubmitting}
+              >
+                {passkeyPending ? (
+                  <>
+                    <Loader2 className="mr-2 size-4 animate-spin" aria-hidden />
+                    Se verifică…
+                  </>
+                ) : (
+                  <>
+                    <Fingerprint className="mr-2 size-4" aria-hidden />
+                    Conectează cu passkey
+                  </>
                 )}
               </Button>
             </form>

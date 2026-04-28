@@ -6,6 +6,7 @@ import { AppearancePanel } from "@/components/features/settings/appearance-panel
 import { ExportPanel } from "@/components/features/settings/export-panel";
 import { HouseholdMembersPanel } from "@/components/features/settings/household-members-panel";
 import { NotificationsPanel } from "@/components/features/settings/notifications-panel";
+import { PasskeyPanel } from "@/components/features/settings/passkey-panel";
 import { ProfilePanel } from "@/components/features/settings/profile-panel";
 import {
   Tabs,
@@ -37,6 +38,13 @@ export default async function SettingsPage() {
     .select("name, base_currency")
     .eq("id", profile.active_household)
     .single();
+
+  // Passkey-urile userului.
+  const { data: passkeys } = await supabase
+    .from("webauthn_credentials")
+    .select("id, device_name, created_at, last_used_at")
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: false });
 
   // Membri actuali (cu profile pentru nume).
   const { data: members } = await supabase
@@ -132,7 +140,7 @@ export default async function SettingsPage() {
           <AppearancePanel />
         </TabsContent>
 
-        <TabsContent value="profile">
+        <TabsContent value="profile" className="space-y-5">
           <ProfilePanel
             email={user.email ?? "—"}
             initial={{
@@ -143,6 +151,7 @@ export default async function SettingsPage() {
               base_currency: household?.base_currency ?? "RON",
             }}
           />
+          <PasskeyPanel initial={passkeys ?? []} />
         </TabsContent>
 
         <TabsContent value="links">
