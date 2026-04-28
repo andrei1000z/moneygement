@@ -131,6 +131,89 @@ export async function revokeInvite(id: string): Promise<ActionResult> {
   return { ok: true, data: undefined };
 }
 
+// ---------- Profile / household edit ------------------------------------
+
+const profileUpdateSchema = z.object({
+  full_name: z.string().trim().min(1, "Numele e obligatoriu").max(100),
+  language: z.enum(["ro", "en"]).optional(),
+  default_currency: z.string().length(3).optional(),
+});
+
+export type ProfileUpdateInput = z.infer<typeof profileUpdateSchema>;
+
+export async function updateProfile(
+  input: ProfileUpdateInput,
+): Promise<ActionResult> {
+  const parsed = profileUpdateSchema.safeParse(input);
+  if (!parsed.success) {
+    return { ok: false, error: firstZodMessage(parsed.error) };
+  }
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { ok: false, error: "Neautentificat" };
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({
+      full_name: parsed.data.full_name,
+      language: parsed.data.language,
+      default_currency: parsed.data.default_currency,
+    })
+    .eq("id", user.id);
+  if (error) return { ok: false, error: error.message };
+
+  revalidatePath("/settings");
+  revalidatePath("/", "layout");
+  return { ok: true, data: undefined };
+}
+
+const householdUpdateSchema = z.object({
+  name: z.string().trim().min(1, "Numele household-ului e obligatoriu").max(80),
+  base_currency: z.string().length(3).optional(),
+});
+
+export type HouseholdUpdateInput = z.infer<typeof householdUpdateSchema>;
+
+export async function updateHousehold(
+  input: HouseholdUpdateInput,
+): Promise<ActionResult> {
+  const parsed = householdUpdateSchema.safeParse(input);
+  if (!parsed.success) {
+    return { ok: false, error: firstZodMessage(parsed.error) };
+  }
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { ok: false, error: "Neautentificat" };
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("active_household")
+    .eq("id", user.id)
+    .single();
+  if (!profile?.active_household) {
+    return { ok: false, error: "Niciun household activ" };
+  }
+
+  const { error } = await supabase
+    .from("households")
+    .update({
+      name: parsed.data.name,
+      base_currency: parsed.data.base_currency,
+    })
+    .eq("id", profile.active_household);
+  if (error) return { ok: false, error: error.message };
+
+  revalidatePath("/settings");
+  revalidatePath("/", "layout");
+  return { ok: true, data: undefined };
+}
+
 /**
  * Acceptă o invitație via RPC. Folosit de pagina /invite/[token].
  */

@@ -6,6 +6,7 @@ import { AppearancePanel } from "@/components/features/settings/appearance-panel
 import { ExportPanel } from "@/components/features/settings/export-panel";
 import { HouseholdMembersPanel } from "@/components/features/settings/household-members-panel";
 import { NotificationsPanel } from "@/components/features/settings/notifications-panel";
+import { ProfilePanel } from "@/components/features/settings/profile-panel";
 import {
   Tabs,
   TabsContent,
@@ -29,6 +30,13 @@ export default async function SettingsPage() {
     .eq("id", user.id)
     .single();
   if (!profile?.active_household) redirect("/");
+
+  // Household pentru numele afișat și moneda de bază.
+  const { data: household } = await supabase
+    .from("households")
+    .select("name, base_currency")
+    .eq("id", profile.active_household)
+    .single();
 
   // Membri actuali (cu profile pentru nume).
   const { data: members } = await supabase
@@ -125,22 +133,16 @@ export default async function SettingsPage() {
         </TabsContent>
 
         <TabsContent value="profile">
-          <div className="glass-thin space-y-3 rounded-(--radius-card) p-4">
-            <Field label="Email" value={user.email ?? "—"} />
-            <Field label="Nume" value={profile.full_name ?? "—"} />
-            <Field
-              label="Limbă"
-              value={profile.language === "en" ? "Engleză" : "Română"}
-            />
-            <Field
-              label="Monedă implicită"
-              value={profile.default_currency ?? "RON"}
-            />
-            <p className="text-muted-foreground text-xs">
-              Editarea profilului va veni în V2. Pentru acum, contactează
-              owner-ul gospodăriei pentru orice modificare.
-            </p>
-          </div>
+          <ProfilePanel
+            email={user.email ?? "—"}
+            initial={{
+              full_name: profile.full_name,
+              language: profile.language,
+              default_currency: profile.default_currency,
+              household_name: household?.name ?? "Casa mea",
+              base_currency: household?.base_currency ?? "RON",
+            }}
+          />
         </TabsContent>
 
         <TabsContent value="links">
@@ -182,17 +184,6 @@ export default async function SettingsPage() {
           <ExportPanel />
         </TabsContent>
       </Tabs>
-    </div>
-  );
-}
-
-function Field({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex items-baseline justify-between border-b py-2 last:border-b-0">
-      <span className="text-muted-foreground text-xs uppercase tracking-wider">
-        {label}
-      </span>
-      <span className="text-sm">{value}</span>
     </div>
   );
 }
