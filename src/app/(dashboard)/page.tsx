@@ -9,6 +9,7 @@ import { HeatmapSection } from "@/components/features/dashboard/heatmap-section"
 import { KpiRow } from "@/components/features/dashboard/kpi-row";
 import { NetWorthHeadline } from "@/components/features/dashboard/net-worth-headline";
 import { NextIncomeWidget } from "@/components/features/dashboard/next-income-widget";
+import { OnboardingSection } from "@/components/features/dashboard/onboarding-section";
 import { RecentTransactions } from "@/components/features/dashboard/recent-transactions";
 import { SankeySection } from "@/components/features/dashboard/sankey-section";
 import { SeasonalPrompt } from "@/components/features/dashboard/seasonal-prompt";
@@ -26,6 +27,10 @@ export default function DashboardHome() {
     <div className="mx-auto w-full max-w-5xl space-y-4 px-4 py-5 md:px-8 md:py-8">
       <Suspense fallback={<CardSkeleton className="h-16 w-full rounded-xl" />}>
         <GreetingCard />
+      </Suspense>
+
+      <Suspense fallback={null}>
+        <OnboardingSection />
       </Suspense>
 
       <Suspense fallback={<CardSkeleton className="h-28 w-full rounded-xl" />}>

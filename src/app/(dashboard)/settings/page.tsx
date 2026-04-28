@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { Building2, Tags } from "lucide-react";
 
 import { AppearancePanel } from "@/components/features/settings/appearance-panel";
+import { DemoDataPanel } from "@/components/features/settings/demo-data-panel";
 import { ExportPanel } from "@/components/features/settings/export-panel";
 import { HouseholdMembersPanel } from "@/components/features/settings/household-members-panel";
 import { NotificationsPanel } from "@/components/features/settings/notifications-panel";
@@ -56,6 +57,12 @@ export default async function SettingsPage() {
     .eq("user_id", user.id)
     .is("revoked_at", null)
     .order("created_at", { ascending: false });
+
+  const { count: accountsCount } = await supabase
+    .from("accounts")
+    .select("*", { count: "exact", head: true })
+    .eq("household_id", profile.active_household);
+  const hasAccounts = (accountsCount ?? 0) > 0;
 
   // Membri actuali (cu profile pentru nume).
   const { data: members } = await supabase
@@ -164,6 +171,7 @@ export default async function SettingsPage() {
           />
           <PasskeyPanel initial={passkeys ?? []} />
           <PatPanel initial={pats ?? []} />
+          <DemoDataPanel hasAccounts={hasAccounts} />
         </TabsContent>
 
         <TabsContent value="links">
