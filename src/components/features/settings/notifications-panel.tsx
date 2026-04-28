@@ -49,8 +49,8 @@ const TOGGLES: Array<{ key: keyof NotificationPrefsInput; label: string; descrip
   },
   {
     key: "push_anniversaries",
-    label: "„Acum un an…&rdquo;",
-    description: "Memento ce ai cheltuit cu un an în urmă.",
+    label: "Aniversări tranzacții (acum un an…)",
+    description: "Re-conectare emoțională, nu presiune.",
   },
 ];
 

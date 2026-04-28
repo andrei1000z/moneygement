@@ -1,11 +1,20 @@
 "use client";
 
-import { useTransition } from "react";
-import { Download, FileJson, FileSpreadsheet, Loader2 } from "lucide-react";
+import { useState, useTransition } from "react";
+import { FileJson, FileSpreadsheet, FileText, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { exportData } from "@/app/(dashboard)/settings/export-actions";
+import { exportYearlyPdf } from "@/app/(dashboard)/settings/export-pdf-action";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 function downloadFile(filename: string, content: string, mime: string) {
   const blob = new Blob([content], { type: mime });
@@ -19,8 +28,26 @@ function downloadFile(filename: string, content: string, mime: string) {
   URL.revokeObjectURL(url);
 }
 
+function downloadPdfBase64(filename: string, base64: string) {
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  const blob = new Blob([bytes], { type: "application/pdf" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
 export function ExportPanel() {
   const [pending, start] = useTransition();
+  const [pdfPending, startPdf] = useTransition();
+  const currentYear = new Date().getFullYear();
+  const [year, setYear] = useState<string>(String(currentYear));
 
   function exportAs(format: "csv" | "json") {
     start(async () => {
@@ -34,6 +61,20 @@ export function ExportPanel() {
       toast.success(`Descărcat ${res.filename}`);
     });
   }
+
+  function exportPdf() {
+    startPdf(async () => {
+      const res = await exportYearlyPdf(parseInt(year, 10));
+      if (!res.ok) {
+        toast.error(res.error);
+        return;
+      }
+      downloadPdfBase64(res.filename, res.base64);
+      toast.success(`Descărcat ${res.filename}`);
+    });
+  }
+
+  const yearOptions = Array.from({ length: 6 }, (_, i) => currentYear - i);
 
   return (
     <div className="space-y-4">
@@ -72,14 +113,38 @@ export function ExportPanel() {
       </section>
 
       <section className="glass-thin rounded-(--radius-card) p-4">
-        <h3 className="mb-2 text-sm font-semibold">PDF (în curând)</h3>
+        <h3 className="mb-2 text-sm font-semibold">Raport anual PDF</h3>
         <p className="text-muted-foreground text-xs">
-          Generare PDF cu rezumat anual va veni în V2. Pentru moment
-          poți printa pagina /insights din browser cu Ctrl+P → Salvează ca PDF.
+          Sumar pe an cu KPIs, top categorii, top merchanți și ultimele 200
+          tranzacții. Format ro-RO, A4.
         </p>
-        <Button variant="ghost" size="sm" className="mt-2" disabled>
-          <Download className="mr-2 size-4" /> Indisponibil
-        </Button>
+        <div className="mt-3 flex flex-wrap items-end gap-3">
+          <div className="min-w-32">
+            <Label htmlFor="pdf-year" className="mb-1.5 block">
+              An
+            </Label>
+            <Select value={year} onValueChange={setYear}>
+              <SelectTrigger id="pdf-year">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {yearOptions.map((y) => (
+                  <SelectItem key={y} value={String(y)}>
+                    {y}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <Button variant="eu" onClick={exportPdf} disabled={pdfPending}>
+            {pdfPending ? (
+              <Loader2 className="mr-2 size-4 animate-spin" />
+            ) : (
+              <FileText className="mr-2 size-4" />
+            )}
+            Export PDF
+          </Button>
+        </div>
       </section>
     </div>
   );

@@ -126,7 +126,7 @@ Deno.serve(async (req: Request) => {
         push_bills: true,
         push_low_balance: true,
         push_bank_reauth: true,
-        push_anniversaries: false,
+        push_anniversaries: true,
         quiet_start: null,
         quiet_end: null,
         low_balance_threshold_minor: 50000,
