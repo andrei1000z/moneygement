@@ -127,6 +127,12 @@ const MORE: readonly NavItem[] = [
     match: (p) => p.startsWith("/trips"),
   },
   {
+    href: "/fire",
+    label: "FIRE",
+    Icon: Sparkles,
+    match: (p) => p.startsWith("/fire"),
+  },
+  {
     href: "/eur-obligations",
     label: "Obligații EUR",
     Icon: Euro,

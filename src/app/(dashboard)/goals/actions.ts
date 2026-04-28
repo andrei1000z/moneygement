@@ -224,6 +224,28 @@ export async function deleteGoal(id: string): Promise<ActionResult> {
   return { ok: true, data: undefined };
 }
 
+// ---------- Smart round-ups -----------------------------------------------
+
+export async function setRoundupGoal(
+  goalId: string | null,
+): Promise<ActionResult> {
+  const c = await ctx();
+  if (!c.ok) return { ok: false, error: c.error };
+
+  const { error } = await c.supabase
+    .from("households")
+    .update({
+      roundup_goal_id: goalId,
+      roundup_active: goalId !== null,
+    })
+    .eq("id", c.householdId);
+  if (error) return { ok: false, error: error.message };
+
+  revalidatePath("/goals");
+  revalidatePath("/");
+  return { ok: true, data: undefined };
+}
+
 // ---------- Debt payoff plan (server wrapper peste /lib/debt.ts) ---------
 const debtSchema = z.object({
   id: z.string(),
