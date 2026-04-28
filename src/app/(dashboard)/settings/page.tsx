@@ -7,6 +7,7 @@ import { ExportPanel } from "@/components/features/settings/export-panel";
 import { HouseholdMembersPanel } from "@/components/features/settings/household-members-panel";
 import { NotificationsPanel } from "@/components/features/settings/notifications-panel";
 import { PasskeyPanel } from "@/components/features/settings/passkey-panel";
+import { PatPanel } from "@/components/features/settings/pat-panel";
 import { ProfilePanel } from "@/components/features/settings/profile-panel";
 import {
   Tabs,
@@ -44,6 +45,16 @@ export default async function SettingsPage() {
     .from("webauthn_credentials")
     .select("id, device_name, created_at, last_used_at")
     .eq("user_id", user.id)
+    .order("created_at", { ascending: false });
+
+  // PAT-urile userului.
+  const { data: pats } = await supabase
+    .from("pat_tokens")
+    .select(
+      "id, name, token_prefix, scopes, last_used_at, expires_at, created_at",
+    )
+    .eq("user_id", user.id)
+    .is("revoked_at", null)
     .order("created_at", { ascending: false });
 
   // Membri actuali (cu profile pentru nume).
@@ -152,6 +163,7 @@ export default async function SettingsPage() {
             }}
           />
           <PasskeyPanel initial={passkeys ?? []} />
+          <PatPanel initial={pats ?? []} />
         </TabsContent>
 
         <TabsContent value="links">
