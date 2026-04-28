@@ -3,6 +3,7 @@ import "server-only";
 import { tool } from "ai";
 import { z } from "zod";
 
+import { projectFire } from "@/lib/fire/projection";
 import type { createClient } from "@/lib/supabase/server";
 
 import { generateEmbedding, toPgVector } from "./embeddings";
@@ -221,6 +222,210 @@ export function buildAiTools(ctx: ToolContext) {
           .eq("household_id", ctx.householdId);
         if (error) return { ok: false, error: error.message };
         return { ok: true };
+      },
+    }),
+
+    fire_project: tool({
+      description:
+        "Calculează FIRE (Financial Independence Retire Early): Lean / Coast / Full FIRE pentru gospodărie. Folosește net worth-ul actual + cheltuielile ultimele 12 luni dacă userul nu specifică. Toate sumele în unități minore (RON minor = bani).",
+      inputSchema: z.object({
+        net_worth_minor: z.number().int().nonnegative().optional(),
+        annual_expenses_minor: z.number().int().nonnegative().optional(),
+        monthly_contribution_minor: z.number().int().nonnegative().default(300000),
+        expected_return: z.number().min(0).max(0.5).default(0.07),
+        inflation_rate: z.number().min(0).max(0.3).default(0.06),
+        current_age: z.number().int().min(18).max(80).default(30),
+        target_age: z.number().int().min(25).max(80).default(50),
+        adjust_for_inflation: z.boolean().default(true),
+      }),
+      execute: async (args) => {
+        // Auto-fill net_worth + annual_expenses dacă nu specificate.
+        let netWorth = args.net_worth_minor;
+        let annualExpenses = args.annual_expenses_minor;
+
+        if (netWorth === undefined) {
+          const { data: accounts } = await ctx.supabase
+            .from("accounts")
+            .select("current_balance, currency")
+            .eq("household_id", ctx.householdId)
+            .is("archived_at", null);
+          const ronAccounts = (accounts ?? []).filter((a) => a.currency === "RON");
+          netWorth = ronAccounts.reduce(
+            (acc, a) => acc + Number(a.current_balance ?? 0),
+            0,
+          );
+        }
+        if (annualExpenses === undefined) {
+          const yearAgo = new Date();
+          yearAgo.setUTCFullYear(yearAgo.getUTCFullYear() - 1);
+          const { data: txs } = await ctx.supabase
+            .from("transactions")
+            .select("base_amount, amount")
+            .eq("household_id", ctx.householdId)
+            .eq("is_transfer", false)
+            .lt("amount", 0)
+            .gte("occurred_on", yearAgo.toISOString().slice(0, 10));
+          annualExpenses = (txs ?? []).reduce(
+            (acc, t) => acc + Math.abs(Number(t.base_amount ?? t.amount)),
+            0,
+          );
+        }
+
+        const result = projectFire({
+          net_worth_minor: netWorth,
+          annual_expenses_minor: annualExpenses,
+          monthly_contribution_minor: args.monthly_contribution_minor,
+          expected_return: args.expected_return,
+          inflation_rate: args.inflation_rate,
+          current_age: args.current_age,
+          target_age: args.target_age,
+          adjust_for_inflation: args.adjust_for_inflation,
+        });
+        return {
+          inputs: {
+            net_worth_minor: netWorth,
+            annual_expenses_minor: annualExpenses,
+            monthly_contribution_minor: args.monthly_contribution_minor,
+            expected_return: args.expected_return,
+            adjust_for_inflation: args.adjust_for_inflation,
+          },
+          lean_target_minor: result.lean_target_minor,
+          full_target_minor: result.full_target_minor,
+          coast_target_minor: result.coast_target_minor,
+          years_to_lean: result.years_to_lean,
+          years_to_full: result.years_to_full,
+          lean_eta_year: result.lean_eta_year,
+          full_eta_year: result.full_eta_year,
+          effective_return: result.effective_return,
+        };
+      },
+    }),
+
+    get_trips: tool({
+      description:
+        "Listă călătorii (active + arhivate). Pentru fiecare, calculează spent_minor (sum tranzacții taggate cu trip_<slug>) și progresul vs buget.",
+      inputSchema: z.object({
+        include_archived: z.boolean().default(false),
+      }),
+      execute: async (args) => {
+        let q = ctx.supabase
+          .from("trips")
+          .select("id, name, started_on, ended_on, country_code, base_currency, budget_minor, tag")
+          .eq("household_id", ctx.householdId)
+          .order("started_on", { ascending: false });
+        if (!args.include_archived) {
+          q = q.is("archived_at", null);
+        }
+        const { data: trips, error } = await q;
+        if (error) return { error: error.message };
+
+        const enriched = await Promise.all(
+          (trips ?? []).map(async (t) => {
+            const { data: txs } = await ctx.supabase
+              .from("transactions")
+              .select("amount, base_amount")
+              .eq("household_id", ctx.householdId)
+              .contains("tags", [t.tag])
+              .lt("amount", 0);
+            const spent = (txs ?? []).reduce(
+              (acc, x) => acc + Math.abs(Number(x.base_amount ?? x.amount)),
+              0,
+            );
+            return {
+              id: t.id,
+              name: t.name,
+              tag: t.tag,
+              country_code: t.country_code,
+              started_on: t.started_on,
+              ended_on: t.ended_on,
+              budget_minor: t.budget_minor ? Number(t.budget_minor) : null,
+              spent_minor: spent,
+              currency: t.base_currency,
+              tx_count: txs?.length ?? 0,
+              over_budget: t.budget_minor
+                ? spent > Number(t.budget_minor)
+                : false,
+            };
+          }),
+        );
+
+        return { trips: enriched, count: enriched.length };
+      },
+    }),
+
+    get_eur_obligations: tool({
+      description:
+        "Listă obligații recurente în EUR (chirie, asigurări) cu impact FX la cursul BNR curent. Util pentru întrebări despre 'cât plătesc lunar în EUR' sau 'cât m-a costat FX-ul vs anul trecut'.",
+      inputSchema: z.object({}),
+      execute: async () => {
+        const [{ data: obligations }, { data: latestRate }, { data: yearAgoRate }] =
+          await Promise.all([
+            ctx.supabase
+              .from("eur_obligations")
+              .select("id, label, amount_eur, day_of_month, is_active, notes")
+              .eq("household_id", ctx.householdId)
+              .eq("is_active", true)
+              .order("day_of_month", { ascending: true }),
+            ctx.supabase
+              .from("exchange_rates")
+              .select("rate, rate_date")
+              .eq("base", "EUR")
+              .eq("quote", "RON")
+              .order("rate_date", { ascending: false })
+              .limit(1)
+              .maybeSingle(),
+            (async () => {
+              const yearAgo = new Date();
+              yearAgo.setUTCFullYear(yearAgo.getUTCFullYear() - 1);
+              return ctx.supabase
+                .from("exchange_rates")
+                .select("rate, rate_date")
+                .eq("base", "EUR")
+                .eq("quote", "RON")
+                .lte("rate_date", yearAgo.toISOString().slice(0, 10))
+                .order("rate_date", { ascending: false })
+                .limit(1)
+                .maybeSingle();
+            })(),
+          ]);
+
+        const rateNow = latestRate?.rate ? Number(latestRate.rate) : null;
+        const rateYearAgo = yearAgoRate?.rate ? Number(yearAgoRate.rate) : null;
+
+        const items = (obligations ?? []).map((o) => {
+          const amountEur = Number(o.amount_eur);
+          return {
+            id: o.id,
+            label: o.label,
+            amount_eur_minor: amountEur,
+            day_of_month: o.day_of_month,
+            ron_now_minor: rateNow
+              ? Math.round((amountEur * rateNow) / 100) * 100
+              : null,
+            ron_year_ago_minor: rateYearAgo
+              ? Math.round((amountEur * rateYearAgo) / 100) * 100
+              : null,
+          };
+        });
+
+        const totalEur = items.reduce((acc, i) => acc + i.amount_eur_minor, 0);
+        const totalRonNow =
+          rateNow ? Math.round((totalEur * rateNow) / 100) * 100 : null;
+        const totalRonYearAgo =
+          rateYearAgo ? Math.round((totalEur * rateYearAgo) / 100) * 100 : null;
+
+        return {
+          obligations: items,
+          total_eur_minor: totalEur,
+          total_ron_now_minor: totalRonNow,
+          total_ron_year_ago_minor: totalRonYearAgo,
+          fx_delta_minor:
+            totalRonNow != null && totalRonYearAgo != null
+              ? totalRonNow - totalRonYearAgo
+              : null,
+          rate_eur_ron_now: rateNow,
+          rate_eur_ron_year_ago: rateYearAgo,
+        };
       },
     }),
   };
