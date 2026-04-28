@@ -6,10 +6,12 @@ import { usePathname } from "next/navigation";
 import {
   BarChart3,
   Building2,
+  Euro,
   Home,
   ListChecks,
   MoreHorizontal,
   PieChart,
+  Plane,
   Plus,
   Repeat,
   Settings,
@@ -117,6 +119,18 @@ const MORE: readonly NavItem[] = [
     label: "Curs valutar",
     Icon: BarChart3,
     match: (p) => p.startsWith("/insights/fx"),
+  },
+  {
+    href: "/trips",
+    label: "Călătorii",
+    Icon: Plane,
+    match: (p) => p.startsWith("/trips"),
+  },
+  {
+    href: "/eur-obligations",
+    label: "Obligații EUR",
+    Icon: Euro,
+    match: (p) => p.startsWith("/eur-obligations"),
   },
   {
     href: "/settings",

@@ -24,6 +24,9 @@ export type AnomalyInput = {
   /** Suma în unități minore. */
   amount: number;
   occurred_on: string;
+  /** Tag-uri pe tranzacție. Dacă oricare începe cu `trip_`, suprimăm anomalia
+   * (BLUEPRINT §10 travel mode — cheltuielile în vacanță nu sunt anomalii). */
+  tags?: string[] | null;
 };
 
 export type CategoryStats = {
@@ -50,6 +53,8 @@ export function detectAnomalies(
 
   for (const tx of txs) {
     if (!tx.category_id || tx.amount >= 0) continue; // doar cheltuieli categorisite
+    // Travel mode: tx-uri cu tag `trip_*` nu sunt anomalii.
+    if (tx.tags && tx.tags.some((t) => t.startsWith("trip_"))) continue;
     const stats = byCategory.get(tx.category_id);
     if (!stats || stats.mad_minor <= 0) continue;
 
